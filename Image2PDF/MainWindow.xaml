@@ -20,9 +20,9 @@
 
         <Label Grid.Row="0">Drag files to the list below</Label>
         <Border Grid.Row="1" Margin="0,0,0,10">
-            <ListView Grid.Row="1" x:Name="filenameList" AllowDrop="True" DragOver="filenameList_DragOver" Drop="filenameList_Drop">
+            <ListView Grid.Row="1" x:Name="FilenameList" AllowDrop="True" Drop="FilenameList_Drop">
                 <ListView.ContextMenu>
-                    <ContextMenu x:Name="contextMenu">
+                    <ContextMenu>
                         <MenuItem Header="Move up" Command="{x:Static local:MainWindow.MoveUpCommand}"/>
                         <MenuItem Header="Move down" Command="{x:Static local:MainWindow.MoveDownCommand}"/>
                         <MenuItem Header="Remove" Command="{x:Static local:MainWindow.RemoveCommand}"/>
@@ -30,7 +30,7 @@
                 </ListView.ContextMenu>
             </ListView>
         </Border>
-        
+
         <Button Grid.Row="2" Width="100" HorizontalAlignment="Right" Grid.RowSpan="2">Generate</Button>
     </Grid>
 </Window>

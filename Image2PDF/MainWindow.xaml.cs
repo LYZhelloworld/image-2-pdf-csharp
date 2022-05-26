@@ -23,74 +23,59 @@ namespace Image2PDF
             InitializeComponent();
 
             filenames = new List<string>();
-            filenameList.ItemsSource = filenames;
-
-            // test data
-            filenames.Add("File 1 File 1 File 1 File 1 File 1 File 1 File 1 File 1 File 1");
-            filenames.Add("File 2 File 1 File 1 File 1 File 1 File 1 File 1 File 1 File 1");
-            filenames.Add("File 3 File 1 File 1 File 1 File 1 File 1 File 1 File 1 File 1");
-
+            FilenameList.ItemsSource = filenames;
         }
 
         private void MoveUpCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var index = filenameList.SelectedIndex;
-            (filenames[index], filenames[index-1]) = (filenames[index-1], filenames[index]);
-            filenameList.Items.Refresh();
+            var index = FilenameList.SelectedIndex;
+            (filenames[index], filenames[index - 1]) = (filenames[index - 1], filenames[index]);
+            FilenameList.Items.Refresh();
         }
 
         private void MoveUpCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = filenameList.SelectedIndex != -1 && filenameList.SelectedIndex > 0;
+            e.CanExecute = FilenameList.SelectedIndex != -1 && FilenameList.SelectedIndex > 0;
         }
 
         private void MoveDownCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var index = filenameList.SelectedIndex;
+            var index = FilenameList.SelectedIndex;
             (filenames[index], filenames[index + 1]) = (filenames[index + 1], filenames[index]);
-            filenameList.Items.Refresh();
+            FilenameList.Items.Refresh();
         }
 
         private void MoveDownCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = filenameList.SelectedIndex != -1 && filenameList.SelectedIndex < filenameList.Items.Count - 1;
+            e.CanExecute = FilenameList.SelectedIndex != -1 && FilenameList.SelectedIndex < FilenameList.Items.Count - 1;
         }
 
         private void RemoveCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var index = filenameList.SelectedIndex;
+            var index = FilenameList.SelectedIndex;
             filenames.RemoveAt(index);
-            filenameList.Items.Refresh();
+            FilenameList.Items.Refresh();
         }
 
         private void RemoveCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = filenameList.SelectedIndex != -1;
+            e.CanExecute = FilenameList.SelectedIndex != -1;
         }
 
-        private void filenameList_DragOver(object sender, DragEventArgs e)
+        private void FilenameList_Drop(object sender, DragEventArgs e)
         {
-            e.Effects = DragDropEffects.None;
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            // get file list from the dropped data
+            var files = ((string[])e.Data.GetData(DataFormats.FileDrop));
+            foreach (var file in files)
             {
-                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-                if (FileUtils.IsValidImageFiles(files.ToList()))
+                // add valid image files only
+                // ignore others
+                if (FileUtils.IsValidImageFile(file))
                 {
-                    e.Effects = DragDropEffects.All;
+                    filenames.Add(file);
                 }
             }
-        }
-
-        private void filenameList_Drop(object sender, DragEventArgs e)
-        {
-            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            var filenames = files.ToList();
-            if (!FileUtils.IsValidImageFiles(filenames))
-            {
-                // Images are not valid.
-                return;
-            }
-            // TODO: add images to the list.
+            FilenameList.Items.Refresh();
         }
     }
 }

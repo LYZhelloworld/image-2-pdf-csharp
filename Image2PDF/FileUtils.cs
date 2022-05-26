@@ -19,15 +19,5 @@ namespace Image2PDF
                 return filename.EndsWith(ext);
             });
         }
-
-        /// <summary>
-        /// Check if the filenames given are all image files.
-        /// </summary>
-        /// <param name="files">The filenames.</param>
-        /// <returns>True if all files are image files, false otherwise.</returns>
-        public static bool IsValidImageFiles(List<string> files)
-        {
-            return files.TrueForAll(IsValidImageFile);
-        }
     }
 }
