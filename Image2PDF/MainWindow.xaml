@@ -5,8 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Image2PDF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Image2PDF" Height="450" Width="800">
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:MainWindow.MoveUpCommand}" Executed="MoveUpCommand_Executed" CanExecute="MoveUpCommand_CanExecute"/>
+        <CommandBinding Command="{x:Static local:MainWindow.MoveDownCommand}" Executed="MoveDownCommand_Executed" CanExecute="MoveDownCommand_CanExecute"/>
+        <CommandBinding Command="{x:Static local:MainWindow.RemoveCommand}" Executed="RemoveCommand_Executed" CanExecute="RemoveCommand_CanExecute"/>
+    </Window.CommandBindings>
+    <Grid Margin="10,10,10,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
+        <Label Grid.Row="0">Drag files to the list below</Label>
+        <Border Grid.Row="1" Margin="0,0,0,10">
+            <ListView Grid.Row="1" x:Name="filenameList">
+                <ListView.ContextMenu>
+                    <ContextMenu x:Name="contextMenu">
+                        <MenuItem Header="Move up" Command="{x:Static local:MainWindow.MoveUpCommand}"/>
+                        <MenuItem Header="Move down" Command="{x:Static local:MainWindow.MoveDownCommand}"/>
+                        <MenuItem Header="Remove" Command="{x:Static local:MainWindow.RemoveCommand}"/>
+                    </ContextMenu>
+                </ListView.ContextMenu>
+            </ListView>
+        </Border>
+        
+        <Button Grid.Row="2" Width="100" HorizontalAlignment="Right" Grid.RowSpan="2">Generate</Button>
     </Grid>
 </Window>
