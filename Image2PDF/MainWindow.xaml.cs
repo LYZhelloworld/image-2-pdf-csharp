@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -65,6 +66,31 @@ namespace Image2PDF
         private void RemoveCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = filenameList.SelectedIndex != -1;
+        }
+
+        private void filenameList_DragOver(object sender, DragEventArgs e)
+        {
+            e.Effects = DragDropEffects.None;
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                if (FileUtils.IsValidImageFiles(files.ToList()))
+                {
+                    e.Effects = DragDropEffects.All;
+                }
+            }
+        }
+
+        private void filenameList_Drop(object sender, DragEventArgs e)
+        {
+            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            var filenames = files.ToList();
+            if (!FileUtils.IsValidImageFiles(filenames))
+            {
+                // Images are not valid.
+                return;
+            }
+            // TODO: add images to the list.
         }
     }
 }

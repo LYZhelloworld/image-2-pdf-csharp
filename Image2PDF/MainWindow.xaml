@@ -20,7 +20,7 @@
 
         <Label Grid.Row="0">Drag files to the list below</Label>
         <Border Grid.Row="1" Margin="0,0,0,10">
-            <ListView Grid.Row="1" x:Name="filenameList">
+            <ListView Grid.Row="1" x:Name="filenameList" AllowDrop="True" DragOver="filenameList_DragOver" Drop="filenameList_Drop">
                 <ListView.ContextMenu>
                     <ContextMenu x:Name="contextMenu">
                         <MenuItem Header="Move up" Command="{x:Static local:MainWindow.MoveUpCommand}"/>
