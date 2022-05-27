@@ -115,7 +115,9 @@ namespace Image2PDF.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The PDF file has been saved to the location:.
+        ///   Looks up a localized string similar to The PDF file has been saved to the location:
+        ///{0}
+        ///Do you want to open it?.
         /// </summary>
         public static string PDFGenerationCompletedPrompt {
             get {
@@ -129,24 +131,6 @@ namespace Image2PDF.Properties {
         public static string PDFSaveDialogFilter {
             get {
                 return ResourceManager.GetString("PDFSaveDialogFilter", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0}.
-        /// </summary>
-        public static string String {
-            get {
-                return ResourceManager.GetString("String", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Do you want to open it?.
-        /// </summary>
-        public static string String1 {
-            get {
-                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
     }
