@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -31,7 +32,7 @@ namespace Image2PDF
         public static readonly RoutedCommand GenerateCommand = new();
         #endregion
 
-        #region CommandHandlers
+        #region EventHandlers
         private void MoveUpCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var index = FilenameList.SelectedIndex;
@@ -91,11 +92,7 @@ namespace Image2PDF
             saveFileDialog.Filter = "PDF file (*.pdf)|*.pdf";
             if (!saveFileDialog.ShowDialog(this) ?? false) return;
 
-            // create PDF generator
-            var pdfGenerator = PDFGeneratorFactory.CreateFromFiles(filenames);
-            // TODO: add event handler for progress
-
-            pdfGenerator.PDFGenerationCompletedEvent += PdfGenerator_PDFGenerationCompletedEvent;
+            StartPDFGeneration(saveFileDialog.FileName);
         }
 
         private void PdfGenerator_PDFGenerationCompletedEvent(object sender, PDFGenerationCompletedEventArgs e)
@@ -109,14 +106,17 @@ namespace Image2PDF
                 MessageBoxImage.Information,
                 MessageBoxResult.Yes) != MessageBoxResult.Yes)
             {
-                return;
+                var directory = Path.GetDirectoryName(e.PDFFilename);
+                if (directory != null)
+                    Process.Start("explorer.exe", directory);
             }
 
-            var directory = Path.GetDirectoryName(e.PDFFilename);
-            if (directory != null)
-                Process.Start("explorer.exe", directory);
+            FinishPDFGeneration();
         }
-        #endregion
+        private void PdfGenerator_FileProcessedEvent(object sender, FileProcessedEventArgs e)
+        {
+            GeneratorProgressBar.Value = e.Progress;
+        }
 
         private void FilenameList_Drop(object sender, DragEventArgs e)
         {
@@ -132,6 +132,43 @@ namespace Image2PDF
                 }
             }
             FilenameList.Items.Refresh();
+        }
+        #endregion
+
+        /// <summary>
+        /// Starts PDF generation.
+        /// </summary>
+        /// <param name="target">The PDF filename.</param>
+        private void StartPDFGeneration(string target)
+        {
+            // disable controls
+            FilenameList.IsEnabled = false;
+            GenerateButton.IsEnabled = false;
+            GeneratorProgressBar.IsEnabled = true;
+            GeneratorProgressBar.Maximum = filenames.Count;
+
+            // create PDF generator
+            var pdfGenerator = PDFGeneratorFactory.CreateFromFiles(filenames);
+            // TODO: add event handler for progress
+
+            pdfGenerator.PDFGenerationCompletedEvent += PdfGenerator_PDFGenerationCompletedEvent;
+            pdfGenerator.FileProcessedEvent += PdfGenerator_FileProcessedEvent;
+            Task.Run(() =>
+            {
+                pdfGenerator.Generate(target);
+            });
+        }
+
+        /// <summary>
+        /// Finishes PDF generation.
+        /// </summary>
+        private void FinishPDFGeneration()
+        {
+            // enable controls
+            FilenameList.IsEnabled = true;
+            GenerateButton.IsEnabled = true;
+            GeneratorProgressBar.IsEnabled = false;
+            GeneratorProgressBar.Value = 0;
         }
     }
 }

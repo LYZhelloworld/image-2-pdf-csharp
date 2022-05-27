@@ -18,9 +18,13 @@
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0">Drag files to the list below</Label>
-        <Border Grid.Row="1" Margin="0,0,0,10">
+        <Label Grid.Row="0" Grid.ColumnSpan="2">Drag files to the list below</Label>
+        <Border Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,10">
             <ListView Grid.Row="1" x:Name="FilenameList" AllowDrop="True" Drop="FilenameList_Drop">
                 <ListView.ContextMenu>
                     <ContextMenu>
@@ -32,6 +36,7 @@
             </ListView>
         </Border>
 
-        <Button Grid.Row="2" Width="100" HorizontalAlignment="Right" Grid.RowSpan="2" Command="{x:Static local:MainWindow.GenerateCommand}">Generate</Button>
+        <ProgressBar x:Name="GeneratorProgressBar" Grid.Row="2" Grid.Column="0" Margin="0,0,10,0" IsEnabled="False"/>
+        <Button x:Name="GenerateButton" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" Command="{x:Static local:MainWindow.GenerateCommand}">Generate</Button>
     </Grid>
 </Window>
