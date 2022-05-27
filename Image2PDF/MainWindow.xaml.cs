@@ -72,7 +72,7 @@ namespace Image2PDF
 
         private void GenerateCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = filenames.Count > 0;
+            e.CanExecute = FilenameList.Items.Count > 0;
         }
 
         private void GenerateCommand_Execute(object sender, ExecutedRoutedEventArgs e)
@@ -80,15 +80,29 @@ namespace Image2PDF
             // show save file dialog
             SaveFileDialog saveFileDialog = new();
             // default save path is the parent folder of the images
-            var path = Path.GetDirectoryName(filenames[0]);
-            if (path == null)
+            // get path of image file
+            var filepath = Path.GetDirectoryName(filenames[0]);
+            if (filepath != null)
             {
-                saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                // get parent of the image file
+                var path = Directory.GetParent(filepath);
+                if (path != null)
+                {
+                    // use parent path
+                    saveFileDialog.InitialDirectory = path.ToString();
+                }
+                else
+                {
+                    // cannot get parent (e.g. at the root directory), use file path instead
+                    saveFileDialog.InitialDirectory = filepath;
+                }
             }
             else
             {
-                saveFileDialog.InitialDirectory = Path.Combine(path, "..");
+                // cannot get the path of image file, fallback to My Documents
+                saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             }
+
             saveFileDialog.Filter = "PDF file (*.pdf)|*.pdf";
             if (!saveFileDialog.ShowDialog(this) ?? false) return;
 
@@ -97,25 +111,31 @@ namespace Image2PDF
 
         private void PdfGenerator_PDFGenerationCompletedEvent(object sender, PDFGenerationCompletedEventArgs e)
         {
-            // prompt message box to open file
-            if (MessageBox.Show("The PDF file has been saved to the location:\n" +
-                $"{e.PDFFilename}\n" +
-                "Do you want to open it?",
-                "Image2PDF",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Information,
-                MessageBoxResult.Yes) != MessageBoxResult.Yes)
+            Dispatcher.Invoke(() =>
             {
-                var directory = Path.GetDirectoryName(e.PDFFilename);
-                if (directory != null)
-                    Process.Start("explorer.exe", directory);
-            }
+                // prompt message box to open file
+                if (MessageBox.Show("The PDF file has been saved to the location:\n" +
+                    $"{e.PDFFilename}\n" +
+                    "Do you want to open it?",
+                    "Image2PDF",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Information,
+                    MessageBoxResult.Yes) == MessageBoxResult.Yes)
+                {
+                    var directory = Path.GetDirectoryName(e.PDFFilename);
+                    if (directory != null)
+                        Process.Start("explorer.exe", directory);
+                }
 
-            FinishPDFGeneration();
+                FinishPDFGeneration();
+            });
         }
         private void PdfGenerator_FileProcessedEvent(object sender, FileProcessedEventArgs e)
         {
-            GeneratorProgressBar.Value = e.Progress;
+            Dispatcher.Invoke(() =>
+            {
+                GeneratorProgressBar.Value = e.Progress;
+            });
         }
 
         private void FilenameList_Drop(object sender, DragEventArgs e)
@@ -132,6 +152,7 @@ namespace Image2PDF
                 }
             }
             FilenameList.Items.Refresh();
+            CommandManager.InvalidateRequerySuggested();
         }
         #endregion
 
@@ -169,6 +190,10 @@ namespace Image2PDF
             GenerateButton.IsEnabled = true;
             GeneratorProgressBar.IsEnabled = false;
             GeneratorProgressBar.Value = 0;
+
+            // clear file list
+            filenames.Clear();
+            FilenameList.Items.Refresh();
         }
     }
 }

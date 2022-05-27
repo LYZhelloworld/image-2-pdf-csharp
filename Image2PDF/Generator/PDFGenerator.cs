@@ -24,7 +24,7 @@ namespace Image2PDF.PDFGenerator
 
         public void Generate(string target)
         {
-            PdfDocument pdfDoc = new(new PdfReader(target));
+            PdfDocument pdfDoc = new(new PdfWriter(target));
             Document doc = new(pdfDoc);
 
             int index = 1;
