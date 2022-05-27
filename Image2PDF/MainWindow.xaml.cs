@@ -103,7 +103,7 @@ namespace Image2PDF
                 saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             }
 
-            saveFileDialog.Filter = "PDF file (*.pdf)|*.pdf";
+            saveFileDialog.Filter = Properties.Resources.PDFSaveDialogFilter;
             if (!saveFileDialog.ShowDialog(this) ?? false) return;
 
             StartPDFGeneration(saveFileDialog.FileName);
@@ -114,10 +114,8 @@ namespace Image2PDF
             Dispatcher.Invoke(() =>
             {
                 // prompt message box to open file
-                if (MessageBox.Show("The PDF file has been saved to the location:\n" +
-                    $"{e.PDFFilename}\n" +
-                    "Do you want to open it?",
-                    "Image2PDF",
+                if (MessageBox.Show(string.Format(Properties.Resources.PDFGenerationCompletedPrompt, e.PDFFilename),
+                    Properties.Resources.AppName,
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Information,
                     MessageBoxResult.Yes) == MessageBoxResult.Yes)
@@ -141,7 +139,7 @@ namespace Image2PDF
         private void FilenameList_Drop(object sender, DragEventArgs e)
         {
             // get file list from the dropped data
-            var files = ((string[])e.Data.GetData(DataFormats.FileDrop));
+            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
             foreach (var file in files)
             {
                 // add valid image files only
