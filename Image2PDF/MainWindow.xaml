@@ -10,6 +10,7 @@
         <CommandBinding Command="{x:Static local:MainWindow.MoveUpCommand}" Executed="MoveUpCommand_Executed" CanExecute="MoveUpCommand_CanExecute"/>
         <CommandBinding Command="{x:Static local:MainWindow.MoveDownCommand}" Executed="MoveDownCommand_Executed" CanExecute="MoveDownCommand_CanExecute"/>
         <CommandBinding Command="{x:Static local:MainWindow.RemoveCommand}" Executed="RemoveCommand_Executed" CanExecute="RemoveCommand_CanExecute"/>
+        <CommandBinding Command="{x:Static local:MainWindow.GenerateCommand}" Executed="GenerateCommand_Execute" CanExecute="GenerateCommand_CanExecute"/>
     </Window.CommandBindings>
     <Grid Margin="10,10,10,10">
         <Grid.RowDefinitions>
@@ -31,6 +32,6 @@
             </ListView>
         </Border>
 
-        <Button Grid.Row="2" Width="100" HorizontalAlignment="Right" Grid.RowSpan="2">Generate</Button>
+        <Button Grid.Row="2" Width="100" HorizontalAlignment="Right" Grid.RowSpan="2" Command="{x:Static local:MainWindow.GenerateCommand}">Generate</Button>
     </Grid>
 </Window>
