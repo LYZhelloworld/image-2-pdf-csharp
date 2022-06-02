@@ -15,10 +15,24 @@ namespace Image2PDF
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// The PDF generator factory.
+        /// </summary>
+        private IPDFGeneratorFactory pdfGeneratorFactory;
+
+        /// <summary>
+        /// The filenames of images.
+        /// </summary>
         private readonly List<string> filenames;
 
-        public MainWindow()
+        /// <summary>
+        /// The constructor.
+        /// </summary>
+        /// <param name="pdfGeneratorFactory">The PDF generator factory.</param>
+        public MainWindow(IPDFGeneratorFactory pdfGeneratorFactory)
         {
+            this.pdfGeneratorFactory = pdfGeneratorFactory;
+
             InitializeComponent();
 
             filenames = new List<string>();
@@ -167,7 +181,7 @@ namespace Image2PDF
             GeneratorProgressBar.Maximum = filenames.Count;
 
             // create PDF generator
-            var pdfGenerator = PDFGeneratorFactory.CreateFromFiles(filenames);
+            var pdfGenerator = pdfGeneratorFactory.CreateFromFiles(filenames);
             // TODO: add event handler for progress
 
             pdfGenerator.PDFGenerationCompletedEvent += PdfGenerator_PDFGenerationCompletedEvent;

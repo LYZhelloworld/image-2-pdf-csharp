@@ -12,7 +12,8 @@
     /// <summary>
     /// The arguments of the event PDFGenerationCompletedEvent.
     /// </summary>
-    public class PDFGenerationCompletedEventArgs {
+    public class PDFGenerationCompletedEventArgs
+    {
         public string PDFFilename { get; set; } = default!;
     }
 

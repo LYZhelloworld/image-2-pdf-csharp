@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Image2PDF.PDFGenerator;
+using System.Windows;
 
 namespace Image2PDF
 {
@@ -9,7 +10,7 @@ namespace Image2PDF
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            MainWindow wnd = new();
+            MainWindow wnd = new(new PDFGeneratorFactory());
             wnd.Show();
         }
     }
