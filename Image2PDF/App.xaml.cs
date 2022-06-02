@@ -10,7 +10,7 @@ namespace Image2PDF
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            MainWindow wnd = new(new PDFGeneratorFactory());
+            var wnd = new MainWindow(new PDFGeneratorFactory());
             wnd.Show();
         }
     }

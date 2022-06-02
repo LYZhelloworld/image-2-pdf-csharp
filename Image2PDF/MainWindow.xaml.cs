@@ -92,7 +92,7 @@ namespace Image2PDF
         private void GenerateCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             // show save file dialog
-            SaveFileDialog saveFileDialog = new();
+            var saveFileDialog = new SaveFileDialog();
             // default save path is the parent folder of the images
             // get path of image file
             var filepath = Path.GetDirectoryName(filenames[0]);

@@ -9,7 +9,7 @@ using System.IO;
 
 namespace Image2PDF.PDFGenerator
 {
-    internal class PDFGenerator : IPDFGenerator
+    public class PDFGenerator : IPDFGenerator
     {
         private readonly IEnumerable<string> files;
 
@@ -56,9 +56,9 @@ namespace Image2PDF.PDFGenerator
 
         public void Generate(string target)
         {
-            using (PdfDocument pdfDoc = new(new PdfWriter(target)))
+            using (var pdfDoc = new PdfDocument(new PdfWriter(target)))
             {
-                using Document doc = new(pdfDoc);
+                using var doc = new Document(pdfDoc);
                 // set margins to 0
                 doc.SetMargins(0, 0, 0, 0);
                 int index = 1;
