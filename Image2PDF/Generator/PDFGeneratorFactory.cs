@@ -1,13 +1,13 @@
 ﻿namespace Image2Pdf.Generator
 {
-    using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using Image2Pdf.Interface;
 
     /// <summary>
     /// The factory class of <see cref="IPdfGenerator"/>.
     /// </summary>
-    public class PdfGeneratorFactory
+    public class PdfGeneratorFactory : IPdfGeneratorFactory
     {
         /// <summary>
         /// The image filenames.
@@ -31,10 +31,7 @@
         /// <returns>The instance.</returns>
         public IPdfGenerator Build()
         {
-            if (this.files == null)
-            {
-                throw new ArgumentNullException(nameof(this.files));
-            }
+            Debug.Assert(this.files != null);
 
             return new PdfGenerator(this.files);
         }

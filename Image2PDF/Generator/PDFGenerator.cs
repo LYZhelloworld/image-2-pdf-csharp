@@ -1,14 +1,8 @@
 ﻿namespace Image2Pdf.Generator
 {
     using System.Collections.Generic;
-    using System.IO;
+    using Image2Pdf.Adapter;
     using Image2Pdf.Interface;
-    using iText.IO.Image;
-    using iText.Kernel.Geom;
-    using iText.Kernel.Pdf;
-    using iText.Layout;
-    using iText.Layout.Element;
-    using iText.Layout.Properties;
 
     /// <summary>
     /// The PDF file generator.
@@ -21,6 +15,11 @@
         /// The image files to read.
         /// </summary>
         private readonly IEnumerable<string> files;
+
+        /// <summary>
+        /// The PDF adapter.
+        /// </summary>
+        private readonly IPdfAdapterFactory pdfAdapterFactory;
 
         #endregion
 
@@ -67,15 +66,24 @@
         /// The constructor.
         /// </summary>
         /// <param name="files">The image filenames.</param>
-        public PdfGenerator(IEnumerable<string> files)
+        public PdfGenerator(IEnumerable<string> files) : this(files, new PdfAdapterFactory())
+        {
+        }
+
+        /// <summary>
+        /// The constructor with all properties.
+        /// </summary>
+        /// <param name="files"></param>
+        /// <param name="pdfAdapter"></param>
+        public PdfGenerator(IEnumerable<string> files, IPdfAdapterFactory pdfAdapterFactory)
         {
             this.files = files;
+            this.pdfAdapterFactory = pdfAdapterFactory;
         }
 
         #endregion
 
         #region Methods
-        #region Public Methods
 
         /// <summary>
         /// Generates PDF file.
@@ -83,48 +91,20 @@
         /// <param name="target">The PDF file location.</param>
         public void Generate(string target)
         {
-            using (PdfDocument? pdfDoc = new(new PdfWriter(target)))
+            using IPdfAdapter adapter = this.pdfAdapterFactory.CreateAdapter();
+
+            adapter.CreatePdfDocumentFromFilename(target);
+            int index = 1;
+            foreach (string file in this.files)
             {
-                using Document? doc = new(pdfDoc);
-                // set margins to 0
-                doc.SetMargins(0, 0, 0, 0);
-                int index = 1;
-                foreach (string file in this.files)
-                {
-                    Image img = new(ImageDataFactory.Create(file));
-                    // add image to PDF
-                    GetImageDimension(file, out int width, out int height);
-                    // 1px = 0.75pt
-                    pdfDoc.SetDefaultPageSize(new PageSize(width * .75f, height * .75f));
-                    if (index > 1) doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-                    doc.Add(img);
-                    // trigger event
-                    this.OnFileProcessedEvent(file, index);
-                    index++;
-                }
+                adapter.AddPageWithImage(file);
+                this.OnFileProcessedEvent(file, index);
+                index++;
             }
-            // completed
+
             this.OnPdfGenerationCompletedEvent(target);
         }
 
-        #endregion
-
-        #region Private Methods
-
-        /// <summary>
-        /// Gets image dimension of an image file.
-        /// </summary>
-        /// <param name="filename">The filename of the image.</param>
-        /// <param name="width">The width of the image.</param>
-        /// <param name="height">The height of the image.</param>
-        private static void GetImageDimension(string filename, out int width, out int height)
-        {
-            using FileStream? fileStream = new(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
-            using System.Drawing.Image? img = System.Drawing.Image.FromStream(fileStream, false, false);
-            (width, height) = (img.Width, img.Height);
-        }
-
-        #endregion
         #endregion
     }
 }

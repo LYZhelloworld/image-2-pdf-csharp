@@ -1,4 +1,4 @@
-﻿namespace Image2Pdf
+﻿namespace Image2Pdf.Utility
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -6,7 +6,7 @@
     /// <summary>
     /// The utility class of file operations.
     /// </summary>
-    internal static class FileUtils
+    public static class FileUtils
     {
         /// <summary>
         /// Supported extension names.

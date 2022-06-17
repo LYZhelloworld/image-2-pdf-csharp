@@ -10,6 +10,7 @@
     using System.Windows.Input;
     using Image2Pdf.Generator;
     using Image2Pdf.Interface;
+    using Image2Pdf.Utility;
     using Microsoft.Win32;
 
     /// <summary>
@@ -255,7 +256,6 @@
 
             // create PDF generator
             IPdfGenerator? pdfGenerator = this.pdfGeneratorFactory.AddFiles(this.filenames).Build();
-            // TODO: add event handler for progress
 
             pdfGenerator.PdfGenerationCompletedEvent += this.PdfGenerator_PdfGenerationCompletedEvent;
             pdfGenerator.FileProcessedEvent += this.PdfGenerator_FileProcessedEvent;
