@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Image2PDF.Properties {
+namespace Image2Pdf.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Image2PDF.Properties {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Image2PDF.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Image2Pdf.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -119,18 +119,18 @@ namespace Image2PDF.Properties {
         ///{0}
         ///Do you want to open it?.
         /// </summary>
-        public static string PDFGenerationCompletedPrompt {
+        public static string PdfGenerationCompletedPrompt {
             get {
-                return ResourceManager.GetString("PDFGenerationCompletedPrompt", resourceCulture);
+                return ResourceManager.GetString("PdfGenerationCompletedPrompt", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to PDF file (*.pdf)|*.pdf.
         /// </summary>
-        public static string PDFSaveDialogFilter {
+        public static string PdfSaveDialogFilter {
             get {
-                return ResourceManager.GetString("PDFSaveDialogFilter", resourceCulture);
+                return ResourceManager.GetString("PdfSaveDialogFilter", resourceCulture);
             }
         }
     }

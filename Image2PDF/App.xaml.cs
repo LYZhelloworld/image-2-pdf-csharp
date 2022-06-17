@@ -1,16 +1,20 @@
-﻿namespace Image2PDF
+﻿namespace Image2Pdf
 {
     using System.Windows;
-    using Image2PDF.PDFGenerator;
 
     /// <summary>
-    /// Interaction logic for App.xaml
+    /// Interaction logic for App.xaml.
     /// </summary>
     public partial class App : Application
     {
+        /// <summary>
+        /// The startup event.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The startup event arguments.</param>
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            MainWindow? wnd = new MainWindow(new PDFGeneratorFactory());
+            MainWindow? wnd = new();
             wnd.Show();
         }
     }

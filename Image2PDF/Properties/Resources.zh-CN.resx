@@ -135,12 +135,12 @@
   <data name="MenuRemove" xml:space="preserve">
     <value>删除</value>
   </data>
-  <data name="PDFGenerationCompletedPrompt" xml:space="preserve">
+  <data name="PdfGenerationCompletedPrompt" xml:space="preserve">
     <value>PDF 已生成，保存在
 {0}
 是否打开所在目录？</value>
   </data>
-  <data name="PDFSaveDialogFilter" xml:space="preserve">
+  <data name="PdfSaveDialogFilter" xml:space="preserve">
     <value>PDF 文件 (*.pdf)|*.pdf</value>
   </data>
 </root>

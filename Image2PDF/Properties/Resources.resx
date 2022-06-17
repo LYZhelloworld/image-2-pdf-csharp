@@ -135,12 +135,12 @@
   <data name="MenuRemove" xml:space="preserve">
     <value>Remove</value>
   </data>
-  <data name="PDFGenerationCompletedPrompt" xml:space="preserve">
+  <data name="PdfGenerationCompletedPrompt" xml:space="preserve">
     <value>The PDF file has been saved to the location:
 {0}
 Do you want to open it?</value>
   </data>
-  <data name="PDFSaveDialogFilter" xml:space="preserve">
+  <data name="PdfSaveDialogFilter" xml:space="preserve">
     <value>PDF file (*.pdf)|*.pdf</value>
   </data>
 </root>
