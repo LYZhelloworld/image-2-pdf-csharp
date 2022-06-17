@@ -1,8 +1,8 @@
-﻿using Image2PDF.PDFGenerator;
-using System.Windows;
-
-namespace Image2PDF
+﻿namespace Image2PDF
 {
+    using System.Windows;
+    using Image2PDF.PDFGenerator;
+
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
@@ -10,7 +10,7 @@ namespace Image2PDF
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            var wnd = new MainWindow(new PDFGeneratorFactory());
+            MainWindow? wnd = new MainWindow(new PDFGeneratorFactory());
             wnd.Show();
         }
     }

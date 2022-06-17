@@ -1,24 +1,24 @@
-﻿using Image2PDF.PDFGenerator;
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
-
-namespace Image2PDF
+﻿namespace Image2PDF
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Threading.Tasks;
+    using System.Windows;
+    using System.Windows.Input;
+    using Image2PDF.PDFGenerator;
+    using Microsoft.Win32;
+
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainWindow.xaml.
     /// </summary>
     public partial class MainWindow : Window
     {
         /// <summary>
         /// The PDF generator factory.
         /// </summary>
-        private IPDFGeneratorFactory pdfGeneratorFactory;
+        private readonly IPDFGeneratorFactory pdfGeneratorFactory;
 
         /// <summary>
         /// The filenames of images.
@@ -33,10 +33,10 @@ namespace Image2PDF
         {
             this.pdfGeneratorFactory = pdfGeneratorFactory;
 
-            InitializeComponent();
+            this.InitializeComponent();
 
-            filenames = new List<string>();
-            FilenameList.ItemsSource = filenames;
+            this.filenames = new List<string>();
+            this.FilenameList.ItemsSource = this.filenames;
         }
 
         #region Commands
@@ -49,57 +49,57 @@ namespace Image2PDF
         #region EventHandlers
         private void MoveUpCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var index = FilenameList.SelectedIndex;
-            (filenames[index], filenames[index - 1]) = (filenames[index - 1], filenames[index]);
-            FilenameList.Items.Refresh();
+            int index = this.FilenameList.SelectedIndex;
+            (this.filenames[index], this.filenames[index - 1]) = (this.filenames[index - 1], this.filenames[index]);
+            this.FilenameList.Items.Refresh();
         }
 
         private void MoveUpCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = FilenameList.SelectedIndex != -1 && FilenameList.SelectedIndex > 0;
+            e.CanExecute = this.FilenameList.SelectedIndex != -1 && this.FilenameList.SelectedIndex > 0;
         }
 
         private void MoveDownCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var index = FilenameList.SelectedIndex;
-            (filenames[index], filenames[index + 1]) = (filenames[index + 1], filenames[index]);
-            FilenameList.Items.Refresh();
+            int index = this.FilenameList.SelectedIndex;
+            (this.filenames[index], this.filenames[index + 1]) = (this.filenames[index + 1], this.filenames[index]);
+            this.FilenameList.Items.Refresh();
         }
 
         private void MoveDownCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = FilenameList.SelectedIndex != -1 && FilenameList.SelectedIndex < FilenameList.Items.Count - 1;
+            e.CanExecute = this.FilenameList.SelectedIndex != -1 && this.FilenameList.SelectedIndex < this.FilenameList.Items.Count - 1;
         }
 
         private void RemoveCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var index = FilenameList.SelectedIndex;
-            filenames.RemoveAt(index);
-            FilenameList.Items.Refresh();
+            int index = this.FilenameList.SelectedIndex;
+            this.filenames.RemoveAt(index);
+            this.FilenameList.Items.Refresh();
         }
 
         private void RemoveCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = FilenameList.SelectedIndex != -1;
+            e.CanExecute = this.FilenameList.SelectedIndex != -1;
         }
 
 
         private void GenerateCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = FilenameList.Items.Count > 0;
+            e.CanExecute = this.FilenameList.Items.Count > 0;
         }
 
         private void GenerateCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             // show save file dialog
-            var saveFileDialog = new SaveFileDialog();
+            SaveFileDialog? saveFileDialog = new SaveFileDialog();
             // default save path is the parent folder of the images
             // get path of image file
-            var filepath = Path.GetDirectoryName(filenames[0]);
+            string? filepath = Path.GetDirectoryName(this.filenames[0]);
             if (filepath != null)
             {
                 // get parent of the image file
-                var path = Directory.GetParent(filepath);
+                DirectoryInfo? path = Directory.GetParent(filepath);
                 if (path != null)
                 {
                     // use parent path
@@ -118,14 +118,17 @@ namespace Image2PDF
             }
 
             saveFileDialog.Filter = Properties.Resources.PDFSaveDialogFilter;
-            if (!saveFileDialog.ShowDialog(this) ?? false) return;
+            if (!saveFileDialog.ShowDialog(this) ?? false)
+            {
+                return;
+            }
 
-            StartPDFGeneration(saveFileDialog.FileName);
+            this.StartPDFGeneration(saveFileDialog.FileName);
         }
 
         private void PdfGenerator_PDFGenerationCompletedEvent(object sender, PDFGenerationCompletedEventArgs e)
         {
-            Dispatcher.Invoke(() =>
+            this.Dispatcher.Invoke(() =>
             {
                 // prompt message box to open file
                 if (MessageBox.Show(string.Format(Properties.Resources.PDFGenerationCompletedPrompt, e.PDFFilename),
@@ -134,36 +137,38 @@ namespace Image2PDF
                     MessageBoxImage.Information,
                     MessageBoxResult.Yes) == MessageBoxResult.Yes)
                 {
-                    var directory = Path.GetDirectoryName(e.PDFFilename);
+                    string? directory = Path.GetDirectoryName(e.PDFFilename);
                     if (directory != null)
+                    {
                         Process.Start("explorer.exe", directory);
+                    }
                 }
 
-                FinishPDFGeneration();
+                this.FinishPDFGeneration();
             });
         }
         private void PdfGenerator_FileProcessedEvent(object sender, FileProcessedEventArgs e)
         {
-            Dispatcher.Invoke(() =>
+            this.Dispatcher.Invoke(() =>
             {
-                GeneratorProgressBar.Value = e.Progress;
+                this.GeneratorProgressBar.Value = e.Progress;
             });
         }
 
         private void FilenameList_Drop(object sender, DragEventArgs e)
         {
             // get file list from the dropped data
-            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            foreach (var file in files)
+            string[]? files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            foreach (string? file in files)
             {
                 // add valid image files only
                 // ignore others
                 if (FileUtils.IsValidImageFile(file))
                 {
-                    filenames.Add(file);
+                    this.filenames.Add(file);
                 }
             }
-            FilenameList.Items.Refresh();
+            this.FilenameList.Items.Refresh();
             CommandManager.InvalidateRequerySuggested();
         }
         #endregion
@@ -175,17 +180,17 @@ namespace Image2PDF
         private void StartPDFGeneration(string target)
         {
             // disable controls
-            FilenameList.IsEnabled = false;
-            GenerateButton.IsEnabled = false;
-            GeneratorProgressBar.IsEnabled = true;
-            GeneratorProgressBar.Maximum = filenames.Count;
+            this.FilenameList.IsEnabled = false;
+            this.GenerateButton.IsEnabled = false;
+            this.GeneratorProgressBar.IsEnabled = true;
+            this.GeneratorProgressBar.Maximum = this.filenames.Count;
 
             // create PDF generator
-            var pdfGenerator = pdfGeneratorFactory.CreateFromFiles(filenames);
+            IPDFGenerator? pdfGenerator = this.pdfGeneratorFactory.CreateFromFiles(this.filenames);
             // TODO: add event handler for progress
 
-            pdfGenerator.PDFGenerationCompletedEvent += PdfGenerator_PDFGenerationCompletedEvent;
-            pdfGenerator.FileProcessedEvent += PdfGenerator_FileProcessedEvent;
+            pdfGenerator.PDFGenerationCompletedEvent += this.PdfGenerator_PDFGenerationCompletedEvent;
+            pdfGenerator.FileProcessedEvent += this.PdfGenerator_FileProcessedEvent;
             Task.Run(() =>
             {
                 pdfGenerator.Generate(target);
@@ -198,14 +203,14 @@ namespace Image2PDF
         private void FinishPDFGeneration()
         {
             // enable controls
-            FilenameList.IsEnabled = true;
-            GenerateButton.IsEnabled = true;
-            GeneratorProgressBar.IsEnabled = false;
-            GeneratorProgressBar.Value = 0;
+            this.FilenameList.IsEnabled = true;
+            this.GenerateButton.IsEnabled = true;
+            this.GeneratorProgressBar.IsEnabled = false;
+            this.GeneratorProgressBar.Value = 0;
 
             // clear file list
-            filenames.Clear();
-            FilenameList.Items.Refresh();
+            this.filenames.Clear();
+            this.FilenameList.Items.Refresh();
         }
     }
 }

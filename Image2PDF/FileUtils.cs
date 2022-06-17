@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿
 
 namespace Image2PDF
 {
+    using System.Collections.Generic;
+    using System.Linq;
     internal static class FileUtils
     {
         private static readonly List<string> supportedExtNames = new() { ".jpg", ".png" };

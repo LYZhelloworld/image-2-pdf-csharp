@@ -1,14 +1,13 @@
-﻿using iText.IO.Image;
-using iText.Kernel.Geom;
-using iText.Kernel.Pdf;
-using iText.Layout;
-using iText.Layout.Element;
-using iText.Layout.Properties;
-using System.Collections.Generic;
-using System.IO;
-
-namespace Image2PDF.PDFGenerator
+﻿namespace Image2PDF.PDFGenerator
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using iText.IO.Image;
+    using iText.Kernel.Geom;
+    using iText.Kernel.Pdf;
+    using iText.Layout;
+    using iText.Layout.Element;
+    using iText.Layout.Properties;
     public class PDFGenerator : IPDFGenerator
     {
         private readonly IEnumerable<string> files;
@@ -56,28 +55,28 @@ namespace Image2PDF.PDFGenerator
 
         public void Generate(string target)
         {
-            using (var pdfDoc = new PdfDocument(new PdfWriter(target)))
+            using (PdfDocument? pdfDoc = new PdfDocument(new PdfWriter(target)))
             {
-                using var doc = new Document(pdfDoc);
+                using Document? doc = new Document(pdfDoc);
                 // set margins to 0
                 doc.SetMargins(0, 0, 0, 0);
                 int index = 1;
-                foreach (string file in files)
+                foreach (string file in this.files)
                 {
                     Image img = new Image(ImageDataFactory.Create(file));
                     // add image to PDF
-                    getImageDimension(file, out int width, out int height);
+                    this.getImageDimension(file, out int width, out int height);
                     // 1px = 0.75pt
                     pdfDoc.SetDefaultPageSize(new PageSize(width * .75f, height * .75f));
                     if (index > 1) doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                     doc.Add(img);
                     // trigger event
-                    OnFileProcessedEvent(file, index);
+                    this.OnFileProcessedEvent(file, index);
                     index++;
                 }
             }
             // completed
-            OnPDFGenerationCompletedEvent(target);
+            this.OnPDFGenerationCompletedEvent(target);
         }
 
         /// <summary>
@@ -88,8 +87,8 @@ namespace Image2PDF.PDFGenerator
         /// <param name="height">The height of the image.</param>
         private void getImageDimension(string filename, out int width, out int height)
         {
-            using var fileStream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
-            using var img = System.Drawing.Image.FromStream(fileStream, false, false);
+            using FileStream? fileStream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
+            using System.Drawing.Image? img = System.Drawing.Image.FromStream(fileStream, false, false);
             (width, height) = (img.Width, img.Height);
         }
     }
