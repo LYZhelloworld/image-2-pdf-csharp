@@ -5,7 +5,7 @@
     using Image2Pdf.Generator;
     using Image2Pdf.Interface;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using NSubstitute;
+    using Moq;
 
     /// <summary>
     /// Tests for <see cref="PdfGenerator"/>.
@@ -44,16 +44,16 @@
         [TestMethod]
         public void TestGenerate_NoEventHandlers()
         {
-            IPdfAdapterFactory factory = Substitute.For<IPdfAdapterFactory>();
-            IPdfAdapter adapter = Substitute.For<IPdfAdapter>();
-            factory.CreateAdapter().Returns(adapter);
+            Mock<IPdfAdapterFactory> factory = new();
+            Mock<IPdfAdapter> adapter = new();
+            factory.Setup(x => x.CreateAdapter()).Returns(adapter.Object);
 
-            PdfGenerator generator = new(testImageFileList, factory);
+            PdfGenerator generator = new(testImageFileList, factory.Object);
             generator.Generate(testPdfTarget);
 
-            adapter.Received().CreatePdfDocumentFromFilename(testPdfTarget);
-            testImageFileList.ForEach(i => adapter.Received().AddPageWithImage(i));
-            adapter.Received().Dispose();
+            adapter.Verify(x => x.CreatePdfDocumentFromFilename(testPdfTarget));
+            testImageFileList.ForEach(i => adapter.Verify(x => x.AddPageWithImage(i)));
+            adapter.Verify(x => x.Dispose());
         }
 
         /// <summary>
@@ -62,13 +62,13 @@
         [TestMethod]
         public void TestGenerate_WithEventHandlers()
         {
-            IPdfAdapterFactory factory = Substitute.For<IPdfAdapterFactory>();
-            IPdfAdapter adapter = Substitute.For<IPdfAdapter>();
-            factory.CreateAdapter().Returns(adapter);
+            Mock<IPdfAdapterFactory> factory = new();
+            Mock<IPdfAdapter> adapter = new();
+            factory.Setup(x => x.CreateAdapter()).Returns(adapter.Object);
             bool fileProcessedEventTriggerred = false;
             bool pdfGenerationCompletedEventTriggered = false;
 
-            PdfGenerator generator = new(testImageFileList, factory);
+            PdfGenerator generator = new(testImageFileList, factory.Object);
             generator.FileProcessedEvent += (sender, args) =>
             {
                 fileProcessedEventTriggerred = true;
@@ -82,9 +82,9 @@
             };
             generator.Generate(testPdfTarget);
 
-            adapter.Received().CreatePdfDocumentFromFilename(testPdfTarget);
-            testImageFileList.ForEach(i => adapter.Received().AddPageWithImage(i));
-            adapter.Received().Dispose();
+            adapter.Verify(x => x.CreatePdfDocumentFromFilename(testPdfTarget));
+            testImageFileList.ForEach(i => adapter.Verify(x => x.AddPageWithImage(i)));
+            adapter.Verify(x => x.Dispose());
             fileProcessedEventTriggerred.Should().BeTrue();
             pdfGenerationCompletedEventTriggered.Should().BeTrue();
         }
