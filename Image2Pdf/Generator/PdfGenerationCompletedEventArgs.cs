@@ -1,26 +1,25 @@
-﻿namespace Image2Pdf.Generator
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+
+namespace Image2Pdf.Generator;
+
+/// <summary>
+/// The arguments of the PDF generation completed event.
+/// </summary>
+[ExcludeFromCodeCoverage]
+public class PdfGenerationCompletedEventArgs : EventArgs
 {
-    using System;
-    using System.Diagnostics.CodeAnalysis;
+    /// <summary>
+    /// The PDF file name.
+    /// </summary>
+    public string PdfFilename { get; init; }
 
     /// <summary>
-    /// The arguments of the event <see cref="PdfGenerator.PdfGenerationCompletedEvent"/>.
+    /// The constructor.
     /// </summary>
-    [ExcludeFromCodeCoverage]
-    public class PdfGenerationCompletedEventArgs : EventArgs
+    /// <param name="pdfFilename">The PDF file name.</param>
+    public PdfGenerationCompletedEventArgs(string pdfFilename)
     {
-        /// <summary>
-        /// The PDF file name.
-        /// </summary>
-        public string PdfFilename { get; init; }
-
-        /// <summary>
-        /// The constructor.
-        /// </summary>
-        /// <param name="pdfFilename">The PDF file name.</param>
-        public PdfGenerationCompletedEventArgs(string pdfFilename)
-        {
-            this.PdfFilename = pdfFilename;
-        }
+        PdfFilename = pdfFilename;
     }
 }

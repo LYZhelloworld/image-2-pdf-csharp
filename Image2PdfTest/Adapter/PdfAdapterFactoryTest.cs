@@ -1,35 +1,24 @@
-﻿namespace Image2PdfTest.Adapter
+﻿using FluentAssertions;
+using Image2Pdf.Adapter;
+using Image2Pdf.Interfaces;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace Image2PdfTest.Adapter;
+
+/// <summary>
+/// Tests <see cref="PdfAdapterFactory"/>.
+/// </summary>
+[TestClass]
+public class PdfAdapterFactoryTest
 {
-    using FluentAssertions;
-    using Image2Pdf.Adapter;
-    using Image2Pdf.Interfaces;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
     /// <summary>
-    /// Tests <see cref="PdfAdapterFactory"/>.
+    /// Tests <see cref="PdfAdapterFactory.CreateAdapter"/>
     /// </summary>
-    [TestClass]
-    public class PdfAdapterFactoryTest
+    [TestMethod]
+    public void TestCreateAdapter()
     {
-        /// <summary>
-        /// Tests <see cref="PdfAdapterFactory.PdfAdapterFactory"/>.
-        /// </summary>
-        [TestMethod]
-        public void TestConstructor()
-        {
-            PdfAdapterFactory factory = new();
-            factory.Should().NotBeNull();
-        }
-
-        /// <summary>
-        /// Tests <see cref="PdfAdapterFactory.CreateAdapter"/>
-        /// </summary>
-        [TestMethod]
-        public void TestCreateAdapter()
-        {
-            PdfAdapterFactory factory = new();
-            IPdfAdapter adapter = factory.CreateAdapter();
-            adapter.Should().NotBeNull();
-        }
+        PdfAdapterFactory factory = new();
+        IPdfAdapter adapter = factory.CreateAdapter();
+        adapter.Should().NotBeNull();
     }
 }

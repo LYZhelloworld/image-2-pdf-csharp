@@ -1,19 +1,15 @@
-﻿namespace Image2Pdf.Adapter
-{
-    using Image2Pdf.Interfaces;
+﻿using Image2Pdf.Interfaces;
 
-    /// <summary>
-    /// The factory class of <see cref="IPdfAdapter"/>.
-    /// </summary>
-    public class PdfAdapterFactory : IPdfAdapterFactory
+namespace Image2Pdf.Adapter;
+
+/// <summary>
+/// The factory class of <see cref="IPdfAdapter"/>.
+/// </summary>
+public class PdfAdapterFactory : IPdfAdapterFactory
+{
+    /// <inheritdoc/>
+    public IPdfAdapter CreateAdapter()
     {
-        /// <summary>
-        /// Creates default PDF adapter.
-        /// </summary>
-        /// <returns>The adapter.</returns>
-        public IPdfAdapter CreateAdapter()
-        {
-            return new PdfAdapter();
-        }
+        return new PdfAdapter();
     }
 }

@@ -1,39 +1,34 @@
-﻿namespace Image2Pdf.Generator
+﻿using System.Collections.Generic;
+using Image2Pdf.Interfaces;
+
+namespace Image2Pdf.Generator;
+
+/// <inheritdoc/>
+public class PdfGeneratorFactory : IPdfGeneratorFactory
 {
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using Image2Pdf.Interfaces;
+    /// <summary>
+    /// The image filenames.
+    /// </summary>
+    private readonly List<string> _files;
 
     /// <summary>
-    /// The factory class of <see cref="IPdfGenerator"/>.
+    /// The constructor.
     /// </summary>
-    public class PdfGeneratorFactory : IPdfGeneratorFactory
+    public PdfGeneratorFactory()
     {
-        /// <summary>
-        /// The image filenames.
-        /// </summary>
-        private IEnumerable<string>? files;
+        _files = new List<string>();
+    }
 
-        /// <summary>
-        /// Adds image filenames.
-        /// </summary>
-        /// <param name="files">The image filenames.</param>
-        /// <returns>The current factory instance.</returns>
-        public PdfGeneratorFactory AddFiles(IEnumerable<string> files)
-        {
-            this.files = files;
-            return this;
-        }
+    /// <inheritdoc/>
+    public PdfGeneratorFactory AddFiles(IEnumerable<string> files)
+    {
+        _files.AddRange(files);
+        return this;
+    }
 
-        /// <summary>
-        /// Builds an instance of <see cref="IPdfGenerator"/>.
-        /// </summary>
-        /// <returns>The instance.</returns>
-        public IPdfGenerator<FileProcessedEventArgs, PdfGenerationCompletedEventArgs> Build()
-        {
-            Debug.Assert(this.files != null);
-
-            return new PdfGenerator(this.files);
-        }
+    /// <inheritdoc/>
+    public IPdfGenerator<FileProcessedEventArgs, PdfGenerationCompletedEventArgs> Build()
+    {
+        return new PdfGenerator(_files);
     }
 }
