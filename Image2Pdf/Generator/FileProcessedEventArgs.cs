@@ -1,12 +1,32 @@
-﻿namespace Image2Pdf.Generator
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+
+namespace Image2Pdf.Generator;
+
+/// <summary>
+/// The arguments of the file processed event.
+/// </summary>
+[ExcludeFromCodeCoverage]
+public class FileProcessedEventArgs : EventArgs
 {
-    using System.Diagnostics.CodeAnalysis;
+    /// <summary>
+    /// The file processed.
+    /// </summary>
+    public string Filename { get; init; }
 
     /// <summary>
-    /// The arguments of the event <see cref="PdfGenerator.FileProcessedEvent"/>.
+    /// The number of files processed.
     /// </summary>
-    /// <param name="Filename">The file processed.</param>
-    /// <param name="Progress">The number of files processed.</param>
-    [ExcludeFromCodeCoverage]
-    public record FileProcessedEventArgs(string Filename, int Progress);
+    public int Progress { get; init; }
+
+    /// <summary>
+    /// The constructor.
+    /// </summary>
+    /// <param name="filename">The file processed.</param>
+    /// <param name="progress">The number of files processed.</param>
+    public FileProcessedEventArgs(string filename, int progress)
+    {
+        Filename = filename;
+        Progress = progress;
+    }
 }

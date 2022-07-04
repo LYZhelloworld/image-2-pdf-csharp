@@ -1,29 +1,27 @@
-﻿namespace Image2Pdf.Utility
+﻿using System.Linq;
+
+namespace Image2Pdf.Utility;
+
+/// <summary>
+/// The utility class of file operations.
+/// </summary>
+public static class FileUtils
 {
-    using System.Collections.Generic;
-    using System.Linq;
+    /// <summary>
+    /// Supported extension names.
+    /// </summary>
+    private static readonly string[] s_supportedExtNames = new string[] { ".jpg", ".png" };
 
     /// <summary>
-    /// The utility class of file operations.
+    /// Checks if the filename given is a image file.
     /// </summary>
-    public static class FileUtils
+    /// <param name="filename">The filename.</param>
+    /// <returns><c>true</c> if the file is an image, <c>false</c> otherwise.</returns>
+    public static bool IsValidImageFile(string filename)
     {
-        /// <summary>
-        /// Supported extension names.
-        /// </summary>
-        private static readonly List<string> supportedExtNames = new() { ".jpg", ".png" };
-
-        /// <summary>
-        /// Checks if the filename given is a image file.
-        /// </summary>
-        /// <param name="filename">The filename.</param>
-        /// <returns><c>true</c> if the file is an image, <c>false</c> otherwise.</returns>
-        public static bool IsValidImageFile(string filename)
+        return s_supportedExtNames.Any(delegate (string ext)
         {
-            return supportedExtNames.Any(delegate (string ext)
-            {
-                return filename.EndsWith(ext);
-            });
-        }
+            return filename.EndsWith(ext, System.StringComparison.OrdinalIgnoreCase);
+        });
     }
 }
