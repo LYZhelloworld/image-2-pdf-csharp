@@ -12,8 +12,12 @@ env:
   DOTNET_VERSION: '6.0'
 
 jobs:
-  debug:
-    name: debug
+  build:
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+
+    name: build
     runs-on: windows-latest
 
     steps:
@@ -27,26 +31,7 @@ jobs:
       run: dotnet restore
       
     - name: Build
-      run: dotnet build --configuration Debug --no-restore
+      run: dotnet build --configuration ${{ matrix.configuration }} --no-restore
     
     - name: Test
-      run: dotnet test --configuration Debug --no-restore --verbosity normal
-  release:
-    name: release
-    runs-on: windows-latest
-
-    steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
-
-    - name: Install dependencies
-      run: dotnet restore
-      
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-    
-    - name: Test
-      run: dotnet test --configuration Release --no-restore --verbosity normal
+      run: dotnet test --configuration ${{ matrix.configuration }} --no-restore --verbosity normal
