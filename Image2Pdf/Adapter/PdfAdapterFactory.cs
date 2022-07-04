@@ -1,6 +1,6 @@
 ﻿namespace Image2Pdf.Adapter
 {
-    using Image2Pdf.Interface;
+    using Image2Pdf.Interfaces;
 
     /// <summary>
     /// The factory class of <see cref="IPdfAdapter"/>.

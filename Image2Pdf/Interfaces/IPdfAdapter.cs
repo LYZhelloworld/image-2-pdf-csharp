@@ -1,4 +1,4 @@
-﻿namespace Image2Pdf.Interface
+﻿namespace Image2Pdf.Interfaces
 {
     using System;
 

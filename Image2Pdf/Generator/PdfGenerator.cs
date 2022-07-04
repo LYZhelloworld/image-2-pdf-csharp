@@ -1,13 +1,14 @@
 ﻿namespace Image2Pdf.Generator
 {
+    using System;
     using System.Collections.Generic;
     using Image2Pdf.Adapter;
-    using Image2Pdf.Interface;
+    using Image2Pdf.Interfaces;
 
     /// <summary>
     /// The PDF file generator.
     /// </summary>
-    public class PdfGenerator : IPdfGenerator
+    public class PdfGenerator : IPdfGenerator<FileProcessedEventArgs, PdfGenerationCompletedEventArgs>
     {
         #region Fields
 
@@ -28,12 +29,12 @@
         /// <summary>
         /// The event that a file has been processed.
         /// </summary>
-        public event IPdfGenerator.FileProcessedEventHandler? FileProcessedEvent;
+        public event EventHandler<FileProcessedEventArgs>? FileProcessedEvent;
 
         /// <summary>
         /// The event that the PDF has been generated.
         /// </summary>
-        public event IPdfGenerator.PdfGenerationCompletedEventHandler? PdfGenerationCompletedEvent;
+        public event EventHandler<PdfGenerationCompletedEventArgs>? PdfGenerationCompletedEvent;
 
         #endregion
 

@@ -2,11 +2,11 @@
 {
     using FluentAssertions;
     using Image2Pdf.Adapter;
-    using Image2Pdf.Interface;
+    using Image2Pdf.Interfaces;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
-    /// Tests of <see cref="PdfAdapterFactory"/>.
+    /// Tests <see cref="PdfAdapterFactory"/>.
     /// </summary>
     [TestClass]
     public class PdfAdapterFactoryTest

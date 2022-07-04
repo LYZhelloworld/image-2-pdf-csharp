@@ -1,4 +1,4 @@
-﻿namespace Image2Pdf.Interface
+﻿namespace Image2Pdf.Interfaces
 {
     using System.Collections.Generic;
     using Image2Pdf.Generator;
@@ -19,6 +19,6 @@
         /// Builds an instance of <see cref="IPdfGenerator"/>.
         /// </summary>
         /// <returns>The instance.</returns>
-        IPdfGenerator Build();
+        IPdfGenerator<FileProcessedEventArgs, PdfGenerationCompletedEventArgs> Build();
     }
 }

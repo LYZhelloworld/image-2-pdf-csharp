@@ -3,18 +3,18 @@
     using System.Collections.Generic;
     using FluentAssertions;
     using Image2Pdf.Generator;
-    using Image2Pdf.Interface;
+    using Image2Pdf.Interfaces;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
 
     /// <summary>
-    /// Tests for <see cref="PdfGenerator"/>.
+    /// Tests <see cref="PdfGenerator"/>.
     /// </summary>
     [TestClass]
     public class PdfGeneratorTest
     {
         /// <summary>
-        /// Test data of image file lists.
+        /// Tests data of image file lists.
         /// </summary>
         private static readonly List<string> testImageFileList = new()
         {

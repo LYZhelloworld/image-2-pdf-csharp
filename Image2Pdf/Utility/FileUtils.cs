@@ -22,7 +22,7 @@
         {
             return supportedExtNames.Any(delegate (string ext)
             {
-                return filename.EndsWith(ext);
+                return filename.EndsWith(ext, System.StringComparison.OrdinalIgnoreCase);
             });
         }
     }

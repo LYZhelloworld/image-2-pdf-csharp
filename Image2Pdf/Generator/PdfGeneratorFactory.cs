@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics;
-    using Image2Pdf.Interface;
+    using Image2Pdf.Interfaces;
 
     /// <summary>
     /// The factory class of <see cref="IPdfGenerator"/>.
@@ -29,7 +29,7 @@
         /// Builds an instance of <see cref="IPdfGenerator"/>.
         /// </summary>
         /// <returns>The instance.</returns>
-        public IPdfGenerator Build()
+        public IPdfGenerator<FileProcessedEventArgs, PdfGenerationCompletedEventArgs> Build()
         {
             Debug.Assert(this.files != null);
 

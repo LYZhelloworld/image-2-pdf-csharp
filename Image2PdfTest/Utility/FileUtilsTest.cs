@@ -5,7 +5,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
-    /// Tests of <see cref="FileUtils"/>.
+    /// Tests <see cref="FileUtils"/>.
     /// </summary>
     [TestClass]
     public class FileUtilsTest

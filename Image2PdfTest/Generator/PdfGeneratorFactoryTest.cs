@@ -3,11 +3,11 @@
     using System.Collections.Generic;
     using FluentAssertions;
     using Image2Pdf.Generator;
-    using Image2Pdf.Interface;
+    using Image2Pdf.Interfaces;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
-    /// Tests of <see cref="PdfGeneratorFactory"/>.
+    /// Tests <see cref="PdfGeneratorFactory"/>.
     /// </summary>
     [TestClass]
     public class PdfGeneratorFactoryTest
@@ -30,7 +30,7 @@
         {
             PdfGeneratorFactory factory = new();
             factory.AddFiles(new List<string>());
-            IPdfGenerator generator = factory.Build();
+            IPdfGenerator<FileProcessedEventArgs, PdfGenerationCompletedEventArgs> generator = factory.Build();
             generator.Should().NotBeNull();
         }
     }

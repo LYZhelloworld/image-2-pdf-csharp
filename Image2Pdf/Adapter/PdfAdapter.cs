@@ -4,7 +4,7 @@
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
-    using Image2Pdf.Interface;
+    using Image2Pdf.Interfaces;
     using iText.IO.Image;
     using iText.Kernel.Geom;
     using iText.Kernel.Pdf;
@@ -16,7 +16,7 @@
     /// The adapter of iText PDF generator.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class PdfAdapter : IDisposable, IPdfAdapter
+    public sealed class PdfAdapter : IDisposable, IPdfAdapter
     {
         /// <summary>
         /// The PDF document.
@@ -39,7 +39,8 @@
         /// <param name="pdfFileName">The PDF filename.</param>
         public void CreatePdfDocumentFromFilename(string pdfFileName)
         {
-            this.pdfDocument = new PdfDocument(new PdfWriter(pdfFileName));
+            using PdfWriter writer = new(pdfFileName);
+            this.pdfDocument = new PdfDocument(writer);
             this.document = new Document(this.pdfDocument);
             // set margins to 0
             this.document.SetMargins(0, 0, 0, 0);
@@ -68,6 +69,11 @@
 
         public void Dispose()
         {
+            if (this.document != null)
+            {
+                this.document.Close();
+            }
+
             if (this.pdfDocument != null)
             {
                 this.pdfDocument.Close();

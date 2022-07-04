@@ -4,12 +4,14 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.IO;
+    using System.Linq;
     using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Input;
     using Image2Pdf.Generator;
-    using Image2Pdf.Interface;
+    using Image2Pdf.Interfaces;
     using Image2Pdf.Utility;
     using Microsoft.Win32;
 
@@ -41,10 +43,10 @@
         /// </summary>
         /// <param name="pdfGeneratorFactory">The factory class of PDF generator.</param>
         /// <param name="filenames">The filenames of images.</param>
-        public MainWindow(PdfGeneratorFactory pdfGeneratorFactory, List<string> filenames)
+        public MainWindow(PdfGeneratorFactory pdfGeneratorFactory, IEnumerable<string> filenames)
         {
             this.pdfGeneratorFactory = pdfGeneratorFactory;
-            this.filenames = filenames;
+            this.filenames = filenames.ToList();
 
             this.InitializeComponent();
             this.FilenameList.ItemsSource = this.filenames;
@@ -184,12 +186,12 @@
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The arguments.</param>
-        private void PdfGenerator_PdfGenerationCompletedEvent(object sender, PdfGenerationCompletedEventArgs e)
+        private void PdfGenerator_PdfGenerationCompletedEvent(object? sender, PdfGenerationCompletedEventArgs e)
         {
             this.Dispatcher.Invoke(() =>
             {
                 // prompt message box to open file
-                if (MessageBox.Show(string.Format(Properties.Resources.PdfGenerationCompletedPrompt, e.PdfFilename),
+                if (MessageBox.Show(string.Format(CultureInfo.CurrentCulture, Properties.Resources.PdfGenerationCompletedPrompt, e.PdfFilename),
                     Properties.Resources.AppName,
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Information,
@@ -211,7 +213,7 @@
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The arguments.</param>
-        private void PdfGenerator_FileProcessedEvent(object sender, FileProcessedEventArgs e)
+        private void PdfGenerator_FileProcessedEvent(object? sender, FileProcessedEventArgs e)
         {
             this.Dispatcher.Invoke(() =>
             {
@@ -255,7 +257,7 @@
             this.GeneratorProgressBar.Maximum = this.filenames.Count;
 
             // create PDF generator
-            IPdfGenerator? pdfGenerator = this.pdfGeneratorFactory.AddFiles(this.filenames).Build();
+            IPdfGenerator<FileProcessedEventArgs, PdfGenerationCompletedEventArgs> pdfGenerator = this.pdfGeneratorFactory.AddFiles(this.filenames).Build();
 
             pdfGenerator.PdfGenerationCompletedEvent += this.PdfGenerator_PdfGenerationCompletedEvent;
             pdfGenerator.FileProcessedEvent += this.PdfGenerator_FileProcessedEvent;
