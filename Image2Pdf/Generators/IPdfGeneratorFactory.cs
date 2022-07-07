@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Image2Pdf.Generator;
 
-namespace Image2Pdf.Interfaces;
+namespace Image2Pdf.Generators;
 
 /// <summary>
 /// The factory class of <see cref="IPdfGenerator{TFileProcessedEventArgs, TPdfGenerationCompletedEventArgs}"/>.

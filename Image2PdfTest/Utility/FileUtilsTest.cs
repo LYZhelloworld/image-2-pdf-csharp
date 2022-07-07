@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using Image2Pdf.Utility;
+using Image2Pdf.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Image2PdfTest.Utility;

@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Image2Pdf.Utility;
+namespace Image2Pdf.Utilities;
 
 /// <summary>
 /// The utility class of file operations.

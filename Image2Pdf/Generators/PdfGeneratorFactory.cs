@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Image2Pdf.Interfaces;
 
-namespace Image2Pdf.Generator;
+namespace Image2Pdf.Generators;
 
 /// <inheritdoc/>
 public class PdfGeneratorFactory : IPdfGeneratorFactory

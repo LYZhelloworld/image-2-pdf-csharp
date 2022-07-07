@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Image2Pdf.Interfaces;
+namespace Image2Pdf.Adapters;
 
 /// <summary>
 /// The adapter of PDF generator.

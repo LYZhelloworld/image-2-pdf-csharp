@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
-using Image2Pdf.Generator;
-using Image2Pdf.Interfaces;
+using Image2Pdf.Adapters;
+using Image2Pdf.Generators;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 

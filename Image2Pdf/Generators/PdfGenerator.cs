@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Image2Pdf.Adapter;
-using Image2Pdf.Interfaces;
+using Image2Pdf.Adapters;
 
-namespace Image2Pdf.Generator;
+namespace Image2Pdf.Generators;
 
 /// <summary>
 /// The PDF file generator.

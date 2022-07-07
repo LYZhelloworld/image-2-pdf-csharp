@@ -8,9 +8,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using Image2Pdf.Generator;
-using Image2Pdf.Interfaces;
-using Image2Pdf.Utility;
+using Image2Pdf.Generators;
+using Image2Pdf.Utilities;
 using Microsoft.Win32;
 
 namespace Image2Pdf;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Image2Pdf.Generator;
+namespace Image2Pdf.Generators;
 
 /// <summary>
 /// The arguments of the file processed event.
