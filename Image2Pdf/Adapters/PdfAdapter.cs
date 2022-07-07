@@ -82,10 +82,13 @@ public sealed class PdfAdapter : IDisposable, IPdfAdapter
         GetImageDimension(imageFilename, out int width, out int height);
         // 1px = 0.75pt
         _pdfDocument.SetDefaultPageSize(_wrapper.PageSize.FromWidthAndHeight(width * .75f, height * .75f));
-        if (!_isFirstPage)
+        if (_isFirstPage)
+        {
+            _isFirstPage = false;
+        }
+        else
         {
             _document.Add(_wrapper.AreaBreak.FromAreaBreakType(AreaBreakType.NEXT_PAGE));
-            _isFirstPage = false;
         }
         _document.Add(img);
     }
