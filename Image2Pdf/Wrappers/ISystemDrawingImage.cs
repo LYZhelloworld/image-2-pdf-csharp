@@ -4,15 +4,10 @@ using System.Drawing;
 namespace Image2Pdf.Wrappers;
 
 /// <summary>
-/// The wrapper class of <see cref="System.Drawing.Image"/>.
+/// The wrapper class of <see cref="Image"/>.
 /// </summary>
-public interface ISystemDrawingImage : IDisposable
+public interface ISystemDrawingImage : IWrapper<Image>, IDisposable
 {
-    /// <summary>
-    /// The wrapped object.
-    /// </summary>
-    internal Image Image { get; }
-
     /// <summary>
     /// The wrapped property of <see cref="Image.Width"/>.
     /// </summary>

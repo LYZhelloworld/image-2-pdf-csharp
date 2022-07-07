@@ -6,7 +6,7 @@
 public interface ISystemDrawingWrapper
 {
     /// <summary>
-    /// The wrapped object.
+    /// The wrapper object of <see cref="System.Drawing.Image"/>.
     /// </summary>
     ISystemDrawingImageFactory Image { get; }
 }

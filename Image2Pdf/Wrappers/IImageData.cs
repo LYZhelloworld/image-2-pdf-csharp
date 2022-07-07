@@ -3,12 +3,8 @@
 namespace Image2Pdf.Wrappers;
 
 /// <summary>
-/// The wrapper class of <see cref="iText.IO.Image.ImageData"/>.
+/// The wrapper class of <see cref="ImageData"/>.
 /// </summary>
-public interface IImageData
+public interface IImageData : IWrapper<ImageData>
 {
-    /// <summary>
-    /// The wrapped object.
-    /// </summary>
-    internal ImageData ImageData { get; }
 }

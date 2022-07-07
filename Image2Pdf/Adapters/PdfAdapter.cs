@@ -21,10 +21,19 @@ public sealed class PdfAdapter : IDisposable, IPdfAdapter
     /// </summary>
     private IDocument? _document;
 
+    /// <summary>
+    /// The wrapper class of <see cref="iText"/> operations.
+    /// </summary>
     private readonly IPdfWrapper _wrapper;
 
+    /// <summary>
+    /// The wrapper class of <see cref="System.IO"/> operations.
+    /// </summary>
     private readonly ISystemIOWrapper _systemIOWrapper;
 
+    /// <summary>
+    /// The wrapper class of <see cref="System.Drawing"/> operations.
+    /// </summary>
     private readonly ISystemDrawingWrapper _systemDrawingWrapper;
 
     /// <summary>
@@ -32,11 +41,20 @@ public sealed class PdfAdapter : IDisposable, IPdfAdapter
     /// </summary>
     private bool _isFirstPage = true;
 
+    /// <summary>
+    /// The constructor.
+    /// </summary>
     public PdfAdapter()
         : this(new PdfWrapper(), new SystemIOWrapper(), new SystemDrawingWrapper())
     {
     }
 
+    /// <summary>
+    /// The constructor with all properties.
+    /// </summary>
+    /// <param name="pdfWrapper">The wrapper class of <see cref="iText"/> operations.</param>
+    /// <param name="systemIOWrapper">The wrapper class of <see cref="System.IO"/> operations.</param>
+    /// <param name="systemDrawingWrapper">The wrapper class of <see cref="System.Drawing"/> operations.</param>
     public PdfAdapter(IPdfWrapper pdfWrapper, ISystemIOWrapper systemIOWrapper, ISystemDrawingWrapper systemDrawingWrapper)
     {
         _wrapper = pdfWrapper;

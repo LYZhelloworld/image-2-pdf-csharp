@@ -12,6 +12,8 @@ internal class PdfDocumentFactory : IPdfDocumentFactory
     /// <inheritdoc/>
     public IPdfDocument FromPdfWriter(IPdfWriter pdfWriter)
     {
-        return new PdfDocumentWrapper(new PdfDocument(pdfWriter.PdfWriter));
+#pragma warning disable CA2000 // Dispose objects before losing scope
+        return new PdfDocumentWrapper(new PdfDocument(pdfWriter.Unwrap()));
+#pragma warning restore CA2000 // Dispose objects before losing scope
     }
 }

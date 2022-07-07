@@ -3,12 +3,8 @@
 namespace Image2Pdf.Wrappers;
 
 /// <summary>
-/// The wrapper class of <see cref="iText.Kernel.Geom.PageSize"/>.
+/// The wrapper class of <see cref="PageSize"/>.
 /// </summary>
-public interface IPageSize
+public interface IPageSize : IWrapper<PageSize>
 {
-    /// <summary>
-    /// The wrapped object.
-    /// </summary>
-    internal PageSize PageSize { get; }
 }

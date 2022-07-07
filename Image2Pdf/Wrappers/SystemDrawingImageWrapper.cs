@@ -7,29 +7,26 @@ namespace Image2Pdf.Wrappers;
 /// Implementation of <see cref="ISystemDrawingImage"/>.
 /// </summary>
 [ExcludeFromCodeCoverage]
-internal class SystemDrawingImageWrapper : ISystemDrawingImage
+internal class SystemDrawingImageWrapper : Wrapper<Image>, ISystemDrawingImage
 {
     /// <inheritdoc/>
-    public Image Image { get; }
+    public int Width { get => Unwrap().Width; }
 
     /// <inheritdoc/>
-    public int Width { get => Image.Width; }
-
-    /// <inheritdoc/>
-    public int Height { get => Image.Height; }
+    public int Height { get => Unwrap().Height; }
 
     /// <summary>
     /// The constructor.
     /// </summary>
     /// <param name="image">The wrapped object.</param>
     internal SystemDrawingImageWrapper(Image image)
+        : base(image)
     {
-        Image = image;
     }
 
     /// <inheritdoc/>
     public void Dispose()
     {
-        Image.Dispose();
+        Unwrap().Dispose();
     }
 }

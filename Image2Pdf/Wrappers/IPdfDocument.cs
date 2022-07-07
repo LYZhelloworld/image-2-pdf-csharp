@@ -1,20 +1,16 @@
 ﻿using System;
 using iText.Kernel.Pdf;
+using iText.Kernel.Geom;
 
 namespace Image2Pdf.Wrappers;
 
 /// <summary>
-/// The wrapper class of <see cref="iText.Kernel.Pdf.PdfDocument"/>.
+/// The wrapper class of <see cref="PdfDocument"/>.
 /// </summary>
-public interface IPdfDocument : IDisposable
+public interface IPdfDocument : IWrapper<PdfDocument>, IDisposable
 {
     /// <summary>
-    /// The wrapped object.
-    /// </summary>
-    internal PdfDocument PdfDocument { get; }
-
-    /// <summary>
-    /// The wrapper method of <see cref="PdfDocument.SetDefaultPageSize(iText.Kernel.Geom.PageSize)"/>.
+    /// The wrapper method of <see cref="PdfDocument.SetDefaultPageSize(PageSize)"/>.
     /// </summary>
     /// <param name="pageSize">The page size.</param>
     void SetDefaultPageSize(IPageSize pageSize);

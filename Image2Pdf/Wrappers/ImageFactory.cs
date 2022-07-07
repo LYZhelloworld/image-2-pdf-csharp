@@ -12,6 +12,6 @@ internal class ImageFactory : IImageFactory
     /// <inheritdoc/>
     public IImage FromImageData(IImageData imageData)
     {
-        return new ImageWrapper(new Image(imageData.ImageData));
+        return new ImageWrapper(new Image(imageData.Unwrap()));
     }
 }

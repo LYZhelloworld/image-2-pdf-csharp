@@ -7,17 +7,14 @@ namespace Image2Pdf.Wrappers;
 /// Implementation of <see cref="IImage"/>.
 /// </summary>
 [ExcludeFromCodeCoverage]
-internal class ImageWrapper : IImage
+internal class ImageWrapper : Wrapper<Image>, IImage
 {
-    /// <inheritdoc/>
-    public Image Image { get; }
-
     /// <summary>
     /// The constructor.
     /// </summary>
     /// <param name="image">The wrapped object.</param>
     internal ImageWrapper(Image image)
+        : base(image)
     {
-        Image = image;
     }
 }

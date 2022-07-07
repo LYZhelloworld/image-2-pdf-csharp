@@ -7,17 +7,14 @@ namespace Image2Pdf.Wrappers;
 /// Implementation of <see cref="IAreaBreak"/>.
 /// </summary>
 [ExcludeFromCodeCoverage]
-internal class AreaBreakWrapper : IAreaBreak
+internal class AreaBreakWrapper : Wrapper<AreaBreak>, IAreaBreak
 {
-    /// <inheritdoc/>
-    public AreaBreak AreaBreak { get; }
-
     /// <summary>
     /// The constructor.
     /// </summary>
     /// <param name="areaBreak">The wrapped object.</param>
     internal AreaBreakWrapper(AreaBreak areaBreak)
+        : base(areaBreak)
     {
-        AreaBreak = areaBreak;
     }
 }

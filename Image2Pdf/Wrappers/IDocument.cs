@@ -1,27 +1,23 @@
 ﻿using System;
 using iText.Layout;
+using iText.Layout.Element;
 
 namespace Image2Pdf.Wrappers;
 
 /// <summary>
-/// The wrapper class of <see cref="iText.Layout.Document"/>.
+/// The wrapper class of <see cref="Document"/>.
 /// </summary>
-public interface IDocument : IDisposable
+public interface IDocument : IWrapper<Document>, IDisposable
 {
     /// <summary>
-    /// The wrapped object.
-    /// </summary>
-    internal Document Document { get; }
-
-    /// <summary>
-    /// The wrapper method of <see cref="Document.Add(iText.Layout.Element.AreaBreak)"/>.
+    /// The wrapper method of <see cref="Document.Add(AreaBreak)"/>.
     /// </summary>
     /// <param name="areaBreak">The <see cref="IAreaBreak"/> object.</param>
     /// <returns>This element.</returns>
     IDocument Add(IAreaBreak areaBreak);
 
     /// <summary>
-    /// The wrapper method of <see cref="RootElement{T}.Add(iText.Layout.Element.Image)"/>.
+    /// The wrapper method of <see cref="RootElement{T}.Add(Image)"/>.
     /// </summary>
     /// <param name="image">The <see cref="IImage"/> object.</param>
     /// <returns>This element.</returns>

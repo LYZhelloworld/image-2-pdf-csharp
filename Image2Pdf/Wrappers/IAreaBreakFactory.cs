@@ -1,4 +1,5 @@
-﻿using iText.Layout.Properties;
+﻿using iText.Layout.Element;
+using iText.Layout.Properties;
 
 namespace Image2Pdf.Wrappers;
 
@@ -7,12 +8,10 @@ namespace Image2Pdf.Wrappers;
 /// </summary>
 public interface IAreaBreakFactory
 {
-#pragma warning disable CS3001 // Argument type is not CLS-compliant
     /// <summary>
-    /// The wrapper method of <see cref="iText.Layout.Element.AreaBreak.AreaBreak"/>.
+    /// The wrapper method of <see cref="AreaBreak.AreaBreak"/>.
     /// </summary>
     /// <param name="areaBreakType">An area break type.</param>
     /// <returns>The <see cref="IAreaBreak"/> instance.</returns>
     IAreaBreak FromAreaBreakType(AreaBreakType areaBreakType);
-#pragma warning restore CS3001 // Argument type is not CLS-compliant
 }

@@ -7,17 +7,14 @@ namespace Image2Pdf.Wrappers;
 /// Implementation of <see cref="IPageSize"/>.
 /// </summary>
 [ExcludeFromCodeCoverage]
-internal class PageSizeWrapper : IPageSize
+internal class PageSizeWrapper : Wrapper<PageSize>, IPageSize
 {
-    /// <inheritdoc/>
-    public PageSize PageSize { get; }
-
     /// <summary>
     /// The constrctor.
     /// </summary>
     /// <param name="pageSize">The wrapped object.</param>
     internal PageSizeWrapper(PageSize pageSize)
+        : base(pageSize)
     {
-        PageSize = pageSize;
     }
 }

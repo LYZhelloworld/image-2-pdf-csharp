@@ -7,23 +7,20 @@ namespace Image2Pdf.Wrappers;
 /// Implementation of <see cref="IPdfWriter"/>.
 /// </summary>
 [ExcludeFromCodeCoverage]
-internal class PdfWriterWrapper : IPdfWriter
+internal class PdfWriterWrapper : Wrapper<PdfWriter>, IPdfWriter
 {
-    /// <inheritdoc/>
-    public PdfWriter PdfWriter { get; }
-
     /// <summary>
     /// The constructor.
     /// </summary>
     /// <param name="pdfWriter">The wrapped object.</param>
     internal PdfWriterWrapper(PdfWriter pdfWriter)
+        : base(pdfWriter)
     {
-        PdfWriter = pdfWriter;
     }
 
     /// <inheritdoc/>
     public void Dispose()
     {
-        PdfWriter.Dispose();
+        Unwrap().Dispose();
     }
 }

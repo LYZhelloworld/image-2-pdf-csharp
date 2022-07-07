@@ -7,30 +7,27 @@ namespace Image2Pdf.Wrappers;
 /// Implementation of <see cref="IPdfDocument"/>.
 /// </summary>
 [ExcludeFromCodeCoverage]
-internal class PdfDocumentWrapper : IPdfDocument
+internal class PdfDocumentWrapper : Wrapper<PdfDocument>, IPdfDocument
 {
-    /// <inheritdoc/>
-    public PdfDocument PdfDocument { get; }
-
     /// <summary>
     /// The constructor.
     /// </summary>
     /// <param name="pdfDocument">The wrapped class.</param>
     internal PdfDocumentWrapper(PdfDocument pdfDocument)
+        : base(pdfDocument)
     {
-        PdfDocument = pdfDocument;
     }
 
     /// <inheritdoc/>
     public void SetDefaultPageSize(IPageSize pageSize)
     {
-        PdfDocument.SetDefaultPageSize(pageSize.PageSize);
+        Unwrap().SetDefaultPageSize(pageSize.Unwrap());
     }
 
     /// <inheritdoc/>
     public void Close()
     {
-        PdfDocument.Close();
+        Unwrap().Close();
     }
 
     /// <inheritdoc/>

@@ -7,44 +7,41 @@ namespace Image2Pdf.Wrappers;
 /// Implementation of <see cref="IDocument"/>.
 /// </summary>
 [ExcludeFromCodeCoverage]
-internal class DocumentWrapper : IDocument
+internal class DocumentWrapper : Wrapper<Document>, IDocument
 {
-    /// <inheritdoc/>
-    public Document Document { get; }
-
     /// <summary>
     /// The constructor.
     /// </summary>
     /// <param name="document">The wrapped object.</param>
     internal DocumentWrapper(Document document)
+        : base(document)
     {
-        Document = document;
     }
 
     /// <inheritdoc/>
     public void SetMargins(float topMargin, float rightMargin, float bottomMargin, float leftMargin)
     {
-        Document.SetMargins(topMargin, rightMargin, bottomMargin, leftMargin);
+        Unwrap().SetMargins(topMargin, rightMargin, bottomMargin, leftMargin);
     }
 
     /// <inheritdoc/>
     public IDocument Add(IAreaBreak areaBreak)
     {
-        Document.Add(areaBreak.AreaBreak);
+        Unwrap().Add(areaBreak.Unwrap());
         return this;
     }
 
     /// <inheritdoc/>
     public IDocument Add(IImage image)
     {
-        Document.Add(image.Image);
+        Unwrap().Add(image.Unwrap());
         return this;
     }
 
     /// <inheritdoc/>
     public void Close()
     {
-        Document.Close();
+        Unwrap().Close();
     }
 
     /// <inheritdoc/>
