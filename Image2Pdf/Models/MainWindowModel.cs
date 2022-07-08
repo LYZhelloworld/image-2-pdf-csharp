@@ -75,7 +75,7 @@ public class MainWindowModel : IMainWindowModel
     /// <inheritdoc/>
     public bool CanMoveUp(int index)
     {
-        return index != -1 && index > 0;
+        return index > 0 && index < _filenames.Count;
     }
 
     /// <inheritdoc/>
@@ -87,7 +87,7 @@ public class MainWindowModel : IMainWindowModel
     /// <inheritdoc/>
     public bool CanMoveDown(int index)
     {
-        return index != -1 && index < _filenames.Count - 1;
+        return index >= 0 && index < _filenames.Count - 1;
     }
 
     /// <inheritdoc/>
@@ -99,21 +99,18 @@ public class MainWindowModel : IMainWindowModel
     /// <inheritdoc/>
     public bool CanRemove(int index)
     {
-        return index != -1;
+        return index >= 0 && index < _filenames.Count;
     }
 
     /// <inheritdoc/>
-    public void Generate(string pdfFilename)
+    public Task Generate(string pdfFilename)
     {
         // create PDF generator
-        IPdfGenerator<FileProcessedEventArgs, PdfGenerationCompletedEventArgs> pdfGenerator = _pdfGeneratorFactory.AddFiles(_filenames).Build();
+        IPdfGenerator pdfGenerator = _pdfGeneratorFactory.AddFiles(_filenames).Build();
 
         pdfGenerator.FileProcessedEvent += (sender, e) => FileProcessedEvent?.Invoke(sender, e);
         pdfGenerator.PdfGenerationCompletedEvent += (sender, e) => PdfGenerationCompletedEvent?.Invoke(sender, e);
-        Task.Run(() =>
-        {
-            pdfGenerator.Generate(pdfFilename);
-        });
+        return Task.Run(() => pdfGenerator.Generate(pdfFilename));
     }
 
     /// <inheritdoc/>

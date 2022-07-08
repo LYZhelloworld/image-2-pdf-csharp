@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Image2Pdf.Generators;
 
 namespace Image2Pdf.Models;
@@ -68,7 +69,8 @@ public interface IMainWindowModel
     /// The command to remove an item.
     /// </summary>
     /// <param name="pdfFilename">The PDF filename.</param>
-    void Generate(string pdfFilename);
+    /// <returns>A <see cref="Task"/> that does PDF generation.</returns>
+    Task Generate(string pdfFilename);
 
     /// <summary>
     /// Indicates whether <see cref="Generate"/> can be executed.

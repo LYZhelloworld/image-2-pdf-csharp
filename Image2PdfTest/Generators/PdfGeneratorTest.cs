@@ -1,15 +1,17 @@
-﻿using FluentAssertions;
+﻿using System.Diagnostics.CodeAnalysis;
+using FluentAssertions;
 using Image2Pdf.Adapters;
 using Image2Pdf.Generators;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace Image2PdfTest.Generator;
+namespace Image2PdfTest.Generators;
 
 /// <summary>
 /// Tests <see cref="PdfGenerator"/>.
 /// </summary>
 [TestClass]
+[ExcludeFromCodeCoverage]
 public class PdfGeneratorTest
 {
     /// <summary>

@@ -1,13 +1,15 @@
-﻿using FluentAssertions;
+﻿using System.Diagnostics.CodeAnalysis;
+using FluentAssertions;
 using Image2Pdf.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Image2PdfTest.Utility;
+namespace Image2PdfTest.Utilities;
 
 /// <summary>
 /// Tests <see cref="FileUtils"/>.
 /// </summary>
 [TestClass]
+[ExcludeFromCodeCoverage]
 public class FileUtilsTest
 {
     /// <summary>

@@ -5,7 +5,7 @@ using iText.Layout.Properties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace Image2PdfTest.Adapter;
+namespace Image2PdfTest.Adapters;
 
 /// <summary>
 /// Tests <see cref="PdfAdapter"/>.

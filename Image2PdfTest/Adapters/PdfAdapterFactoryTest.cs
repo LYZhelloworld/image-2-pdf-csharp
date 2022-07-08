@@ -1,13 +1,15 @@
-﻿using FluentAssertions;
+﻿using System.Diagnostics.CodeAnalysis;
+using FluentAssertions;
 using Image2Pdf.Adapters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Image2PdfTest.Adapter;
+namespace Image2PdfTest.Adapters;
 
 /// <summary>
 /// Tests <see cref="PdfAdapterFactory"/>.
 /// </summary>
 [TestClass]
+[ExcludeFromCodeCoverage]
 public class PdfAdapterFactoryTest
 {
     /// <summary>

@@ -27,3 +27,10 @@ public interface IPdfGenerator<TFileProcessedEventArgs, TPdfGenerationCompletedE
     /// </summary>
     public event EventHandler<TPdfGenerationCompletedEventArgs>? PdfGenerationCompletedEvent;
 }
+
+/// <summary>
+/// The PDF file generator.
+/// </summary>
+public interface IPdfGenerator : IPdfGenerator<FileProcessedEventArgs, PdfGenerationCompletedEventArgs>
+{
+}

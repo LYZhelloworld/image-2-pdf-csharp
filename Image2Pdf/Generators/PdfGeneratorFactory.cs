@@ -19,14 +19,14 @@ public class PdfGeneratorFactory : IPdfGeneratorFactory
     }
 
     /// <inheritdoc/>
-    public PdfGeneratorFactory AddFiles(IEnumerable<string> files)
+    public IPdfGeneratorFactory AddFiles(IEnumerable<string> files)
     {
         _files.AddRange(files);
         return this;
     }
 
     /// <inheritdoc/>
-    public IPdfGenerator<FileProcessedEventArgs, PdfGenerationCompletedEventArgs> Build()
+    public IPdfGenerator Build()
     {
         return new PdfGenerator(_files);
     }

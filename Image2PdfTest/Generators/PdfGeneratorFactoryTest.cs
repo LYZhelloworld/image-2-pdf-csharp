@@ -1,13 +1,15 @@
-﻿using FluentAssertions;
+﻿using System.Diagnostics.CodeAnalysis;
+using FluentAssertions;
 using Image2Pdf.Generators;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Image2PdfTest.Generator;
+namespace Image2PdfTest.Generators;
 
 /// <summary>
 /// Tests <see cref="PdfGeneratorFactory"/>.
 /// </summary>
 [TestClass]
+[ExcludeFromCodeCoverage]
 public class PdfGeneratorFactoryTest
 {
     /// <summary>
@@ -18,7 +20,7 @@ public class PdfGeneratorFactoryTest
     {
         PdfGeneratorFactory factory = new();
         factory.AddFiles(new List<string>());
-        IPdfGenerator<FileProcessedEventArgs, PdfGenerationCompletedEventArgs> generator = factory.Build();
+        IPdfGenerator generator = factory.Build();
         generator.Should().NotBeNull();
     }
 }

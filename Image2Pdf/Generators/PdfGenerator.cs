@@ -7,7 +7,7 @@ namespace Image2Pdf.Generators;
 /// <summary>
 /// The PDF file generator.
 /// </summary>
-public class PdfGenerator : IPdfGenerator<FileProcessedEventArgs, PdfGenerationCompletedEventArgs>
+public class PdfGenerator : IPdfGenerator
 {
     #region Fields
     /// <summary>
