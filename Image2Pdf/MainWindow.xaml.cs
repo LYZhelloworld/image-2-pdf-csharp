@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using Image2Pdf.Generator;
-using Image2Pdf.Interfaces;
-using Image2Pdf.Utility;
+using Image2Pdf.Models;
+using Image2Pdf.Generators;
 using Microsoft.Win32;
 
 namespace Image2Pdf;
@@ -22,34 +19,29 @@ namespace Image2Pdf;
 public partial class MainWindow : Window
 {
     /// <summary>
-    /// The factory class of PDF generator.
+    /// The model.
     /// </summary>
-    private readonly PdfGeneratorFactory _pdfGeneratorFactory;
-
-    /// <summary>
-    /// The filenames of images.
-    /// </summary>
-    private readonly List<string> _filenames;
+    private readonly IMainWindowModel _model;
 
     /// <summary>
     /// The constructor.
     /// </summary>
-    public MainWindow() : this(new PdfGeneratorFactory(), new List<string>())
+    public MainWindow() : this(new MainWindowModel())
     {
     }
 
     /// <summary>
-    /// The constructor with all arguments.
+    /// The constructor with all properties.
     /// </summary>
-    /// <param name="pdfGeneratorFactory">The factory class of PDF generator.</param>
-    /// <param name="filenames">The filenames of images.</param>
-    public MainWindow(PdfGeneratorFactory pdfGeneratorFactory, IEnumerable<string> filenames)
+    /// <param name="model">The model.</param>
+    public MainWindow(IMainWindowModel model)
     {
-        _pdfGeneratorFactory = pdfGeneratorFactory;
-        _filenames = filenames.ToList();
+        _model = model;
+        _model.FileProcessedEvent += _model_FileProcessedEvent;
+        _model.PdfGenerationCompletedEvent += _model_PdfGenerationCompletedEvent;
 
         InitializeComponent();
-        FilenameList.ItemsSource = _filenames;
+        FilenameList.ItemsSource = _model.ItemSource;
     }
 
     #region Commands
@@ -83,8 +75,7 @@ public partial class MainWindow : Window
     /// <param name="e">The arguments.</param>
     private void MoveUpCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
-        int index = FilenameList.SelectedIndex;
-        (_filenames[index], _filenames[index - 1]) = (_filenames[index - 1], _filenames[index]);
+        _model.MoveUp(FilenameList.SelectedIndex);
         FilenameList.Items.Refresh();
     }
 
@@ -95,7 +86,7 @@ public partial class MainWindow : Window
     /// <param name="e">The arguments.</param>
     private void MoveUpCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
     {
-        e.CanExecute = FilenameList.SelectedIndex != -1 && FilenameList.SelectedIndex > 0;
+        e.CanExecute = _model.CanMoveUp(FilenameList.SelectedIndex);
     }
 
     /// <summary>
@@ -105,8 +96,7 @@ public partial class MainWindow : Window
     /// <param name="e">The arguments.</param>
     private void MoveDownCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
-        int index = FilenameList.SelectedIndex;
-        (_filenames[index], _filenames[index + 1]) = (_filenames[index + 1], _filenames[index]);
+        _model.MoveDown(FilenameList.SelectedIndex);
         FilenameList.Items.Refresh();
     }
 
@@ -117,7 +107,7 @@ public partial class MainWindow : Window
     /// <param name="e">The arguments.</param>
     private void MoveDownCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
     {
-        e.CanExecute = FilenameList.SelectedIndex != -1 && FilenameList.SelectedIndex < FilenameList.Items.Count - 1;
+        e.CanExecute = _model.CanMoveDown(FilenameList.SelectedIndex);
     }
 
     /// <summary>
@@ -127,8 +117,7 @@ public partial class MainWindow : Window
     /// <param name="e">The arguments.</param>
     private void RemoveCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
-        int index = FilenameList.SelectedIndex;
-        _filenames.RemoveAt(index);
+        _model.Remove(FilenameList.SelectedIndex);
         FilenameList.Items.Refresh();
     }
 
@@ -139,7 +128,7 @@ public partial class MainWindow : Window
     /// <param name="e">The arguments.</param>
     private void RemoveCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
     {
-        e.CanExecute = FilenameList.SelectedIndex != -1;
+        e.CanExecute = _model.CanRemove(FilenameList.SelectedIndex);
     }
 
     /// <summary>
@@ -149,7 +138,7 @@ public partial class MainWindow : Window
     /// <param name="e">The arguments.</param>
     private void GenerateCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
     {
-        e.CanExecute = FilenameList.Items.Count > 0;
+        e.CanExecute = _model.CanGenerate();
     }
 
     /// <summary>
@@ -160,25 +149,19 @@ public partial class MainWindow : Window
     private void GenerateCommand_Execute(object sender, ExecutedRoutedEventArgs e)
     {
         // Show save file dialog.
-        SaveFileDialog? saveFileDialog = new();
+        SaveFileDialog saveFileDialog = new();
 
         // Default save path is the parent folder of the images.
         // Get path of image file.
-        string? filepath = Path.GetDirectoryName(_filenames[0]);
+        string? filepath = Path.GetDirectoryName(_model.ItemSource.FirstOrDefault());
         if (filepath != null)
         {
             // Get parent of the image file.
             DirectoryInfo? path = Directory.GetParent(filepath);
-            if (path != null)
-            {
-                // Use parent path.
-                saveFileDialog.InitialDirectory = path.ToString();
-            }
-            else
-            {
-                // Cannot get parent (e.g. at the root directory) folder, use file path instead.
-                saveFileDialog.InitialDirectory = filepath;
-            }
+
+            // Use parent path, or file path instead if parent folder is not available
+            // (e.g. at the root directory).
+            saveFileDialog.InitialDirectory = path?.ToString() ?? filepath;
         }
         else
         {
@@ -200,7 +183,7 @@ public partial class MainWindow : Window
     /// </summary>
     /// <param name="sender">The sender.</param>
     /// <param name="e">The arguments.</param>
-    private void PdfGenerator_PdfGenerationCompletedEvent(object? sender, PdfGenerationCompletedEventArgs e)
+    private void _model_PdfGenerationCompletedEvent(object? sender, PdfGenerationCompletedEventArgs e)
     {
         Dispatcher.Invoke(() =>
         {
@@ -227,7 +210,7 @@ public partial class MainWindow : Window
     /// </summary>
     /// <param name="sender">The sender.</param>
     /// <param name="e">The arguments.</param>
-    private void PdfGenerator_FileProcessedEvent(object? sender, FileProcessedEventArgs e)
+    private void _model_FileProcessedEvent(object? sender, FileProcessedEventArgs e)
     {
         Dispatcher.Invoke(() =>
         {
@@ -243,16 +226,8 @@ public partial class MainWindow : Window
     private void FilenameList_Drop(object sender, DragEventArgs e)
     {
         // get file list from the dropped data
-        string[]? files = (string[])e.Data.GetData(DataFormats.FileDrop);
-        foreach (string? file in files)
-        {
-            // add valid image files only
-            // ignore others
-            if (FileUtils.IsValidImageFile(file))
-            {
-                _filenames.Add(file);
-            }
-        }
+        string[] files = (string[]?)e.Data.GetData(DataFormats.FileDrop) ?? Array.Empty<string>();
+        _model.AddFiles(files);
         FilenameList.Items.Refresh();
         CommandManager.InvalidateRequerySuggested();
     }
@@ -268,17 +243,9 @@ public partial class MainWindow : Window
         FilenameList.IsEnabled = false;
         GenerateButton.IsEnabled = false;
         GeneratorProgressBar.IsEnabled = true;
-        GeneratorProgressBar.Maximum = _filenames.Count;
+        GeneratorProgressBar.Maximum = _model.ItemSource.Count();
 
-        // create PDF generator
-        IPdfGenerator<FileProcessedEventArgs, PdfGenerationCompletedEventArgs> pdfGenerator = _pdfGeneratorFactory.AddFiles(_filenames).Build();
-
-        pdfGenerator.PdfGenerationCompletedEvent += PdfGenerator_PdfGenerationCompletedEvent;
-        pdfGenerator.FileProcessedEvent += PdfGenerator_FileProcessedEvent;
-        Task.Run(() =>
-        {
-            pdfGenerator.Generate(target);
-        });
+        _model.Generate(target);
     }
 
     /// <summary>
@@ -293,7 +260,7 @@ public partial class MainWindow : Window
         GeneratorProgressBar.Value = 0;
 
         // clear file list
-        _filenames.Clear();
+        _model.Clear();
         FilenameList.Items.Refresh();
     }
 }
