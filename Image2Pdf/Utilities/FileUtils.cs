@@ -19,9 +19,6 @@ public static class FileUtils
     /// <returns><c>true</c> if the file is an image, <c>false</c> otherwise.</returns>
     public static bool IsValidImageFile(string filename)
     {
-        return s_supportedExtNames.Any(delegate (string ext)
-        {
-            return filename.EndsWith(ext, System.StringComparison.OrdinalIgnoreCase);
-        });
+        return s_supportedExtNames.Any(ext => filename.EndsWith(ext, System.StringComparison.OrdinalIgnoreCase));
     }
 }
