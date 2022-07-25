@@ -20,10 +20,10 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Include="..\.editorconfig">
+    <None Include="..\config\.editorconfig">
       <Pack>False</Pack>
     </None>
-    <None Include="..\stylecop.json">
+    <None Include="..\config\stylecop.json">
       <Pack>False</Pack>
     </None>
   </ItemGroup>
