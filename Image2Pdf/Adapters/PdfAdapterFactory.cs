@@ -1,13 +1,18 @@
-﻿namespace Image2Pdf.Adapters;
+﻿// <copyright file="PdfAdapterFactory.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
-/// <summary>
-/// The factory class of <see cref="IPdfAdapter"/>.
-/// </summary>
-public class PdfAdapterFactory : IPdfAdapterFactory
+namespace Image2Pdf.Adapters
 {
-    /// <inheritdoc/>
-    public IPdfAdapter CreateAdapter()
+    /// <summary>
+    /// The factory class of <see cref="IPdfAdapter"/>.
+    /// </summary>
+    public class PdfAdapterFactory : IPdfAdapterFactory
     {
-        return new PdfAdapter();
+        /// <inheritdoc/>
+        public IPdfAdapter CreateAdapter()
+        {
+            return new PdfAdapter();
+        }
     }
 }

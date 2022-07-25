@@ -1,18 +1,23 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using iText.Layout.Element;
-using iText.Layout.Properties;
+﻿// <copyright file="AreaBreakFactory.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
-namespace Image2Pdf.Wrappers;
-
-/// <summary>
-/// Implementation of <see cref="IAreaBreakFactory"/>
-/// </summary>
-[ExcludeFromCodeCoverage]
-internal class AreaBreakFactory : IAreaBreakFactory
+namespace Image2Pdf.Wrappers
 {
-    /// <inheritdoc/>
-    public IAreaBreak FromAreaBreakType(AreaBreakType areaBreakType)
+    using System.Diagnostics.CodeAnalysis;
+    using iText.Layout.Element;
+    using iText.Layout.Properties;
+
+    /// <summary>
+    /// Implementation of <see cref="IAreaBreakFactory"/>.
+    /// </summary>
+    [ExcludeFromCodeCoverage]
+    internal class AreaBreakFactory : IAreaBreakFactory
     {
-        return new AreaBreakWrapper(new AreaBreak(areaBreakType));
+        /// <inheritdoc/>
+        public IAreaBreak FromAreaBreakType(AreaBreakType areaBreakType)
+        {
+            return new AreaBreakWrapper(new AreaBreak(areaBreakType));
+        }
     }
 }

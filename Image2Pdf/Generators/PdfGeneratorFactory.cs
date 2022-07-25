@@ -1,33 +1,38 @@
-﻿using System.Collections.Generic;
+﻿// <copyright file="PdfGeneratorFactory.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
-namespace Image2Pdf.Generators;
-
-/// <inheritdoc/>
-public class PdfGeneratorFactory : IPdfGeneratorFactory
+namespace Image2Pdf.Generators
 {
-    /// <summary>
-    /// The image filenames.
-    /// </summary>
-    private readonly List<string> _files;
-
-    /// <summary>
-    /// The constructor.
-    /// </summary>
-    public PdfGeneratorFactory()
-    {
-        _files = new List<string>();
-    }
+    using System.Collections.Generic;
 
     /// <inheritdoc/>
-    public IPdfGeneratorFactory AddFiles(IEnumerable<string> files)
+    public class PdfGeneratorFactory : IPdfGeneratorFactory
     {
-        _files.AddRange(files);
-        return this;
-    }
+        /// <summary>
+        /// The image filenames.
+        /// </summary>
+        private readonly List<string> files;
 
-    /// <inheritdoc/>
-    public IPdfGenerator Build()
-    {
-        return new PdfGenerator(_files);
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PdfGeneratorFactory"/> class.
+        /// </summary>
+        public PdfGeneratorFactory()
+        {
+            this.files = new List<string>();
+        }
+
+        /// <inheritdoc/>
+        public IPdfGeneratorFactory AddFiles(IEnumerable<string> files)
+        {
+            this.files.AddRange(files);
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public IPdfGenerator Build()
+        {
+            return new PdfGenerator(this.files);
+        }
     }
 }

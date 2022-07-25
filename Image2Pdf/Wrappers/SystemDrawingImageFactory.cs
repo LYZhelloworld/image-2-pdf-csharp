@@ -1,18 +1,23 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
-using System.IO;
+﻿// <copyright file="SystemDrawingImageFactory.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
-namespace Image2Pdf.Wrappers;
-
-/// <summary>
-/// Implementation of <see cref="ISystemDrawingImageFactory"/>.
-/// </summary>
-[ExcludeFromCodeCoverage]
-internal class SystemDrawingImageFactory : ISystemDrawingImageFactory
+namespace Image2Pdf.Wrappers
 {
-    /// <inheritdoc/>
-    public ISystemDrawingImage FromStream(Stream stream, bool useEmbeddedColorManagement, bool validateImageData)
+    using System.Diagnostics.CodeAnalysis;
+    using System.Drawing;
+    using System.IO;
+
+    /// <summary>
+    /// Implementation of <see cref="ISystemDrawingImageFactory"/>.
+    /// </summary>
+    [ExcludeFromCodeCoverage]
+    internal class SystemDrawingImageFactory : ISystemDrawingImageFactory
     {
-        return new SystemDrawingImageWrapper(Image.FromStream(stream, useEmbeddedColorManagement, validateImageData));
+        /// <inheritdoc/>
+        public ISystemDrawingImage FromStream(Stream stream, bool useEmbeddedColorManagement, bool validateImageData)
+        {
+            return new SystemDrawingImageWrapper(Image.FromStream(stream, useEmbeddedColorManagement, validateImageData));
+        }
     }
 }

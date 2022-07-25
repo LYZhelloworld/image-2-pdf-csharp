@@ -1,31 +1,36 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿// <copyright file="PdfWrapper.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
-namespace Image2Pdf.Wrappers;
-
-/// <summary>
-/// Implementation of <see cref="IPdfWrapper"/>.
-/// </summary>
-[ExcludeFromCodeCoverage]
-public class PdfWrapper : IPdfWrapper
+namespace Image2Pdf.Wrappers
 {
-    /// <inheritdoc/>
-    public IPdfWriterFactory PdfWriter { get; } = new PdfWriterFactory();
+    using System.Diagnostics.CodeAnalysis;
 
-    /// <inheritdoc/>
-    public IPdfDocumentFactory PdfDocument { get; } = new PdfDocumentFactory();
+    /// <summary>
+    /// Implementation of <see cref="IPdfWrapper"/>.
+    /// </summary>
+    [ExcludeFromCodeCoverage]
+    public class PdfWrapper : IPdfWrapper
+    {
+        /// <inheritdoc/>
+        public IPdfWriterFactory PdfWriter { get; } = new PdfWriterFactory();
 
-    /// <inheritdoc/>
-    public IDocumentFactory Document { get; } = new DocumentFactory();
+        /// <inheritdoc/>
+        public IPdfDocumentFactory PdfDocument { get; } = new PdfDocumentFactory();
 
-    /// <inheritdoc/>
-    public IPageSizeFactory PageSize { get; } = new PageSizeFactory();
+        /// <inheritdoc/>
+        public IDocumentFactory Document { get; } = new DocumentFactory();
 
-    /// <inheritdoc/>
-    public IAreaBreakFactory AreaBreak { get; } = new AreaBreakFactory();
+        /// <inheritdoc/>
+        public IPageSizeFactory PageSize { get; } = new PageSizeFactory();
 
-    /// <inheritdoc/>
-    public IImageFactory Image { get; } = new ImageFactory();
+        /// <inheritdoc/>
+        public IAreaBreakFactory AreaBreak { get; } = new AreaBreakFactory();
 
-    /// <inheritdoc/>
-    public IImageDataFactory ImageDataFactory { get; } = new ImageDataFactoryWrapper();
+        /// <inheritdoc/>
+        public IImageFactory Image { get; } = new ImageFactory();
+
+        /// <inheritdoc/>
+        public IImageDataFactory ImageDataFactory { get; } = new ImageDataFactoryWrapper();
+    }
 }

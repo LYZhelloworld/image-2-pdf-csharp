@@ -1,20 +1,25 @@
-﻿using System;
-using System.Drawing;
+﻿// <copyright file="ISystemDrawingImage.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
-namespace Image2Pdf.Wrappers;
-
-/// <summary>
-/// The wrapper class of <see cref="Image"/>.
-/// </summary>
-public interface ISystemDrawingImage : IWrapper<Image>, IDisposable
+namespace Image2Pdf.Wrappers
 {
-    /// <summary>
-    /// The wrapped property of <see cref="Image.Width"/>.
-    /// </summary>
-    int Width { get; }
+    using System;
+    using System.Drawing;
 
     /// <summary>
-    /// The wrapped property of <see cref="Image.Height"/>.
+    /// The wrapper class of <see cref="Image"/>.
     /// </summary>
-    int Height { get; }
+    public interface ISystemDrawingImage : IWrapper<Image>, IDisposable
+    {
+        /// <summary>
+        /// Gets the wrapped property of <see cref="Image.Width"/>.
+        /// </summary>
+        int Width { get; }
+
+        /// <summary>
+        /// Gets the wrapped property of <see cref="Image.Height"/>.
+        /// </summary>
+        int Height { get; }
+    }
 }

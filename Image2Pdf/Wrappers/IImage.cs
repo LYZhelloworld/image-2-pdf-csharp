@@ -1,10 +1,15 @@
-﻿using iText.Layout.Element;
+﻿// <copyright file="IImage.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
-namespace Image2Pdf.Wrappers;
-
-/// <summary>
-/// The wrapper class of <see cref="Image"/>.
-/// </summary>
-public interface IImage : IWrapper<Image>
+namespace Image2Pdf.Wrappers
 {
+    using iText.Layout.Element;
+
+    /// <summary>
+    /// The wrapper class of <see cref="Image"/>.
+    /// </summary>
+    public interface IImage : IWrapper<Image>
+    {
+    }
 }

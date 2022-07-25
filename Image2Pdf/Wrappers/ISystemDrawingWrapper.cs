@@ -1,12 +1,17 @@
-﻿namespace Image2Pdf.Wrappers;
+﻿// <copyright file="ISystemDrawingWrapper.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
-/// <summary>
-/// The wrapper class of <see cref="System.Drawing"/> operations.
-/// </summary>
-public interface ISystemDrawingWrapper
+namespace Image2Pdf.Wrappers
 {
     /// <summary>
-    /// The wrapper object of <see cref="System.Drawing.Image"/>.
+    /// The wrapper class of <see cref="System.Drawing"/> operations.
     /// </summary>
-    ISystemDrawingImageFactory Image { get; }
+    public interface ISystemDrawingWrapper
+    {
+        /// <summary>
+        /// Gets the wrapper object of <see cref="System.Drawing.Image"/>.
+        /// </summary>
+        ISystemDrawingImageFactory Image { get; }
+    }
 }

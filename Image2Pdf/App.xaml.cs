@@ -1,22 +1,27 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Windows;
+﻿// <copyright file="App.xaml.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
-namespace Image2Pdf;
-
-/// <summary>
-/// Interaction logic for App.xaml.
-/// </summary>
-[ExcludeFromCodeCoverage]
-public partial class App : Application
+namespace Image2Pdf
 {
+    using System.Diagnostics.CodeAnalysis;
+    using System.Windows;
+
     /// <summary>
-    /// The startup event.
+    /// Interaction logic for App.xaml.
     /// </summary>
-    /// <param name="sender">The sender.</param>
-    /// <param name="e">The startup event arguments.</param>
-    private void Application_Startup(object sender, StartupEventArgs e)
+    [ExcludeFromCodeCoverage]
+    public partial class App : Application
     {
-        MainWindow wnd = new();
-        wnd.Show();
+        /// <summary>
+        /// The startup event.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The startup event arguments.</param>
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            MainWindow wnd = new ();
+            wnd.Show();
+        }
     }
 }

@@ -1,13 +1,18 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿// <copyright file="SystemDrawingWrapper.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
-namespace Image2Pdf.Wrappers;
-
-/// <summary>
-/// Implementation of <see cref="ISystemDrawingWrapper"/>.
-/// </summary>
-[ExcludeFromCodeCoverage]
-internal class SystemDrawingWrapper : ISystemDrawingWrapper
+namespace Image2Pdf.Wrappers
 {
-    /// <inheritdoc/>
-    public ISystemDrawingImageFactory Image { get; } = new SystemDrawingImageFactory();
+    using System.Diagnostics.CodeAnalysis;
+
+    /// <summary>
+    /// Implementation of <see cref="ISystemDrawingWrapper"/>.
+    /// </summary>
+    [ExcludeFromCodeCoverage]
+    internal class SystemDrawingWrapper : ISystemDrawingWrapper
+    {
+        /// <inheritdoc/>
+        public ISystemDrawingImageFactory Image { get; } = new SystemDrawingImageFactory();
+    }
 }

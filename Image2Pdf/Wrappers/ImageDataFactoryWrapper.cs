@@ -1,17 +1,22 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using iText.IO.Image;
+﻿// <copyright file="ImageDataFactoryWrapper.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
-namespace Image2Pdf.Wrappers;
-
-/// <summary>
-/// The implementation of <see cref="IImageDataFactory"/>.
-/// </summary>
-[ExcludeFromCodeCoverage]
-internal class ImageDataFactoryWrapper : IImageDataFactory
+namespace Image2Pdf.Wrappers
 {
-    /// <inheritdoc/>
-    public IImageData Create(string imageFilename)
+    using System.Diagnostics.CodeAnalysis;
+    using iText.IO.Image;
+
+    /// <summary>
+    /// The implementation of <see cref="IImageDataFactory"/>.
+    /// </summary>
+    [ExcludeFromCodeCoverage]
+    internal class ImageDataFactoryWrapper : IImageDataFactory
     {
-        return new ImageDataWrapper(ImageDataFactory.Create(imageFilename));
+        /// <inheritdoc/>
+        public IImageData Create(string imageFilename)
+        {
+            return new ImageDataWrapper(ImageDataFactory.Create(imageFilename));
+        }
     }
 }

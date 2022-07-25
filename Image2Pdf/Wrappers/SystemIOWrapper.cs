@@ -1,13 +1,18 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿// <copyright file="SystemIOWrapper.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
-namespace Image2Pdf.Wrappers;
-
-/// <summary>
-/// Implementation of <see cref="ISystemIOWrapper"/>.
-/// </summary>
-[ExcludeFromCodeCoverage]
-public class SystemIOWrapper : ISystemIOWrapper
+namespace Image2Pdf.Wrappers
 {
-    /// <inheritdoc/>
-    public IFileStreamFactory FileStream { get; } = new FileStreamFactory();
+    using System.Diagnostics.CodeAnalysis;
+
+    /// <summary>
+    /// Implementation of <see cref="ISystemIOWrapper"/>.
+    /// </summary>
+    [ExcludeFromCodeCoverage]
+    public class SystemIOWrapper : ISystemIOWrapper
+    {
+        /// <inheritdoc/>
+        public IFileStreamFactory FileStream { get; } = new FileStreamFactory();
+    }
 }

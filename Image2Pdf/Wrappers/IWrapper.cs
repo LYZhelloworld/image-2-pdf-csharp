@@ -1,14 +1,19 @@
-﻿namespace Image2Pdf.Wrappers;
+﻿// <copyright file="IWrapper.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
-/// <summary>
-/// The wrapper class.
-/// </summary>
-/// <typeparam name="T">The type of the wrapped object.</typeparam>
-public interface IWrapper<T>
+namespace Image2Pdf.Wrappers
 {
     /// <summary>
-    /// Gets the wrapped object.
+    /// The wrapper class.
     /// </summary>
-    /// <returns>The wrapped object.</returns>
-    T Unwrap();
+    /// <typeparam name="T">The type of the wrapped object.</typeparam>
+    public interface IWrapper<T>
+    {
+        /// <summary>
+        /// Gets the wrapped object.
+        /// </summary>
+        /// <returns>The wrapped object.</returns>
+        T Unwrap();
+    }
 }

@@ -1,17 +1,22 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using iText.Kernel.Geom;
+﻿// <copyright file="PageSizeFactory.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
-namespace Image2Pdf.Wrappers;
-
-/// <summary>
-/// Implementation of <see cref="IPageSizeFactory"/>.
-/// </summary>
-[ExcludeFromCodeCoverage]
-internal class PageSizeFactory : IPageSizeFactory
+namespace Image2Pdf.Wrappers
 {
-    /// <inheritdoc/>
-    public IPageSize FromWidthAndHeight(float width, float height)
+    using System.Diagnostics.CodeAnalysis;
+    using iText.Kernel.Geom;
+
+    /// <summary>
+    /// Implementation of <see cref="IPageSizeFactory"/>.
+    /// </summary>
+    [ExcludeFromCodeCoverage]
+    internal class PageSizeFactory : IPageSizeFactory
     {
-        return new PageSizeWrapper(new PageSize(width, height));
+        /// <inheritdoc/>
+        public IPageSize FromWidthAndHeight(float width, float height)
+        {
+            return new PageSizeWrapper(new PageSize(width, height));
+        }
     }
 }

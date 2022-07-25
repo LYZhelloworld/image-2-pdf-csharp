@@ -1,10 +1,15 @@
-﻿using iText.Kernel.Geom;
+﻿// <copyright file="IPageSize.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
-namespace Image2Pdf.Wrappers;
-
-/// <summary>
-/// The wrapper class of <see cref="PageSize"/>.
-/// </summary>
-public interface IPageSize : IWrapper<PageSize>
+namespace Image2Pdf.Wrappers
 {
+    using iText.Kernel.Geom;
+
+    /// <summary>
+    /// The wrapper class of <see cref="PageSize"/>.
+    /// </summary>
+    public interface IPageSize : IWrapper<PageSize>
+    {
+    }
 }

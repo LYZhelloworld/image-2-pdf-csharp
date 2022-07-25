@@ -1,16 +1,21 @@
-﻿using iText.Layout;
+﻿// <copyright file="IDocumentFactory.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
-namespace Image2Pdf.Wrappers;
-
-/// <summary>
-/// The factory class of <see cref="IDocument"/>.
-/// </summary>
-public interface IDocumentFactory
+namespace Image2Pdf.Wrappers
 {
+    using iText.Layout;
+
     /// <summary>
-    /// The wrapper method of <see cref="Document(iText.Kernel.Pdf.PdfDocument)"/>.
+    /// The factory class of <see cref="IDocument"/>.
     /// </summary>
-    /// <param name="pdfDocument">The <see cref="IPdfDocument"/> object.</param>
-    /// <returns>The <see cref="IDocument"/> instance.</returns>
-    IDocument FromPdfDocument(IPdfDocument pdfDocument);
+    public interface IDocumentFactory
+    {
+        /// <summary>
+        /// The wrapper method of <see cref="Document(iText.Kernel.Pdf.PdfDocument)"/>.
+        /// </summary>
+        /// <param name="pdfDocument">The <see cref="IPdfDocument"/> object.</param>
+        /// <returns>The <see cref="IDocument"/> instance.</returns>
+        IDocument FromPdfDocument(IPdfDocument pdfDocument);
+    }
 }
