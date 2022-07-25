@@ -12,7 +12,7 @@ namespace Image2Pdf.Adapters
     /// <summary>
     /// The adapter of iText PDF generator.
     /// </summary>
-    public sealed class PdfAdapter : IDisposable, IPdfAdapter
+    public class PdfAdapter : IDisposable, IPdfAdapter
     {
         /// <summary>
         /// The wrapper class of <see cref="iText"/> operations.
@@ -45,6 +45,11 @@ namespace Image2Pdf.Adapters
         private bool isFirstPage = true;
 
         /// <summary>
+        /// Indicates whether the instance has been disposed.
+        /// </summary>
+        private bool isDisposed;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PdfAdapter"/> class.
         /// </summary>
         public PdfAdapter()
@@ -63,6 +68,14 @@ namespace Image2Pdf.Adapters
             this.wrapper = pdfWrapper;
             this.systemIOWrapper = systemIOWrapper;
             this.systemDrawingWrapper = systemDrawingWrapper;
+        }
+
+        /// <summary>
+        /// Finalizes an instance of the <see cref="PdfAdapter"/> class.
+        /// </summary>
+        ~PdfAdapter()
+        {
+            this.Dispose(false);
         }
 
         /// <inheritdoc/>
@@ -104,17 +117,28 @@ namespace Image2Pdf.Adapters
         /// <inheritdoc/>
         public void Dispose()
         {
-            if (this.document != null)
-            {
-                this.document.Close();
-            }
-
-            if (this.pdfDocument != null)
-            {
-                this.pdfDocument.Close();
-            }
-
+            this.Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Disposes the instance.
+        /// </summary>
+        /// <param name="disposing">Whether the call is from <see cref="Dispose"/>.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this.isDisposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                this.document?.Close();
+                this.pdfDocument?.Close();
+            }
+
+            this.isDisposed = true;
         }
 
         /// <summary>
