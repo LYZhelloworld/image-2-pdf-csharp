@@ -1,0 +1,24 @@
+<Project>
+  <ItemGroup>
+    <None Include="$(SolutionDir)\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="$(SolutionDir)\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="$(SolutionDir)\config\.editorconfig">
+      <Pack>False</Pack>
+    </None>
+    <None Include="$(SolutionDir)\config\stylecop.json">
+      <Pack>False</Pack>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+</Project>
