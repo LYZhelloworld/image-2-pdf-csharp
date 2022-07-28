@@ -1,13 +1,19 @@
-﻿namespace Image2Pdf.Adapters;
+﻿// <copyright file="IPdfAdapterFactory.cs" company="Helloworld">
+// Copyright (c) Helloworld. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
 
-/// <summary>
-/// The factory class of <see cref="IPdfAdapter"/>.
-/// </summary>
-public interface IPdfAdapterFactory
+namespace Image2Pdf.Adapters
 {
     /// <summary>
-    /// Creates default PDF adapter.
+    /// The factory class of <see cref="IPdfAdapter"/>.
     /// </summary>
-    /// <returns>The adapter.</returns>
-    IPdfAdapter CreateAdapter();
+    public interface IPdfAdapterFactory
+    {
+        /// <summary>
+        /// Creates default PDF adapter.
+        /// </summary>
+        /// <returns>The adapter.</returns>
+        IPdfAdapter CreateAdapter();
+    }
 }
