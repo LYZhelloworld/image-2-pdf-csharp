@@ -14,7 +14,7 @@ namespace Image2Pdf.Wrappers
     public interface IAreaBreakFactory
     {
         /// <summary>
-        /// The wrapper method of <see cref="AreaBreak.AreaBreak"/>.
+        /// The wrapper method of <see cref="AreaBreak()"/>.
         /// </summary>
         /// <param name="areaBreakType">An area break type.</param>
         /// <returns>The <see cref="IAreaBreak"/> instance.</returns>

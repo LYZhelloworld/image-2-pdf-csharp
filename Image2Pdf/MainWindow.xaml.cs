@@ -181,7 +181,7 @@ namespace Image2Pdf
         }
 
         /// <summary>
-        /// The event handler of <see cref="IPdfGenerator.PdfGenerationCompletedEvent"/>.
+        /// The event handler of <see cref="IPdfGenerator{TFileProcessedEventArgs, TPdfGenerationCompletedEventArgs}.PdfGenerationCompletedEvent"/>.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The arguments.</param>
@@ -209,7 +209,7 @@ namespace Image2Pdf
         }
 
         /// <summary>
-        /// The event handler of <see cref="IPdfGenerator.FileProcessedEvent"/>.
+        /// The event handler of <see cref="IPdfGenerator{TFileProcessedEventArgs, TPdfGenerationCompletedEventArgs}.FileProcessedEvent"/>.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The arguments.</param>

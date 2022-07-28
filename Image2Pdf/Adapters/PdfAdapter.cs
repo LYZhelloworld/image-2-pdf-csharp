@@ -125,7 +125,7 @@ namespace Image2Pdf.Adapters
         /// <summary>
         /// Disposes the instance.
         /// </summary>
-        /// <param name="disposing">Whether the call is from <see cref="Dispose"/>.</param>
+        /// <param name="disposing">Whether the call is from <see cref="Dispose()"/>.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (this.isDisposed)

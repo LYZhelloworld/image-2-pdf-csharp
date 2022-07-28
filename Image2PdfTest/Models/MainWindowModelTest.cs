@@ -41,7 +41,7 @@ namespace Image2PdfTest.Models
         }
 
         /// <summary>
-        /// Tests <see cref="MainWindowModel.MainWindowModel"/>.
+        /// Tests <see cref="MainWindowModel()"/>.
         /// </summary>
         [TestMethod]
         public void TestConstructor()
