@@ -1,5 +1,6 @@
-﻿// <copyright file="MainWindowModelTest.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="MainWindowModelTest.cs" company="Helloworld">
+// Copyright (c) Helloworld. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
 namespace Image2PdfTest.Models
@@ -34,8 +35,8 @@ namespace Image2PdfTest.Models
         [TestInitialize]
         public void Initialize()
         {
-            this.pdfGeneratorFactory = new ();
-            this.pdfGenerator = new ();
+            this.pdfGeneratorFactory = new();
+            this.pdfGenerator = new();
             this.pdfGeneratorFactory.Setup(x => x.Build()).Returns(this.pdfGenerator.Object);
         }
 
@@ -55,7 +56,7 @@ namespace Image2PdfTest.Models
         [TestMethod]
         public void TestAddFilesAndClear()
         {
-            MainWindowModel model = new (this.pdfGeneratorFactory.Object);
+            MainWindowModel model = new(this.pdfGeneratorFactory.Object);
             model.AddFiles("1.jpg", "2.jpg");
             IEnumerable<string> list = model.ItemSource;
             list.Should().HaveCount(2);
@@ -83,7 +84,7 @@ namespace Image2PdfTest.Models
         [TestMethod]
         public void TestMoveAndRemove()
         {
-            MainWindowModel model = new (this.pdfGeneratorFactory.Object);
+            MainWindowModel model = new(this.pdfGeneratorFactory.Object);
             model.AddFiles("1.jpg", "2.jpg", "3.jpg");
 
             model.CanMoveUp(-1).Should().BeFalse();
@@ -141,10 +142,10 @@ namespace Image2PdfTest.Models
                     this.pdfGenerator.Raise(x => x.PdfGenerationCompletedEvent += null, new PdfGenerationCompletedEventArgs(pdfFilename));
                 });
 
-            List<FileProcessedEventArgs> fileProcessedEventTriggered = new ();
-            List<PdfGenerationCompletedEventArgs> pdfGenerationCompletedEventTriggered = new ();
+            List<FileProcessedEventArgs> fileProcessedEventTriggered = new();
+            List<PdfGenerationCompletedEventArgs> pdfGenerationCompletedEventTriggered = new();
 
-            MainWindowModel model = new (this.pdfGeneratorFactory.Object);
+            MainWindowModel model = new(this.pdfGeneratorFactory.Object);
             if (testEventHandlers)
             {
                 model.FileProcessedEvent += (_, args) => fileProcessedEventTriggered.Add(args);
@@ -162,7 +163,7 @@ namespace Image2PdfTest.Models
             if (testEventHandlers)
             {
                 fileProcessedEventTriggered.Should().BeEquivalentTo(testImageFiles.Select((filename, i) => new FileProcessedEventArgs(filename, i)));
-                pdfGenerationCompletedEventTriggered.Should().BeEquivalentTo(new PdfGenerationCompletedEventArgs[] { new (testPdfFilename) });
+                pdfGenerationCompletedEventTriggered.Should().BeEquivalentTo(new PdfGenerationCompletedEventArgs[] { new(testPdfFilename) });
             }
         }
     }

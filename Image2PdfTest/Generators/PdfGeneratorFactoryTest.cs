@@ -1,5 +1,6 @@
-﻿// <copyright file="PdfGeneratorFactoryTest.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="PdfGeneratorFactoryTest.cs" company="Helloworld">
+// Copyright (c) Helloworld. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
 namespace Image2PdfTest.Generators
@@ -22,7 +23,7 @@ namespace Image2PdfTest.Generators
         [TestMethod]
         public void TestBuild()
         {
-            PdfGeneratorFactory factory = new ();
+            PdfGeneratorFactory factory = new();
             factory.AddFiles(new List<string>());
             IPdfGenerator generator = factory.Build();
             generator.Should().NotBeNull();

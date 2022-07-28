@@ -1,5 +1,6 @@
-﻿// <copyright file="PdfAdapterTest.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="PdfAdapterTest.cs" company="Helloworld">
+// Copyright (c) Helloworld. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
 namespace Image2PdfTest.Adapters
@@ -22,17 +23,17 @@ namespace Image2PdfTest.Adapters
         /// <summary>
         /// The mocked <see cref="IPdfWrapper"/>.
         /// </summary>
-        private readonly Mock<IPdfWrapper> wrapper = new ();
+        private readonly Mock<IPdfWrapper> wrapper = new();
 
         /// <summary>
         /// The mocked <see cref="ISystemIOWrapper"/>.
         /// </summary>
-        private readonly Mock<ISystemIOWrapper> systemIOWrapper = new ();
+        private readonly Mock<ISystemIOWrapper> systemIOWrapper = new();
 
         /// <summary>
         /// The mocked <see cref="ISystemDrawingWrapper"/>.
         /// </summary>
-        private readonly Mock<ISystemDrawingWrapper> systemDrawingWrapper = new ();
+        private readonly Mock<ISystemDrawingWrapper> systemDrawingWrapper = new();
 
         /// <summary>
         /// Tests <see cref="PdfAdapter.CreatePdfDocumentFromFilename(string)"/>.

@@ -1,5 +1,6 @@
-﻿// <copyright file="MainWindowModel.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="MainWindowModel.cs" company="Helloworld">
+// Copyright (c) Helloworld. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
 namespace Image2Pdf.Models
@@ -24,7 +25,7 @@ namespace Image2Pdf.Models
         /// <summary>
         /// The filenames of images.
         /// </summary>
-        private readonly List<string> filenames = new ();
+        private readonly List<string> filenames = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindowModel"/> class.

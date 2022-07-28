@@ -1,5 +1,6 @@
-﻿// <copyright file="PdfGeneratorTest.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="PdfGeneratorTest.cs" company="Helloworld">
+// Copyright (c) Helloworld. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
 namespace Image2PdfTest.Generators
@@ -26,7 +27,7 @@ namespace Image2PdfTest.Generators
         /// <summary>
         /// Tests data of image file lists.
         /// </summary>
-        private static readonly List<string> TestImageFileList = new ()
+        private static readonly List<string> TestImageFileList = new()
         {
             "test1",
             "test2",
@@ -39,7 +40,7 @@ namespace Image2PdfTest.Generators
         [TestMethod]
         public void TestConstructor()
         {
-            PdfGenerator generator = new (new List<string>());
+            PdfGenerator generator = new(new List<string>());
             generator.Should().NotBeNull();
         }
 
@@ -49,11 +50,11 @@ namespace Image2PdfTest.Generators
         [TestMethod]
         public void TestGenerateNoEventHandlers()
         {
-            Mock<IPdfAdapterFactory> factory = new ();
-            Mock<IPdfAdapter> adapter = new ();
+            Mock<IPdfAdapterFactory> factory = new();
+            Mock<IPdfAdapter> adapter = new();
             factory.Setup(x => x.CreateAdapter()).Returns(adapter.Object);
 
-            PdfGenerator generator = new (TestImageFileList, factory.Object);
+            PdfGenerator generator = new(TestImageFileList, factory.Object);
             generator.Generate(TestPdfTarget);
 
             adapter.Verify(x => x.CreatePdfDocumentFromFilename(TestPdfTarget));
@@ -67,13 +68,13 @@ namespace Image2PdfTest.Generators
         [TestMethod]
         public void TestGenerateWithEventHandlers()
         {
-            Mock<IPdfAdapterFactory> factory = new ();
-            Mock<IPdfAdapter> adapter = new ();
+            Mock<IPdfAdapterFactory> factory = new();
+            Mock<IPdfAdapter> adapter = new();
             factory.Setup(x => x.CreateAdapter()).Returns(adapter.Object);
             bool fileProcessedEventTriggerred = false;
             bool pdfGenerationCompletedEventTriggered = false;
 
-            PdfGenerator generator = new (TestImageFileList, factory.Object);
+            PdfGenerator generator = new(TestImageFileList, factory.Object);
             generator.FileProcessedEvent += (sender, args) =>
             {
                 fileProcessedEventTriggerred = true;

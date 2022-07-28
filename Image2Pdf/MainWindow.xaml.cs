@@ -1,5 +1,6 @@
-﻿// <copyright file="MainWindow.xaml.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="MainWindow.xaml.cs" company="Helloworld">
+// Copyright (c) Helloworld. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
 namespace Image2Pdf
@@ -52,22 +53,22 @@ namespace Image2Pdf
         /// <summary>
         /// Gets the command to move up an item.
         /// </summary>
-        public static RoutedCommand MoveUpCommand { get; } = new ();
+        public static RoutedCommand MoveUpCommand { get; } = new();
 
         /// <summary>
         /// Gets the command to move down an item.
         /// </summary>
-        public static RoutedCommand MoveDownCommand { get; } = new ();
+        public static RoutedCommand MoveDownCommand { get; } = new();
 
         /// <summary>
         /// Gets the command to remove an item.
         /// </summary>
-        public static RoutedCommand RemoveCommand { get; } = new ();
+        public static RoutedCommand RemoveCommand { get; } = new();
 
         /// <summary>
         /// Gets the command to generate PDF file.
         /// </summary>
-        public static RoutedCommand GenerateCommand { get; } = new ();
+        public static RoutedCommand GenerateCommand { get; } = new();
 
         /// <summary>
         /// The event handler of <see cref="MoveUpCommand"/>.
@@ -150,7 +151,7 @@ namespace Image2Pdf
         private void GenerateCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             // Show save file dialog.
-            SaveFileDialog saveFileDialog = new ();
+            SaveFileDialog saveFileDialog = new();
 
             // Default save path is the parent folder of the images.
             // Get path of image file.

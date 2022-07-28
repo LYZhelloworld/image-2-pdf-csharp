@@ -1,5 +1,6 @@
-﻿// <copyright file="App.xaml.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="App.xaml.cs" company="Helloworld">
+// Copyright (c) Helloworld. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
 namespace Image2Pdf
@@ -20,7 +21,7 @@ namespace Image2Pdf
         /// <param name="e">The startup event arguments.</param>
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            MainWindow wnd = new ();
+            MainWindow wnd = new();
             wnd.Show();
         }
     }
