@@ -1,33 +1,32 @@
 <Project>
 
   <PropertyGroup>
+    <AnalysisLevel>latest-all</AnalysisLevel>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Company>Helloworld</Company>
+    <Authors>Helloworld</Authors>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Copyright>Licensed under the MIT license.</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-    <Version>0.0.2</Version>
-    <Company>Helloworld</Company>
     <PackageProjectUrl>https://github.com/LYZhelloworld/image-2-pdf-csharp</PackageProjectUrl>
-    <AnalysisLevel>latest-all</AnalysisLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Include="$(SolutionDir)README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="$(SolutionDir)LICENSE">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="$(SolutionDir)config\.editorconfig">
-      <Pack>False</Pack>
-    </None>
-  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
   
   <ItemGroup>
+    <None Include="$(SolutionDir)README.md" Pack="True" PackagePath="\"/>
+    <None Include="$(SolutionDir)LICENSE" Pack="True" PackagePath="\"/>
     <AdditionalFiles Include="$(SolutionDir)config\stylecop.json"/>
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
       <PrivateAssets>all</PrivateAssets>
