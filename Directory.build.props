@@ -9,7 +9,6 @@
     <Copyright>Licensed under the MIT license.</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-    <Version>0.0.2</Version>
     <PackageProjectUrl>https://github.com/LYZhelloworld/image-2-pdf-csharp</PackageProjectUrl>
   </PropertyGroup>
 
