@@ -14,6 +14,6 @@ namespace Image2Pdf.Adapters
         /// Creates default PDF adapter.
         /// </summary>
         /// <returns>The adapter.</returns>
-        IPdfAdapter CreateAdapter();
+        IPdfAdapter CreateInstance();
     }
 }

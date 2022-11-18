@@ -31,14 +31,6 @@ namespace Image2Pdf
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow"/> class.
         /// </summary>
-        public MainWindow()
-            : this(new MainWindowModel())
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MainWindow"/> class.
-        /// </summary>
         /// <param name="model">The model.</param>
         public MainWindow(IMainWindowModel model)
         {

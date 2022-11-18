@@ -17,9 +17,7 @@ namespace Image2Pdf.Wrappers
         /// <inheritdoc/>
         public IPdfWriter FromFilename(string filename)
         {
-#pragma warning disable CA2000 // Dispose objects before losing scope
             return new PdfWriterWrapper(new PdfWriter(filename));
-#pragma warning restore CA2000 // Dispose objects before losing scope
         }
     }
 }

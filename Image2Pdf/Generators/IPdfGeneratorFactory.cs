@@ -13,16 +13,10 @@ namespace Image2Pdf.Generators
     public interface IPdfGeneratorFactory
     {
         /// <summary>
-        /// Adds image filenames.
-        /// </summary>
-        /// <param name="files">The image filenames.</param>
-        /// <returns>The current factory instance.</returns>
-        IPdfGeneratorFactory AddFiles(IEnumerable<string> files);
-
-        /// <summary>
         /// Builds an instance of <see cref="IPdfGenerator"/>.
         /// </summary>
-        /// <returns>The instance.</returns>
-        IPdfGenerator Build();
+        /// <param name="files">The image filenames.</param>
+        /// <returns>The <see cref="IPdfGenerator"/> instance.</returns>
+        IPdfGenerator CreateInstance(IEnumerable<string> files);
     }
 }

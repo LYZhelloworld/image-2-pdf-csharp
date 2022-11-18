@@ -18,7 +18,7 @@ namespace Image2Pdf.Adapters
         /// <summary>
         /// The wrapper class of <see cref="iText"/> operations.
         /// </summary>
-        private readonly IPdfWrapper wrapper;
+        private readonly IPdfWrapper pdfWrapper;
 
         /// <summary>
         /// The wrapper class of <see cref="System.IO"/> operations.
@@ -53,20 +53,12 @@ namespace Image2Pdf.Adapters
         /// <summary>
         /// Initializes a new instance of the <see cref="PdfAdapter"/> class.
         /// </summary>
-        public PdfAdapter()
-            : this(new PdfWrapper(), new SystemIOWrapper(), new SystemDrawingWrapper())
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PdfAdapter"/> class.
-        /// </summary>
         /// <param name="pdfWrapper">The wrapper class of <see cref="iText"/> operations.</param>
         /// <param name="systemIOWrapper">The wrapper class of <see cref="System.IO"/> operations.</param>
         /// <param name="systemDrawingWrapper">The wrapper class of <see cref="System.Drawing"/> operations.</param>
         public PdfAdapter(IPdfWrapper pdfWrapper, ISystemIOWrapper systemIOWrapper, ISystemDrawingWrapper systemDrawingWrapper)
         {
-            this.wrapper = pdfWrapper;
+            this.pdfWrapper = pdfWrapper;
             this.systemIOWrapper = systemIOWrapper;
             this.systemDrawingWrapper = systemDrawingWrapper;
         }
@@ -82,9 +74,9 @@ namespace Image2Pdf.Adapters
         /// <inheritdoc/>
         public void CreatePdfDocumentFromFilename(string pdfFileName)
         {
-            using IPdfWriter writer = this.wrapper.PdfWriter.FromFilename(pdfFileName);
-            this.pdfDocument = this.wrapper.PdfDocument.FromPdfWriter(writer);
-            this.document = this.wrapper.Document.FromPdfDocument(this.pdfDocument);
+            using IPdfWriter writer = this.pdfWrapper.PdfWriter.FromFilename(pdfFileName);
+            this.pdfDocument = this.pdfWrapper.PdfDocument.FromPdfWriter(writer);
+            this.document = this.pdfWrapper.Document.FromPdfDocument(this.pdfDocument);
 
             // set margins to 0
             this.document.SetMargins(0, 0, 0, 0);
@@ -98,18 +90,18 @@ namespace Image2Pdf.Adapters
                 throw new InvalidOperationException($"{nameof(this.CreatePdfDocumentFromFilename)} has not been called.");
             }
 
-            IImage img = this.wrapper.Image.FromImageData(this.wrapper.ImageDataFactory.Create(imageFilename));
+            IImage img = this.pdfWrapper.Image.FromImageData(this.pdfWrapper.ImageDataFactory.Create(imageFilename));
             this.GetImageDimension(imageFilename, out int width, out int height);
 
             // 1px = 0.75pt
-            this.pdfDocument.SetDefaultPageSize(this.wrapper.PageSize.FromWidthAndHeight(width * .75f, height * .75f));
+            this.pdfDocument.SetDefaultPageSize(this.pdfWrapper.PageSize.FromWidthAndHeight(width * .75f, height * .75f));
             if (this.isFirstPage)
             {
                 this.isFirstPage = false;
             }
             else
             {
-                this.document.Add(this.wrapper.AreaBreak.FromAreaBreakType(AreaBreakType.NEXT_PAGE));
+                this.document.Add(this.pdfWrapper.AreaBreak.FromAreaBreakType(AreaBreakType.NEXT_PAGE));
             }
 
             this.document.Add(img);

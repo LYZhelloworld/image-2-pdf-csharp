@@ -6,34 +6,30 @@
 namespace Image2Pdf.Generators
 {
     using System.Collections.Generic;
+    using System.Linq;
+    using Image2Pdf.Adapters;
 
     /// <inheritdoc/>
     public class PdfGeneratorFactory : IPdfGeneratorFactory
     {
         /// <summary>
-        /// The image filenames.
+        /// The PDF adapter factory.
         /// </summary>
-        private readonly List<string> files;
+        private readonly IPdfAdapterFactory pdfAdapterFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PdfGeneratorFactory"/> class.
         /// </summary>
-        public PdfGeneratorFactory()
+        /// <param name="pdfAdapterFactory">The PDF adapter factory.</param>
+        public PdfGeneratorFactory(IPdfAdapterFactory pdfAdapterFactory)
         {
-            this.files = new List<string>();
+            this.pdfAdapterFactory = pdfAdapterFactory;
         }
 
         /// <inheritdoc/>
-        public IPdfGeneratorFactory AddFiles(IEnumerable<string> files)
+        public IPdfGenerator CreateInstance(IEnumerable<string> files)
         {
-            this.files.AddRange(files);
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public IPdfGenerator Build()
-        {
-            return new PdfGenerator(this.files);
+            return new PdfGenerator(files, this.pdfAdapterFactory);
         }
     }
 }

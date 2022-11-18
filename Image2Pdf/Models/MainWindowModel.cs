@@ -30,14 +30,6 @@ namespace Image2Pdf.Models
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindowModel"/> class.
         /// </summary>
-        public MainWindowModel()
-            : this(new PdfGeneratorFactory())
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MainWindowModel"/> class.
-        /// </summary>
         /// <param name="pdfGeneratorFactory">The factory class of PDF generator.</param>
         public MainWindowModel(IPdfGeneratorFactory pdfGeneratorFactory)
         {
@@ -108,7 +100,7 @@ namespace Image2Pdf.Models
         public Task Generate(string pdfFilename)
         {
             // create PDF generator
-            IPdfGenerator pdfGenerator = this.pdfGeneratorFactory.AddFiles(this.filenames).Build();
+            IPdfGenerator pdfGenerator = this.pdfGeneratorFactory.CreateInstance(this.filenames);
 
             pdfGenerator.FileProcessedEvent += (sender, e) => this.FileProcessedEvent?.Invoke(sender, e);
             pdfGenerator.PdfGenerationCompletedEvent += (sender, e) => this.PdfGenerationCompletedEvent?.Invoke(sender, e);

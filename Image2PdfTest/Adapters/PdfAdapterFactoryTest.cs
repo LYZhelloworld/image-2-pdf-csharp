@@ -5,26 +5,26 @@
 
 namespace Image2PdfTest.Adapters
 {
-    using System.Diagnostics.CodeAnalysis;
     using FluentAssertions;
     using Image2Pdf.Adapters;
+    using Image2Pdf.Wrappers;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Moq;
 
     /// <summary>
     /// Tests <see cref="PdfAdapterFactory"/>.
     /// </summary>
     [TestClass]
-    [ExcludeFromCodeCoverage]
     public class PdfAdapterFactoryTest
     {
         /// <summary>
-        /// Tests <see cref="PdfAdapterFactory.CreateAdapter"/>.
+        /// Tests <see cref="PdfAdapterFactory.CreateInstance"/>.
         /// </summary>
         [TestMethod]
         public void TestCreateAdapter()
         {
-            PdfAdapterFactory factory = new();
-            IPdfAdapter adapter = factory.CreateAdapter();
+            PdfAdapterFactory factory = new PdfAdapterFactory(Mock.Of<IPdfWrapper>(), Mock.Of<ISystemIOWrapper>(), Mock.Of<ISystemDrawingWrapper>());
+            IPdfAdapter adapter = factory.CreateInstance();
             adapter.Should().NotBeNull();
         }
     }

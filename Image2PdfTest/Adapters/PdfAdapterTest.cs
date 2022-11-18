@@ -5,7 +5,6 @@
 
 namespace Image2PdfTest.Adapters
 {
-    using System.Diagnostics.CodeAnalysis;
     using FluentAssertions;
     using Image2Pdf.Adapters;
     using Image2Pdf.Wrappers;
@@ -17,7 +16,6 @@ namespace Image2PdfTest.Adapters
     /// Tests <see cref="PdfAdapter"/>.
     /// </summary>
     [TestClass]
-    [ExcludeFromCodeCoverage]
     public class PdfAdapterTest
     {
         /// <summary>
@@ -47,7 +45,7 @@ namespace Image2PdfTest.Adapters
             this.wrapper.Setup(x => x.PdfDocument.FromPdfWriter(It.IsAny<IPdfWriter>())).Returns(Mock.Of<IPdfDocument>());
             this.wrapper.Setup(x => x.Document.FromPdfDocument(It.IsAny<IPdfDocument>())).Returns(document.Object);
 
-            using PdfAdapter adapter = this.CreateAdapter();
+            using PdfAdapter adapter = this.CreateInstance();
             adapter.CreatePdfDocumentFromFilename("test.pdf");
 
             document.Verify(x => x.SetMargins(0, 0, 0, 0), Times.Once);
@@ -77,7 +75,7 @@ namespace Image2PdfTest.Adapters
 
             this.systemDrawingWrapper.Setup(x => x.Image.FromStream(It.IsAny<Stream>(), It.IsAny<bool>(), It.IsAny<bool>())).Returns(systemDrawingImage.Object);
 
-            using PdfAdapter adapter = this.CreateAdapter();
+            using PdfAdapter adapter = this.CreateInstance();
             adapter.CreatePdfDocumentFromFilename("test.pdf");
 
             // First page.
@@ -96,7 +94,7 @@ namespace Image2PdfTest.Adapters
         [TestMethod]
         public void TestAddPageWithImageInvalidOperation()
         {
-            using PdfAdapter adapter = this.CreateAdapter();
+            using PdfAdapter adapter = this.CreateInstance();
             var action = () => adapter.AddPageWithImage(string.Empty);
             action.Should().Throw<InvalidOperationException>();
         }
@@ -105,7 +103,7 @@ namespace Image2PdfTest.Adapters
         /// Creates a new <see cref="PdfAdapter"/> object.
         /// </summary>
         /// <returns>A new <see cref="PdfAdapter"/> object.</returns>
-        private PdfAdapter CreateAdapter()
+        private PdfAdapter CreateInstance()
         {
             return new PdfAdapter(this.wrapper.Object, this.systemIOWrapper.Object, this.systemDrawingWrapper.Object);
         }

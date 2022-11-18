@@ -5,7 +5,6 @@
 
 namespace Image2PdfTest.Utilities
 {
-    using System.Diagnostics.CodeAnalysis;
     using FluentAssertions;
     using Image2Pdf.Utilities;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,7 +13,6 @@ namespace Image2PdfTest.Utilities
     /// Tests <see cref="FileUtils"/>.
     /// </summary>
     [TestClass]
-    [ExcludeFromCodeCoverage]
     public class FileUtilsTest
     {
         /// <summary>

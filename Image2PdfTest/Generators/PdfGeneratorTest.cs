@@ -5,7 +5,6 @@
 
 namespace Image2PdfTest.Generators
 {
-    using System.Diagnostics.CodeAnalysis;
     using FluentAssertions;
     using Image2Pdf.Adapters;
     using Image2Pdf.Generators;
@@ -16,7 +15,6 @@ namespace Image2PdfTest.Generators
     /// Tests <see cref="PdfGenerator"/>.
     /// </summary>
     [TestClass]
-    [ExcludeFromCodeCoverage]
     public class PdfGeneratorTest
     {
         /// <summary>
@@ -35,16 +33,6 @@ namespace Image2PdfTest.Generators
         };
 
         /// <summary>
-        /// Tests <see cref="PdfGenerator(IEnumerable{string})"/>.
-        /// </summary>
-        [TestMethod]
-        public void TestConstructor()
-        {
-            PdfGenerator generator = new(new List<string>());
-            generator.Should().NotBeNull();
-        }
-
-        /// <summary>
         /// Tests <see cref="PdfGenerator.Generate(string)"/> without event handlers.
         /// </summary>
         [TestMethod]
@@ -52,7 +40,7 @@ namespace Image2PdfTest.Generators
         {
             Mock<IPdfAdapterFactory> factory = new();
             Mock<IPdfAdapter> adapter = new();
-            factory.Setup(x => x.CreateAdapter()).Returns(adapter.Object);
+            factory.Setup(x => x.CreateInstance()).Returns(adapter.Object);
 
             PdfGenerator generator = new(TestImageFileList, factory.Object);
             generator.Generate(TestPdfTarget);
@@ -70,7 +58,7 @@ namespace Image2PdfTest.Generators
         {
             Mock<IPdfAdapterFactory> factory = new();
             Mock<IPdfAdapter> adapter = new();
-            factory.Setup(x => x.CreateAdapter()).Returns(adapter.Object);
+            factory.Setup(x => x.CreateInstance()).Returns(adapter.Object);
             bool fileProcessedEventTriggerred = false;
             bool pdfGenerationCompletedEventTriggered = false;
 

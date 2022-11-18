@@ -28,15 +28,6 @@ namespace Image2Pdf.Generators
         /// Initializes a new instance of the <see cref="PdfGenerator"/> class.
         /// </summary>
         /// <param name="files">The image filenames.</param>
-        public PdfGenerator(IEnumerable<string> files)
-            : this(files, new PdfAdapterFactory())
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PdfGenerator"/> class.
-        /// </summary>
-        /// <param name="files">The image filenames.</param>
         /// <param name="pdfAdapterFactory">The PDF adapter factory.</param>
         public PdfGenerator(IEnumerable<string> files, IPdfAdapterFactory pdfAdapterFactory)
         {
@@ -57,7 +48,7 @@ namespace Image2Pdf.Generators
         /// <inheritdoc/>
         public void Generate(string target)
         {
-            using IPdfAdapter adapter = this.pdfAdapterFactory.CreateAdapter();
+            using IPdfAdapter adapter = this.pdfAdapterFactory.CreateInstance();
 
             adapter.CreatePdfDocumentFromFilename(target);
             int index = 1;

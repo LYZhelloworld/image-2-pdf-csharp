@@ -5,27 +5,26 @@
 
 namespace Image2PdfTest.Generators
 {
-    using System.Diagnostics.CodeAnalysis;
     using FluentAssertions;
+    using Image2Pdf.Adapters;
     using Image2Pdf.Generators;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Moq;
 
     /// <summary>
     /// Tests <see cref="PdfGeneratorFactory"/>.
     /// </summary>
     [TestClass]
-    [ExcludeFromCodeCoverage]
     public class PdfGeneratorFactoryTest
     {
         /// <summary>
-        /// Tests <see cref="PdfGeneratorFactory.AddFiles(IEnumerable{string})"/> and <see cref="PdfGeneratorFactory.Build"/>.
+        /// Tests <see cref="PdfGeneratorFactory.CreateInstance"/>.
         /// </summary>
         [TestMethod]
-        public void TestBuild()
+        public void TestCreateInstance()
         {
-            PdfGeneratorFactory factory = new();
-            factory.AddFiles(new List<string>());
-            IPdfGenerator generator = factory.Build();
+            PdfGeneratorFactory factory = new(Mock.Of<IPdfAdapterFactory>());
+            IPdfGenerator generator = factory.CreateInstance(Enumerable.Empty<string>());
             generator.Should().NotBeNull();
         }
     }
