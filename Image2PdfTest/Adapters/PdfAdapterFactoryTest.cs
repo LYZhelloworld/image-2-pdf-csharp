@@ -18,13 +18,32 @@ namespace Image2PdfTest.Adapters
     public class PdfAdapterFactoryTest
     {
         /// <summary>
+        /// The mocked <see cref="IPdfWrapper"/>.
+        /// </summary>
+        private readonly Mock<IPdfWrapper> pdfWrapper = new();
+
+        /// <summary>
+        /// The mocked <see cref="ISystemIOWrapper"/>.
+        /// </summary>
+        private readonly Mock<ISystemIOWrapper> systemIOWrapper = new();
+
+        /// <summary>
+        /// The mocked <see cref="ISystemDrawingWrapper"/>.
+        /// </summary>
+        private readonly Mock<ISystemDrawingWrapper> systemDrawingWrapper = new();
+
+        /// <summary>
         /// Tests <see cref="PdfAdapterFactory.CreateInstance"/>.
         /// </summary>
         [TestMethod]
         public void TestCreateAdapter()
         {
-            PdfAdapterFactory factory = new PdfAdapterFactory(Mock.Of<IPdfWrapper>(), Mock.Of<ISystemIOWrapper>(), Mock.Of<ISystemDrawingWrapper>());
-            IPdfAdapter adapter = factory.CreateInstance();
+            this.pdfWrapper.Setup(x => x.PdfWriter).Returns(Mock.Of<IPdfWriterFactory>(x => x.FromFilename("test.pdf") == Mock.Of<IPdfWriter>()));
+            this.pdfWrapper.Setup(x => x.PdfDocument).Returns(Mock.Of<IPdfDocumentFactory>(x => x.FromPdfWriter(It.IsAny<IPdfWriter>()) == Mock.Of<IPdfDocument>()));
+            this.pdfWrapper.Setup(x => x.Document).Returns(Mock.Of<IDocumentFactory>(x => x.FromPdfDocument(It.IsAny<IPdfDocument>()) == Mock.Of<IDocument>()));
+
+            PdfAdapterFactory factory = new PdfAdapterFactory(this.pdfWrapper.Object, this.systemIOWrapper.Object, this.systemDrawingWrapper.Object);
+            IPdfAdapter adapter = factory.CreateInstance("test.pdf");
             adapter.Should().NotBeNull();
         }
     }

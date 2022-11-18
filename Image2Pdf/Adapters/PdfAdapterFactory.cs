@@ -41,9 +41,9 @@ namespace Image2Pdf.Adapters
         }
 
         /// <inheritdoc/>
-        public IPdfAdapter CreateInstance()
+        public IPdfAdapter CreateInstance(string pdfFileName)
         {
-            return new PdfAdapter(this.pdfWrapper, this.systemIOWrapper, this.systemDrawingWrapper);
+            return new PdfAdapter(pdfFileName, this.pdfWrapper, this.systemIOWrapper, this.systemDrawingWrapper);
         }
     }
 }

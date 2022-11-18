@@ -48,9 +48,8 @@ namespace Image2Pdf.Generators
         /// <inheritdoc/>
         public void Generate(string target)
         {
-            using IPdfAdapter adapter = this.pdfAdapterFactory.CreateInstance();
+            using IPdfAdapter adapter = this.pdfAdapterFactory.CreateInstance(target);
 
-            adapter.CreatePdfDocumentFromFilename(target);
             int index = 1;
             foreach (string file in this.files)
             {

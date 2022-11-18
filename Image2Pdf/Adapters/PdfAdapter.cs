@@ -33,12 +33,12 @@ namespace Image2Pdf.Adapters
         /// <summary>
         /// The PDF document.
         /// </summary>
-        private IPdfDocument? pdfDocument;
+        private readonly IPdfDocument pdfDocument;
 
         /// <summary>
         /// The document.
         /// </summary>
-        private IDocument? document;
+        private readonly IDocument document;
 
         /// <summary>
         /// Indicates whether the current page is the first page.
@@ -48,20 +48,17 @@ namespace Image2Pdf.Adapters
         /// <summary>
         /// Initializes a new instance of the <see cref="PdfAdapter"/> class.
         /// </summary>
+        /// <param name="pdfFileName">The PDF filename.</param>
         /// <param name="pdfWrapper">The wrapper class of <see cref="iText"/> operations.</param>
         /// <param name="systemIOWrapper">The wrapper class of <see cref="System.IO"/> operations.</param>
         /// <param name="systemDrawingWrapper">The wrapper class of <see cref="System.Drawing"/> operations.</param>
-        public PdfAdapter(IPdfWrapper pdfWrapper, ISystemIOWrapper systemIOWrapper, ISystemDrawingWrapper systemDrawingWrapper)
+        public PdfAdapter(string pdfFileName, IPdfWrapper pdfWrapper, ISystemIOWrapper systemIOWrapper, ISystemDrawingWrapper systemDrawingWrapper)
         {
             this.pdfWrapper = pdfWrapper;
             this.systemIOWrapper = systemIOWrapper;
             this.systemDrawingWrapper = systemDrawingWrapper;
-        }
 
-        /// <inheritdoc/>
-        public void CreatePdfDocumentFromFilename(string pdfFileName)
-        {
-            using IPdfWriter writer = this.pdfWrapper.PdfWriter.FromFilename(pdfFileName);
+            using var writer = this.pdfWrapper.PdfWriter.FromFilename(pdfFileName);
             this.pdfDocument = this.pdfWrapper.PdfDocument.FromPdfWriter(writer);
             this.document = this.pdfWrapper.Document.FromPdfDocument(this.pdfDocument);
 
@@ -72,11 +69,6 @@ namespace Image2Pdf.Adapters
         /// <inheritdoc/>
         public void AddPageWithImage(string imageFilename)
         {
-            if (this.pdfDocument == null || this.document == null)
-            {
-                throw new InvalidOperationException($"{nameof(this.CreatePdfDocumentFromFilename)} has not been called.");
-            }
-
             IImage img = this.pdfWrapper.Image.FromImageData(this.pdfWrapper.ImageDataFactory.Create(imageFilename));
             this.GetImageDimension(imageFilename, out int width, out int height);
 
@@ -97,10 +89,8 @@ namespace Image2Pdf.Adapters
         /// <inheritdoc/>
         public void Dispose()
         {
-            this.document?.Close();
-            this.document = null;
-            this.pdfDocument?.Close();
-            this.pdfDocument = null;
+            this.document.Close();
+            this.pdfDocument.Close();
         }
 
         /// <summary>
@@ -111,8 +101,8 @@ namespace Image2Pdf.Adapters
         /// <param name="height">The height of the image.</param>
         private void GetImageDimension(string filename, out int width, out int height)
         {
-            using Stream fileStream = this.systemIOWrapper.FileStream.CreateFileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
-            using ISystemDrawingImage img = this.systemDrawingWrapper.Image.FromStream(fileStream, false, false);
+            using var fileStream = this.systemIOWrapper.FileStream.CreateFileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
+            using var img = this.systemDrawingWrapper.Image.FromStream(fileStream, false, false);
             (width, height) = (img.Width, img.Height);
         }
     }

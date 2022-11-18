@@ -23,6 +23,16 @@ namespace Image2PdfTest.Generators
         private const string TestPdfTarget = "test_pdf_target";
 
         /// <summary>
+        /// The mocked <see cref="IPdfAdapterFactory"/>.
+        /// </summary>
+        private readonly Mock<IPdfAdapterFactory> factory = new();
+
+        /// <summary>
+        /// The mocked <see cref="IPdfAdapter"/>.
+        /// </summary>
+        private readonly Mock<IPdfAdapter> adapter = new();
+
+        /// <summary>
         /// Tests data of image file lists.
         /// </summary>
         private static readonly List<string> TestImageFileList = new()
@@ -38,16 +48,13 @@ namespace Image2PdfTest.Generators
         [TestMethod]
         public void TestGenerateNoEventHandlers()
         {
-            Mock<IPdfAdapterFactory> factory = new();
-            Mock<IPdfAdapter> adapter = new();
-            factory.Setup(x => x.CreateInstance()).Returns(adapter.Object);
+            this.factory.Setup(x => x.CreateInstance(TestPdfTarget)).Returns(this.adapter.Object);
 
-            PdfGenerator generator = new(TestImageFileList, factory.Object);
+            PdfGenerator generator = new(TestImageFileList, this.factory.Object);
             generator.Generate(TestPdfTarget);
 
-            adapter.Verify(x => x.CreatePdfDocumentFromFilename(TestPdfTarget));
-            TestImageFileList.ForEach(i => adapter.Verify(x => x.AddPageWithImage(i)));
-            adapter.Verify(x => x.Dispose());
+            TestImageFileList.ForEach(i => this.adapter.Verify(x => x.AddPageWithImage(i)));
+            this.adapter.Verify(x => x.Dispose());
         }
 
         /// <summary>
@@ -56,13 +63,11 @@ namespace Image2PdfTest.Generators
         [TestMethod]
         public void TestGenerateWithEventHandlers()
         {
-            Mock<IPdfAdapterFactory> factory = new();
-            Mock<IPdfAdapter> adapter = new();
-            factory.Setup(x => x.CreateInstance()).Returns(adapter.Object);
+            this.factory.Setup(x => x.CreateInstance(TestPdfTarget)).Returns(this.adapter.Object);
             bool fileProcessedEventTriggerred = false;
             bool pdfGenerationCompletedEventTriggered = false;
 
-            PdfGenerator generator = new(TestImageFileList, factory.Object);
+            PdfGenerator generator = new(TestImageFileList, this.factory.Object);
             generator.FileProcessedEvent += (sender, args) =>
             {
                 fileProcessedEventTriggerred = true;
@@ -76,9 +81,8 @@ namespace Image2PdfTest.Generators
             };
             generator.Generate(TestPdfTarget);
 
-            adapter.Verify(x => x.CreatePdfDocumentFromFilename(TestPdfTarget));
-            TestImageFileList.ForEach(i => adapter.Verify(x => x.AddPageWithImage(i)));
-            adapter.Verify(x => x.Dispose());
+            TestImageFileList.ForEach(i => this.adapter.Verify(x => x.AddPageWithImage(i)));
+            this.adapter.Verify(x => x.Dispose());
             fileProcessedEventTriggerred.Should().BeTrue();
             pdfGenerationCompletedEventTriggered.Should().BeTrue();
         }

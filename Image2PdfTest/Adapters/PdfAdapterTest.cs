@@ -21,7 +21,7 @@ namespace Image2PdfTest.Adapters
         /// <summary>
         /// The mocked <see cref="IPdfWrapper"/>.
         /// </summary>
-        private readonly Mock<IPdfWrapper> wrapper = new();
+        private readonly Mock<IPdfWrapper> pdfWrapper = new();
 
         /// <summary>
         /// The mocked <see cref="ISystemIOWrapper"/>.
@@ -34,24 +34,6 @@ namespace Image2PdfTest.Adapters
         private readonly Mock<ISystemDrawingWrapper> systemDrawingWrapper = new();
 
         /// <summary>
-        /// Tests <see cref="PdfAdapter.CreatePdfDocumentFromFilename(string)"/>.
-        /// </summary>
-        [TestMethod]
-        public void TestCreatePdfDocumentFromFilename()
-        {
-            var document = new Mock<IDocument>();
-
-            this.wrapper.Setup(x => x.PdfWriter.FromFilename("test.pdf")).Returns(Mock.Of<IPdfWriter>());
-            this.wrapper.Setup(x => x.PdfDocument.FromPdfWriter(It.IsAny<IPdfWriter>())).Returns(Mock.Of<IPdfDocument>());
-            this.wrapper.Setup(x => x.Document.FromPdfDocument(It.IsAny<IPdfDocument>())).Returns(document.Object);
-
-            using PdfAdapter adapter = this.CreateInstance();
-            adapter.CreatePdfDocumentFromFilename("test.pdf");
-
-            document.Verify(x => x.SetMargins(0, 0, 0, 0), Times.Once);
-        }
-
-        /// <summary>
         /// Tests <see cref="PdfAdapter.AddPageWithImage(string)"/>.
         /// </summary>
         [TestMethod]
@@ -60,13 +42,13 @@ namespace Image2PdfTest.Adapters
             var document = new Mock<IDocument>();
             var systemDrawingImage = new Mock<ISystemDrawingImage>();
 
-            this.wrapper.Setup(x => x.PdfWriter.FromFilename("test.pdf")).Returns(Mock.Of<IPdfWriter>());
-            this.wrapper.Setup(x => x.PdfDocument.FromPdfWriter(It.IsAny<IPdfWriter>())).Returns(Mock.Of<IPdfDocument>());
-            this.wrapper.Setup(x => x.Document.FromPdfDocument(It.IsAny<IPdfDocument>())).Returns(document.Object);
-            this.wrapper.Setup(x => x.ImageDataFactory.Create(It.IsAny<string>())).Returns(Mock.Of<IImageData>());
-            this.wrapper.Setup(x => x.Image.FromImageData(It.IsAny<IImageData>())).Returns(Mock.Of<IImage>());
-            this.wrapper.Setup(x => x.PageSize.FromWidthAndHeight(800 * 0.75f, 600 * 0.75f)).Returns(Mock.Of<IPageSize>());
-            this.wrapper.Setup(x => x.AreaBreak.FromAreaBreakType(AreaBreakType.NEXT_PAGE)).Returns(Mock.Of<IAreaBreak>());
+            this.pdfWrapper.Setup(x => x.PdfWriter.FromFilename("test.pdf")).Returns(Mock.Of<IPdfWriter>());
+            this.pdfWrapper.Setup(x => x.PdfDocument.FromPdfWriter(It.IsAny<IPdfWriter>())).Returns(Mock.Of<IPdfDocument>());
+            this.pdfWrapper.Setup(x => x.Document.FromPdfDocument(It.IsAny<IPdfDocument>())).Returns(document.Object);
+            this.pdfWrapper.Setup(x => x.ImageDataFactory.Create(It.IsAny<string>())).Returns(Mock.Of<IImageData>());
+            this.pdfWrapper.Setup(x => x.Image.FromImageData(It.IsAny<IImageData>())).Returns(Mock.Of<IImage>());
+            this.pdfWrapper.Setup(x => x.PageSize.FromWidthAndHeight(800 * 0.75f, 600 * 0.75f)).Returns(Mock.Of<IPageSize>());
+            this.pdfWrapper.Setup(x => x.AreaBreak.FromAreaBreakType(AreaBreakType.NEXT_PAGE)).Returns(Mock.Of<IAreaBreak>());
 
             this.systemIOWrapper.Setup(x => x.FileStream.CreateFileStream(It.IsAny<string>(), It.IsAny<FileMode>(), It.IsAny<FileAccess>(), It.IsAny<FileShare>())).Returns(Mock.Of<Stream>());
 
@@ -76,7 +58,6 @@ namespace Image2PdfTest.Adapters
             this.systemDrawingWrapper.Setup(x => x.Image.FromStream(It.IsAny<Stream>(), It.IsAny<bool>(), It.IsAny<bool>())).Returns(systemDrawingImage.Object);
 
             using PdfAdapter adapter = this.CreateInstance();
-            adapter.CreatePdfDocumentFromFilename("test.pdf");
 
             // First page.
             adapter.AddPageWithImage("01.jpg");
@@ -89,23 +70,12 @@ namespace Image2PdfTest.Adapters
         }
 
         /// <summary>
-        /// Tests <see cref="PdfAdapter.AddPageWithImage(string)"/> with invalid operation.
-        /// </summary>
-        [TestMethod]
-        public void TestAddPageWithImageInvalidOperation()
-        {
-            using PdfAdapter adapter = this.CreateInstance();
-            var action = () => adapter.AddPageWithImage(string.Empty);
-            action.Should().Throw<InvalidOperationException>();
-        }
-
-        /// <summary>
         /// Creates a new <see cref="PdfAdapter"/> object.
         /// </summary>
         /// <returns>A new <see cref="PdfAdapter"/> object.</returns>
         private PdfAdapter CreateInstance()
         {
-            return new PdfAdapter(this.wrapper.Object, this.systemIOWrapper.Object, this.systemDrawingWrapper.Object);
+            return new PdfAdapter("test.pdf", this.pdfWrapper.Object, this.systemIOWrapper.Object, this.systemDrawingWrapper.Object);
         }
     }
 }
