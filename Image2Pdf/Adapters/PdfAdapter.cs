@@ -31,14 +31,14 @@ namespace Image2Pdf.Adapters
         private readonly ISystemDrawingWrapper systemDrawingWrapper;
 
         /// <summary>
+        /// The PDF writer.
+        /// </summary>
+        private readonly IPdfWriter pdfWriter;
+
+        /// <summary>
         /// The PDF document.
         /// </summary>
         private readonly IPdfDocument pdfDocument;
-
-        /// <summary>
-        /// The document.
-        /// </summary>
-        private readonly IDocument document;
 
         /// <summary>
         /// Indicates whether the current page is the first page.
@@ -58,21 +58,22 @@ namespace Image2Pdf.Adapters
             this.systemIOWrapper = systemIOWrapper;
             this.systemDrawingWrapper = systemDrawingWrapper;
 
-            using var writer = this.pdfWrapper.PdfWriter.FromFilename(pdfFileName);
-            this.pdfDocument = this.pdfWrapper.PdfDocument.FromPdfWriter(writer);
-            this.document = this.pdfWrapper.Document.FromPdfDocument(this.pdfDocument);
-
-            // set margins to 0
-            this.document.SetMargins(0, 0, 0, 0);
+            this.pdfWriter = this.pdfWrapper.PdfWriter.FromFilename(pdfFileName);
+            this.pdfDocument = this.pdfWrapper.PdfDocument.FromPdfWriter(this.pdfWriter);
         }
 
         /// <inheritdoc/>
         public void AddPageWithImage(string imageFilename)
         {
+            using var document = this.pdfWrapper.Document.FromPdfDocument(this.pdfDocument);
+
+            // Set margins to 0.
+            document.SetMargins(0, 0, 0, 0);
+
             IImage img = this.pdfWrapper.Image.FromImageData(this.pdfWrapper.ImageDataFactory.Create(imageFilename));
             this.GetImageDimension(imageFilename, out int width, out int height);
 
-            // 1px = 0.75pt
+            // 1px = 0.75pt.
             this.pdfDocument.SetDefaultPageSize(this.pdfWrapper.PageSize.FromWidthAndHeight(width * .75f, height * .75f));
             if (this.isFirstPage)
             {
@@ -80,17 +81,17 @@ namespace Image2Pdf.Adapters
             }
             else
             {
-                this.document.Add(this.pdfWrapper.AreaBreak.FromAreaBreakType(AreaBreakType.NEXT_PAGE));
+                document.Add(this.pdfWrapper.AreaBreak.FromAreaBreakType(AreaBreakType.NEXT_PAGE));
             }
 
-            this.document.Add(img);
+            document.Add(img);
         }
 
         /// <inheritdoc/>
         public void Dispose()
         {
-            this.document.Close();
             this.pdfDocument.Close();
+            this.pdfWriter.Dispose();
         }
 
         /// <summary>
