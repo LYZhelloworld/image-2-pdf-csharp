@@ -6,8 +6,9 @@
 namespace Image2PdfTest.Generators
 {
     using FluentAssertions;
-    using Image2Pdf.Adapters;
     using Image2Pdf.Generators;
+    using Image2Pdf.Wrappers;
+    using iText.Layout.Properties;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
 
@@ -20,71 +21,100 @@ namespace Image2PdfTest.Generators
         /// <summary>
         /// Test data of PDF filename.
         /// </summary>
-        private const string TestPdfTarget = "test_pdf_target";
-
-        /// <summary>
-        /// The mocked <see cref="IPdfAdapterFactory"/>.
-        /// </summary>
-        private readonly Mock<IPdfAdapterFactory> factory = new();
-
-        /// <summary>
-        /// The mocked <see cref="IPdfAdapter"/>.
-        /// </summary>
-        private readonly Mock<IPdfAdapter> adapter = new();
+        private const string TestPdfTarget = "target.pdf";
 
         /// <summary>
         /// Tests data of image file lists.
         /// </summary>
         private static readonly List<string> TestImageFileList = new()
         {
-            "test1",
-            "test2",
-            "test3",
+            "test1.jpg",
+            "test2.jpg",
+            "test3.jpg",
         };
 
         /// <summary>
-        /// Tests <see cref="PdfGenerator.Generate(string)"/> without event handlers.
+        /// The mocked <see cref="IPdfWrapper"/>.
         /// </summary>
-        [TestMethod]
-        public void TestGenerateNoEventHandlers()
+        private readonly Mock<IPdfWrapper> pdfWrapper = new();
+
+        /// <summary>
+        /// The mocked <see cref="ISystemIOWrapper"/>.
+        /// </summary>
+        private readonly Mock<ISystemIOWrapper> systemIOWrapper = new();
+
+        /// <summary>
+        /// The mocked <see cref="ISystemDrawingWrapper"/>.
+        /// </summary>
+        private readonly Mock<ISystemDrawingWrapper> systemDrawingWrapper = new();
+
+        /// <summary>
+        /// Tests <see cref="PdfGenerator.Generate(IEnumerable{string}, string)"/>.
+        /// </summary>
+        /// <param name="testEventHandler">A value indicating whether to test event handlers.</param>
+        [DataTestMethod]
+        [DataRow(false)]
+        [DataRow(true)]
+        public void TestGenerate(bool testEventHandler)
         {
-            this.factory.Setup(x => x.CreateInstance(TestPdfTarget)).Returns(this.adapter.Object);
+            var document = new Mock<IDocument>();
+            var systemDrawingImage = new Mock<ISystemDrawingImage>();
 
-            PdfGenerator generator = new(TestImageFileList, this.factory.Object);
-            generator.Generate(TestPdfTarget);
+            this.pdfWrapper.Setup(x => x.PdfWriter.FromFilename("test.pdf")).Returns(Mock.Of<IPdfWriter>());
+            this.pdfWrapper.Setup(x => x.PdfDocument.FromPdfWriter(It.IsAny<IPdfWriter>())).Returns(Mock.Of<IPdfDocument>());
+            this.pdfWrapper.Setup(x => x.Document.FromPdfDocument(It.IsAny<IPdfDocument>())).Returns(document.Object);
+            this.pdfWrapper.Setup(x => x.ImageDataFactory.Create(It.IsAny<string>())).Returns(Mock.Of<IImageData>());
+            this.pdfWrapper.Setup(x => x.Image.FromImageData(It.IsAny<IImageData>())).Returns(Mock.Of<IImage>());
+            this.pdfWrapper.Setup(x => x.PageSize.FromWidthAndHeight(800 * 0.75f, 600 * 0.75f)).Returns(Mock.Of<IPageSize>());
+            this.pdfWrapper.Setup(x => x.AreaBreak.FromAreaBreakType(AreaBreakType.NEXT_PAGE)).Returns(Mock.Of<IAreaBreak>());
 
-            TestImageFileList.ForEach(i => this.adapter.Verify(x => x.AddPageWithImage(i)));
-            this.adapter.Verify(x => x.Dispose());
+            this.systemIOWrapper.Setup(x => x.FileStream.CreateFileStream(It.IsAny<string>(), It.IsAny<FileMode>(), It.IsAny<FileAccess>(), It.IsAny<FileShare>())).Returns(Mock.Of<Stream>());
+
+            systemDrawingImage.Setup(x => x.Width).Returns(800);
+            systemDrawingImage.Setup(x => x.Height).Returns(600);
+
+            this.systemDrawingWrapper.Setup(x => x.Image.FromStream(It.IsAny<Stream>(), It.IsAny<bool>(), It.IsAny<bool>())).Returns(systemDrawingImage.Object);
+
+            var generator = new PdfGenerator(this.pdfWrapper.Object, this.systemIOWrapper.Object, this.systemDrawingWrapper.Object);
+
+            bool fileProcessedEventTriggerred = false;
+            bool pdfGenerationCompletedEventTriggered = false;
+            if (testEventHandler)
+            {
+                generator.FileProcessedEvent += (sender, args) =>
+                {
+                    fileProcessedEventTriggerred = true;
+                    args.Filename.Should().BeOneOf(TestImageFileList);
+                    args.Progress.Should().Be(TestImageFileList.IndexOf(args.Filename) + 1);
+                };
+                generator.PdfGenerationCompletedEvent += (sender, args) =>
+                {
+                    pdfGenerationCompletedEventTriggered = true;
+                    args.PdfFilename.Should().Be(TestPdfTarget);
+                };
+            }
+
+            generator.Generate(TestImageFileList, TestPdfTarget);
+
+            document.Verify(x => x.Add(It.IsAny<IImage>()), Times.Exactly(TestImageFileList.Count));
+            document.Verify(x => x.Add(It.IsAny<IAreaBreak>()), Times.Exactly(TestImageFileList.Count - 1));
+
+            if (testEventHandler)
+            {
+                fileProcessedEventTriggerred.Should().BeTrue();
+                pdfGenerationCompletedEventTriggered.Should().BeTrue();
+            }
         }
 
         /// <summary>
-        /// Tests <see cref="PdfGenerator.Generate(string)"/> with event handlers.
+        /// Tests <see cref="PdfGenerator.Generate(IEnumerable{string}, string)"/> with null image file list.
         /// </summary>
         [TestMethod]
-        public void TestGenerateWithEventHandlers()
+        public void TestGenerateWithNullFiles()
         {
-            this.factory.Setup(x => x.CreateInstance(TestPdfTarget)).Returns(this.adapter.Object);
-            bool fileProcessedEventTriggerred = false;
-            bool pdfGenerationCompletedEventTriggered = false;
-
-            PdfGenerator generator = new(TestImageFileList, this.factory.Object);
-            generator.FileProcessedEvent += (sender, args) =>
-            {
-                fileProcessedEventTriggerred = true;
-                args.Filename.Should().BeOneOf(TestImageFileList);
-                args.Progress.Should().Be(TestImageFileList.IndexOf(args.Filename) + 1);
-            };
-            generator.PdfGenerationCompletedEvent += (sender, args) =>
-            {
-                pdfGenerationCompletedEventTriggered = true;
-                args.PdfFilename.Should().Be(TestPdfTarget);
-            };
-            generator.Generate(TestPdfTarget);
-
-            TestImageFileList.ForEach(i => this.adapter.Verify(x => x.AddPageWithImage(i)));
-            this.adapter.Verify(x => x.Dispose());
-            fileProcessedEventTriggerred.Should().BeTrue();
-            pdfGenerationCompletedEventTriggered.Should().BeTrue();
+            var generator = new PdfGenerator(this.pdfWrapper.Object, this.systemIOWrapper.Object, this.systemDrawingWrapper.Object);
+            Action a = () => generator.Generate(null!, string.Empty);
+            a.Should().Throw<ArgumentNullException>();
         }
     }
 }

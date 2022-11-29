@@ -7,7 +7,6 @@ namespace Image2Pdf
 {
     using System.Diagnostics.CodeAnalysis;
     using System.Windows;
-    using Image2Pdf.Adapters;
     using Image2Pdf.Generators;
     using Image2Pdf.Models;
     using Image2Pdf.Wrappers;
@@ -27,11 +26,8 @@ namespace Image2Pdf
         {
             var serviceCollection = new ServiceCollection();
 
-            // Adapters
-            serviceCollection.AddScoped<IPdfAdapterFactory, PdfAdapterFactory>();
-
             // Generators
-            serviceCollection.AddScoped<IPdfGeneratorFactory, PdfGeneratorFactory>();
+            serviceCollection.AddScoped<IPdfGenerator, PdfGenerator>();
 
             // Models
             serviceCollection.AddScoped<IMainWindowModel, MainWindowModel>();
