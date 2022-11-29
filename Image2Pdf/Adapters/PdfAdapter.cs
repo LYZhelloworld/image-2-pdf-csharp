@@ -41,6 +41,11 @@ namespace Image2Pdf.Adapters
         private readonly IPdfDocument pdfDocument;
 
         /// <summary>
+        /// The document.
+        /// </summary>
+        private readonly IDocument document;
+
+        /// <summary>
         /// Indicates whether the current page is the first page.
         /// </summary>
         private bool isFirstPage = true;
@@ -60,16 +65,15 @@ namespace Image2Pdf.Adapters
 
             this.pdfWriter = this.pdfWrapper.PdfWriter.FromFilename(pdfFileName);
             this.pdfDocument = this.pdfWrapper.PdfDocument.FromPdfWriter(this.pdfWriter);
+            this.document = this.pdfWrapper.Document.FromPdfDocument(this.pdfDocument);
+
+            // Set margins to 0.
+            this.document.SetMargins(0, 0, 0, 0);
         }
 
         /// <inheritdoc/>
         public void AddPageWithImage(string imageFilename)
         {
-            using var document = this.pdfWrapper.Document.FromPdfDocument(this.pdfDocument);
-
-            // Set margins to 0.
-            document.SetMargins(0, 0, 0, 0);
-
             IImage img = this.pdfWrapper.Image.FromImageData(this.pdfWrapper.ImageDataFactory.Create(imageFilename));
             this.GetImageDimension(imageFilename, out int width, out int height);
 
@@ -81,15 +85,16 @@ namespace Image2Pdf.Adapters
             }
             else
             {
-                document.Add(this.pdfWrapper.AreaBreak.FromAreaBreakType(AreaBreakType.NEXT_PAGE));
+                this.document.Add(this.pdfWrapper.AreaBreak.FromAreaBreakType(AreaBreakType.NEXT_PAGE));
             }
 
-            document.Add(img);
+            this.document.Add(img);
         }
 
         /// <inheritdoc/>
         public void Close()
         {
+            this.document.Close();
             this.pdfDocument.Close();
             this.pdfWriter.Dispose();
         }
