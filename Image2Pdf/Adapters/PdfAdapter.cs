@@ -88,10 +88,16 @@ namespace Image2Pdf.Adapters
         }
 
         /// <inheritdoc/>
-        public void Dispose()
+        public void Close()
         {
             this.pdfDocument.Close();
             this.pdfWriter.Dispose();
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            this.Close();
         }
 
         /// <summary>

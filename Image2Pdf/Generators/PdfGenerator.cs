@@ -58,6 +58,7 @@ namespace Image2Pdf.Generators
                 index++;
             }
 
+            adapter.Close();
             this.OnPdfGenerationCompletedEvent(target);
         }
 

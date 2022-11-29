@@ -17,5 +17,10 @@ namespace Image2Pdf.Adapters
         /// </summary>
         /// <param name="imageFilename">The filename of the image.</param>
         void AddPageWithImage(string imageFilename);
+
+        /// <summary>
+        /// Saves and closes PDF document.
+        /// </summary>
+        void Close();
     }
 }
