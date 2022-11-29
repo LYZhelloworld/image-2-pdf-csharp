@@ -7,9 +7,7 @@ namespace Image2Pdf.Wrappers
 {
     using System.Diagnostics.CodeAnalysis;
 
-    /// <summary>
-    /// Implementation of <see cref="ISystemIOWrapper"/>.
-    /// </summary>
+    /// <inheritdoc cref="ISystemIOWrapper"/>
     [ExcludeFromCodeCoverage]
     public class SystemIOWrapper : ISystemIOWrapper
     {

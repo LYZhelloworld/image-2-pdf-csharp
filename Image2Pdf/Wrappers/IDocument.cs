@@ -9,37 +9,19 @@ namespace Image2Pdf.Wrappers
     using iText.Layout;
     using iText.Layout.Element;
 
-    /// <summary>
-    /// The wrapper class of <see cref="Document"/>.
-    /// </summary>
+    /// <inheritdoc cref="Document"/>
     public interface IDocument : IWrapper<Document>, IDisposable
     {
-        /// <summary>
-        /// The wrapper method of <see cref="Document.Add(AreaBreak)"/>.
-        /// </summary>
-        /// <param name="areaBreak">The <see cref="IAreaBreak"/> object.</param>
-        /// <returns>This element.</returns>
+        /// <inheritdoc cref="Document.Add(AreaBreak)"/>
         IDocument Add(IAreaBreak areaBreak);
 
-        /// <summary>
-        /// The wrapper method of <see cref="RootElement{T}.Add(Image)"/>.
-        /// </summary>
-        /// <param name="image">The <see cref="IImage"/> object.</param>
-        /// <returns>This element.</returns>
-        IDocument Add(IImage image);
+        /// <inheritdoc cref="Document.Add(IBlockElement)"/>
+        IDocument Add(IImage element);
 
-        /// <summary>
-        /// The wrapper method of <see cref="Document.SetMargins(float, float, float, float)"/>.
-        /// </summary>
-        /// <param name="topMargin">The upper margin.</param>
-        /// <param name="rightMargin">The right margin.</param>
-        /// <param name="bottomMargin">The bottom margin.</param>
-        /// <param name="leftMargin">The left margin.</param>
+        /// <inheritdoc cref="Document.SetMargins(float, float, float, float)"/>
         void SetMargins(float topMargin, float rightMargin, float bottomMargin, float leftMargin);
 
-        /// <summary>
-        /// The wrapper method of <see cref="Document.Close"/>.
-        /// </summary>
+        /// <inheritdoc cref="Document.Close"/>
         void Close();
     }
 }

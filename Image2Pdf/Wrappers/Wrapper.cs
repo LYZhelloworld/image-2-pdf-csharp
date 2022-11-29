@@ -7,10 +7,7 @@ namespace Image2Pdf.Wrappers
 {
     using System.Diagnostics.CodeAnalysis;
 
-    /// <summary>
-    /// Implementation of <see cref="IWrapper{T}"/>.
-    /// </summary>
-    /// <typeparam name="T">The type of the wrapped object.</typeparam>
+    /// <inheritdoc cref="IWrapper{T}"/>
     [ExcludeFromCodeCoverage]
     internal class Wrapper<T> : IWrapper<T>
     {

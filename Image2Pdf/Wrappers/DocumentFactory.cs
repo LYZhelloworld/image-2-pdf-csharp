@@ -8,16 +8,16 @@ namespace Image2Pdf.Wrappers
     using System.Diagnostics.CodeAnalysis;
     using iText.Layout;
 
-    /// <summary>
-    /// Implementation of <see cref="IDocumentFactory"/>.
-    /// </summary>
+    /// <inheritdoc cref="IDocumentFactory"/>
     [ExcludeFromCodeCoverage]
     internal class DocumentFactory : IDocumentFactory
     {
         /// <inheritdoc/>
-        public IDocument FromPdfDocument(IPdfDocument pdfDocument)
+        public IDocument FromPdfDocument(IPdfDocument pdfDoc)
         {
-            return new DocumentWrapper(new Document(pdfDocument.Unwrap()));
+#pragma warning disable CA2000 // Dispose objects before losing scope
+            return new DocumentWrapper(new Document(pdfDoc.Unwrap()));
+#pragma warning restore CA2000 // Dispose objects before losing scope
         }
     }
 }

@@ -8,9 +8,7 @@ namespace Image2Pdf.Wrappers
     using System.Diagnostics.CodeAnalysis;
     using System.Drawing;
 
-    /// <summary>
-    /// Implementation of <see cref="ISystemDrawingImage"/>.
-    /// </summary>
+    /// <inheritdoc cref="ISystemDrawingImage"/>
     [ExcludeFromCodeCoverage]
     internal class SystemDrawingImageWrapper : Wrapper<Image>, ISystemDrawingImage
     {

@@ -7,9 +7,7 @@ namespace Image2Pdf.Wrappers
 {
     using iText.IO.Image;
 
-    /// <summary>
-    /// The wrapper class of <see cref="ImageData"/>.
-    /// </summary>
+    /// <inheritdoc cref="ImageData"/>
     public interface IImageData : IWrapper<ImageData>
     {
     }

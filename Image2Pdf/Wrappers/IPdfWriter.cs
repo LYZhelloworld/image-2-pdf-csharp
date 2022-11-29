@@ -8,9 +8,7 @@ namespace Image2Pdf.Wrappers
     using System;
     using iText.Kernel.Pdf;
 
-    /// <summary>
-    /// The wrapper class of <see cref="PdfWriter"/>.
-    /// </summary>
+    /// <inheritdoc cref="PdfWriter"/>
     public interface IPdfWriter : IWrapper<PdfWriter>, IDisposable
     {
     }

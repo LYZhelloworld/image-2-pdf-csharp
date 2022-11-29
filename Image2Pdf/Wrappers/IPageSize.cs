@@ -7,9 +7,7 @@ namespace Image2Pdf.Wrappers
 {
     using iText.Kernel.Geom;
 
-    /// <summary>
-    /// The wrapper class of <see cref="PageSize"/>.
-    /// </summary>
+    /// <inheritdoc cref="PageSize"/>
     public interface IPageSize : IWrapper<PageSize>
     {
     }

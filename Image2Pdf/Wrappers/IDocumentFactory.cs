@@ -12,11 +12,7 @@ namespace Image2Pdf.Wrappers
     /// </summary>
     public interface IDocumentFactory
     {
-        /// <summary>
-        /// The wrapper method of <see cref="Document(iText.Kernel.Pdf.PdfDocument)"/>.
-        /// </summary>
-        /// <param name="pdfDocument">The <see cref="IPdfDocument"/> object.</param>
-        /// <returns>The <see cref="IDocument"/> instance.</returns>
-        IDocument FromPdfDocument(IPdfDocument pdfDocument);
+        /// <inheritdoc cref="Document(iText.Kernel.Pdf.PdfDocument)"/>
+        IDocument FromPdfDocument(IPdfDocument pdfDoc);
     }
 }

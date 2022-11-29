@@ -8,9 +8,7 @@ namespace Image2Pdf.Wrappers
     using System.Diagnostics.CodeAnalysis;
     using iText.Layout.Element;
 
-    /// <summary>
-    /// Implementation of <see cref="IAreaBreak"/>.
-    /// </summary>
+    /// <inheritdoc cref="AreaBreak"/>
     [ExcludeFromCodeCoverage]
     internal class AreaBreakWrapper : Wrapper<AreaBreak>, IAreaBreak
     {

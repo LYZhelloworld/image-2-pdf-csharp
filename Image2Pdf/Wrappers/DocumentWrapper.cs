@@ -8,9 +8,7 @@ namespace Image2Pdf.Wrappers
     using System.Diagnostics.CodeAnalysis;
     using iText.Layout;
 
-    /// <summary>
-    /// Implementation of <see cref="IDocument"/>.
-    /// </summary>
+    /// <inheritdoc cref="Document"/>
     [ExcludeFromCodeCoverage]
     internal class DocumentWrapper : Wrapper<Document>, IDocument
     {
@@ -37,9 +35,9 @@ namespace Image2Pdf.Wrappers
         }
 
         /// <inheritdoc/>
-        public IDocument Add(IImage image)
+        public IDocument Add(IImage element)
         {
-            this.Unwrap().Add(image.Unwrap());
+            this.Unwrap().Add(element.Unwrap());
             return this;
         }
 
