@@ -8,9 +8,7 @@ namespace Image2Pdf.Wrappers
     using System.Diagnostics.CodeAnalysis;
     using iText.Kernel.Geom;
 
-    /// <summary>
-    /// Implementation of <see cref="IPageSizeFactory"/>.
-    /// </summary>
+    /// <inheritdoc cref="IPageSizeFactory"/>
     [ExcludeFromCodeCoverage]
     internal class PageSizeFactory : IPageSizeFactory
     {

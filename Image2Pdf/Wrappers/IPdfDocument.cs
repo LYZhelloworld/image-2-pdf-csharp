@@ -9,20 +9,13 @@ namespace Image2Pdf.Wrappers
     using iText.Kernel.Geom;
     using iText.Kernel.Pdf;
 
-    /// <summary>
-    /// The wrapper class of <see cref="PdfDocument"/>.
-    /// </summary>
+    /// <inheritdoc cref="PdfDocument"/>
     public interface IPdfDocument : IWrapper<PdfDocument>, IDisposable
     {
-        /// <summary>
-        /// The wrapper method of <see cref="PdfDocument.SetDefaultPageSize(PageSize)"/>.
-        /// </summary>
-        /// <param name="pageSize">The page size.</param>
+        /// <inheritdoc cref="PdfDocument.SetDefaultPageSize(PageSize)"/>
         void SetDefaultPageSize(IPageSize pageSize);
 
-        /// <summary>
-        /// The wrapper method of <see cref="PdfDocument.Close"/>.
-        /// </summary>
+        /// <inheritdoc cref="PdfDocument.Close"/>
         void Close();
     }
 }

@@ -9,9 +9,7 @@ namespace Image2Pdf.Wrappers
     using System.Drawing;
     using System.IO;
 
-    /// <summary>
-    /// Implementation of <see cref="ISystemDrawingImageFactory"/>.
-    /// </summary>
+    /// <inheritdoc cref="ISystemDrawingImageFactory"/>
     [ExcludeFromCodeCoverage]
     internal class SystemDrawingImageFactory : ISystemDrawingImageFactory
     {

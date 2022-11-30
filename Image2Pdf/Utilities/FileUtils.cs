@@ -15,7 +15,7 @@ namespace Image2Pdf.Utilities
         /// <summary>
         /// Supported extension names.
         /// </summary>
-        private static readonly string[] SupportedExtNames = new string[] { ".jpg", ".png" };
+        private static readonly string[] SupportedExtNames = new string[] { ".jpg", ".jpeg", ".png" };
 
         /// <summary>
         /// Checks if the filename given is a image file.

@@ -8,9 +8,7 @@ namespace Image2Pdf.Wrappers
     using System.Diagnostics.CodeAnalysis;
     using iText.Kernel.Pdf;
 
-    /// <summary>
-    /// Implementation of <see cref="IPdfWriter"/>.
-    /// </summary>
+    /// <inheritdoc cref="IPdfWriter"/>
     [ExcludeFromCodeCoverage]
     internal class PdfWriterWrapper : Wrapper<PdfWriter>, IPdfWriter
     {

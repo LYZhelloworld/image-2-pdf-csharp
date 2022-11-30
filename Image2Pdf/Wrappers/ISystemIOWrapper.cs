@@ -10,9 +10,7 @@ namespace Image2Pdf.Wrappers
     /// </summary>
     public interface ISystemIOWrapper
     {
-        /// <summary>
-        /// Gets the wrapper object of <see cref="System.IO.FileStream"/>.
-        /// </summary>
+        /// <inheritdoc cref="IFileStreamFactory"/>
         IFileStreamFactory FileStream { get; }
     }
 }

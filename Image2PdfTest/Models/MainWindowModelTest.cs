@@ -5,7 +5,6 @@
 
 namespace Image2PdfTest.Models
 {
-    using System.Diagnostics.CodeAnalysis;
     using FluentAssertions;
     using Image2Pdf.Generators;
     using Image2Pdf.Models;
@@ -16,39 +15,12 @@ namespace Image2PdfTest.Models
     /// Tests <see cref="MainWindowModel"/>.
     /// </summary>
     [TestClass]
-    [ExcludeFromCodeCoverage]
     public class MainWindowModelTest
     {
         /// <summary>
-        /// The mock <see cref="IPdfGeneratorFactory"/>.
-        /// </summary>
-        private Mock<IPdfGeneratorFactory> pdfGeneratorFactory = default!;
-
-        /// <summary>
         /// The mock <see cref="IPdfGenerator"/>.
         /// </summary>
-        private Mock<IPdfGenerator> pdfGenerator = default!;
-
-        /// <summary>
-        /// Initializes tests.
-        /// </summary>
-        [TestInitialize]
-        public void Initialize()
-        {
-            this.pdfGeneratorFactory = new();
-            this.pdfGenerator = new();
-            this.pdfGeneratorFactory.Setup(x => x.Build()).Returns(this.pdfGenerator.Object);
-        }
-
-        /// <summary>
-        /// Tests <see cref="MainWindowModel()"/>.
-        /// </summary>
-        [TestMethod]
-        public void TestConstructor()
-        {
-            var model = new MainWindowModel();
-            model.Should().NotBeNull();
-        }
+        private readonly Mock<IPdfGenerator> pdfGenerator = new();
 
         /// <summary>
         /// Tests <see cref="MainWindowModel.AddFiles(string[])"/> and <see cref="MainWindowModel.Clear"/>.
@@ -56,15 +28,11 @@ namespace Image2PdfTest.Models
         [TestMethod]
         public void TestAddFilesAndClear()
         {
-            MainWindowModel model = new(this.pdfGeneratorFactory.Object);
+            MainWindowModel model = new(this.pdfGenerator.Object);
             model.AddFiles("1.jpg", "2.jpg");
             IEnumerable<string> list = model.ItemSource;
             list.Should().HaveCount(2);
-            list.Should().BeEquivalentTo(new List<string>()
-        {
-            "1.jpg",
-            "2.jpg",
-        });
+            list.Should().BeEquivalentTo(new string[] { "1.jpg", "2.jpg" });
 
             model.Clear();
             list.Should().BeEmpty();
@@ -84,7 +52,7 @@ namespace Image2PdfTest.Models
         [TestMethod]
         public void TestMoveAndRemove()
         {
-            MainWindowModel model = new(this.pdfGeneratorFactory.Object);
+            MainWindowModel model = new(this.pdfGenerator.Object);
             model.AddFiles("1.jpg", "2.jpg", "3.jpg");
 
             model.CanMoveUp(-1).Should().BeFalse();
@@ -126,26 +94,23 @@ namespace Image2PdfTest.Models
             };
             const string testPdfFilename = "test.pdf";
 
-            IEnumerable<string>? filenames = null;
-            this.pdfGeneratorFactory.Setup(x => x.AddFiles(It.IsAny<IEnumerable<string>>()))
-                                .Callback<IEnumerable<string>>(x => filenames = x)
-                                .Returns(this.pdfGeneratorFactory.Object);
-            this.pdfGenerator.Setup(x => x.Generate(It.IsAny<string>()))
-                .Callback<string>(pdfFilename =>
+            this.pdfGenerator.Setup(x => x.Generate(It.IsAny<IEnumerable<string>>(), It.IsAny<string>()))
+                .Callback<IEnumerable<string>, string>((files, target) =>
                 {
-                    filenames?.Select((filename, i) =>
+                    files.Should().BeEquivalentTo(testImageFiles);
+
+                    foreach (var item in files.Select((filename, i) => (filename, i)))
                     {
-                        return (filename, i);
-                    })
-                    .ToList()
-                    .ForEach(item => this.pdfGenerator.Raise(x => x.FileProcessedEvent += null, new FileProcessedEventArgs(item.filename, item.i)));
-                    this.pdfGenerator.Raise(x => x.PdfGenerationCompletedEvent += null, new PdfGenerationCompletedEventArgs(pdfFilename));
+                        this.pdfGenerator.Raise(x => x.FileProcessedEvent += null, new FileProcessedEventArgs(item.filename, item.i));
+                    }
+
+                    this.pdfGenerator.Raise(x => x.PdfGenerationCompletedEvent += null, new PdfGenerationCompletedEventArgs(target));
                 });
 
             List<FileProcessedEventArgs> fileProcessedEventTriggered = new();
             List<PdfGenerationCompletedEventArgs> pdfGenerationCompletedEventTriggered = new();
 
-            MainWindowModel model = new(this.pdfGeneratorFactory.Object);
+            MainWindowModel model = new(this.pdfGenerator.Object);
             if (testEventHandlers)
             {
                 model.FileProcessedEvent += (_, args) => fileProcessedEventTriggered.Add(args);
@@ -156,9 +121,6 @@ namespace Image2PdfTest.Models
             model.AddFiles(testImageFiles);
             model.CanGenerate().Should().BeTrue();
             model.Generate(testPdfFilename).Wait();
-
-            filenames.Should().NotBeNull();
-            filenames.Should().BeEquivalentTo(testImageFiles);
 
             if (testEventHandlers)
             {

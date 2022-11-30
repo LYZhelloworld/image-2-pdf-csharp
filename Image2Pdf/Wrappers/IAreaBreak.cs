@@ -7,9 +7,7 @@ namespace Image2Pdf.Wrappers
 {
     using iText.Layout.Element;
 
-    /// <summary>
-    /// The wrapper class of <see cref="AreaBreak"/>.
-    /// </summary>
+    /// <inheritdoc cref="AreaBreak"/>
     public interface IAreaBreak : IWrapper<AreaBreak>
     {
     }

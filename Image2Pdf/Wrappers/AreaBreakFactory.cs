@@ -9,14 +9,12 @@ namespace Image2Pdf.Wrappers
     using iText.Layout.Element;
     using iText.Layout.Properties;
 
-    /// <summary>
-    /// Implementation of <see cref="IAreaBreakFactory"/>.
-    /// </summary>
+    /// <inheritdoc cref="IAreaBreakFactory"/>
     [ExcludeFromCodeCoverage]
     internal class AreaBreakFactory : IAreaBreakFactory
     {
         /// <inheritdoc/>
-        public IAreaBreak FromAreaBreakType(AreaBreakType areaBreakType)
+        public IAreaBreak FromAreaBreakType(AreaBreakType? areaBreakType)
         {
             return new AreaBreakWrapper(new AreaBreak(areaBreakType));
         }

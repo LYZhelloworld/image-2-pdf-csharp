@@ -7,7 +7,9 @@ namespace Image2Pdf.Generators
 {
     using System;
     using System.Collections.Generic;
-    using Image2Pdf.Adapters;
+    using System.IO;
+    using Image2Pdf.Wrappers;
+    using iText.Layout.Properties;
 
     /// <summary>
     /// The PDF file generator.
@@ -15,33 +17,31 @@ namespace Image2Pdf.Generators
     public class PdfGenerator : IPdfGenerator
     {
         /// <summary>
-        /// The image files to read.
+        /// The wrapper class of <see cref="iText"/> operations.
         /// </summary>
-        private readonly IEnumerable<string> files;
+        private readonly IPdfWrapper pdfWrapper;
 
         /// <summary>
-        /// The PDF adapter factory.
+        /// The wrapper class of <see cref="System.IO"/> operations.
         /// </summary>
-        private readonly IPdfAdapterFactory pdfAdapterFactory;
+        private readonly ISystemIOWrapper systemIOWrapper;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PdfGenerator"/> class.
+        /// The wrapper class of <see cref="System.Drawing"/> operations.
         /// </summary>
-        /// <param name="files">The image filenames.</param>
-        public PdfGenerator(IEnumerable<string> files)
-            : this(files, new PdfAdapterFactory())
-        {
-        }
+        private readonly ISystemDrawingWrapper systemDrawingWrapper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PdfGenerator"/> class.
         /// </summary>
-        /// <param name="files">The image filenames.</param>
-        /// <param name="pdfAdapterFactory">The PDF adapter factory.</param>
-        public PdfGenerator(IEnumerable<string> files, IPdfAdapterFactory pdfAdapterFactory)
+        /// <param name="pdfWrapper">The wrapper class of <see cref="iText"/> operations.</param>
+        /// <param name="systemIOWrapper">The wrapper class of <see cref="System.IO"/> operations.</param>
+        /// <param name="systemDrawingWrapper">The wrapper class of <see cref="System.Drawing"/> operations.</param>
+        public PdfGenerator(IPdfWrapper pdfWrapper, ISystemIOWrapper systemIOWrapper, ISystemDrawingWrapper systemDrawingWrapper)
         {
-            this.files = files;
-            this.pdfAdapterFactory = pdfAdapterFactory;
+            this.pdfWrapper = pdfWrapper;
+            this.systemIOWrapper = systemIOWrapper;
+            this.systemDrawingWrapper = systemDrawingWrapper;
         }
 
         /// <summary>
@@ -55,19 +55,30 @@ namespace Image2Pdf.Generators
         public event EventHandler<PdfGenerationCompletedEventArgs>? PdfGenerationCompletedEvent;
 
         /// <inheritdoc/>
-        public void Generate(string target)
+        public void Generate(IEnumerable<string> files, string target)
         {
-            using IPdfAdapter adapter = this.pdfAdapterFactory.CreateAdapter();
-
-            adapter.CreatePdfDocumentFromFilename(target);
-            int index = 1;
-            foreach (string file in this.files)
+            if (files == null)
             {
-                adapter.AddPageWithImage(file);
+                throw new ArgumentNullException(nameof(files));
+            }
+
+            using var pdfWriter = this.pdfWrapper.PdfWriter.FromFilename(target);
+            using var pdfDocument = this.pdfWrapper.PdfDocument.FromPdfWriter(pdfWriter);
+            using var document = this.pdfWrapper.Document.FromPdfDocument(pdfDocument);
+
+            // Set margins to 0.
+            document.SetMargins(0, 0, 0, 0);
+
+            int index = 1;
+            foreach (string file in files)
+            {
+                this.AddPageWithImage(pdfDocument, document, file, index);
                 this.OnFileProcessedEvent(file, index);
                 index++;
             }
 
+            document.Close();
+            pdfDocument.Close();
             this.OnPdfGenerationCompletedEvent(target);
         }
 
@@ -88,6 +99,41 @@ namespace Image2Pdf.Generators
         protected virtual void OnPdfGenerationCompletedEvent(string pdfFilename)
         {
             this.PdfGenerationCompletedEvent?.Invoke(this, new PdfGenerationCompletedEventArgs(pdfFilename));
+        }
+
+        /// <summary>
+        /// Adds a page with image as background.
+        /// </summary>
+        /// <param name="pdfDocument">The PDF document.</param>
+        /// <param name="document">The document.</param>
+        /// <param name="imageFilename">The filename of the image.</param>
+        /// <param name="page">The page number.</param>
+        private void AddPageWithImage(IPdfDocument pdfDocument, IDocument document, string imageFilename, int page)
+        {
+            IImage img = this.pdfWrapper.Image.FromImageData(this.pdfWrapper.ImageDataFactory.Create(imageFilename));
+            this.GetImageDimension(imageFilename, out int width, out int height);
+
+            // 1px = 0.75pt.
+            pdfDocument.SetDefaultPageSize(this.pdfWrapper.PageSize.FromWidthAndHeight(width * .75f, height * .75f));
+            if (page > 1)
+            {
+                document.Add(this.pdfWrapper.AreaBreak.FromAreaBreakType(AreaBreakType.NEXT_PAGE));
+            }
+
+            document.Add(img);
+        }
+
+        /// <summary>
+        /// Gets image dimension of an image file.
+        /// </summary>
+        /// <param name="filename">The fileName of the image.</param>
+        /// <param name="width">The width of the image.</param>
+        /// <param name="height">The height of the image.</param>
+        private void GetImageDimension(string filename, out int width, out int height)
+        {
+            using var fileStream = this.systemIOWrapper.FileStream.CreateFileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
+            using var img = this.systemDrawingWrapper.Image.FromStream(fileStream, false, false);
+            (width, height) = (img.Width, img.Height);
         }
     }
 }

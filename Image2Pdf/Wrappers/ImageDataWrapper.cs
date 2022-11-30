@@ -8,9 +8,7 @@ namespace Image2Pdf.Wrappers
     using System.Diagnostics.CodeAnalysis;
     using iText.IO.Image;
 
-    /// <summary>
-    /// Implementation of <see cref="IImageData"/>.
-    /// </summary>
+    /// <inheritdoc cref="IImageData"/>
     [ExcludeFromCodeCoverage]
     internal class ImageDataWrapper : Wrapper<ImageData>, IImageData
     {

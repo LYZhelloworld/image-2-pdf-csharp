@@ -8,16 +8,14 @@ namespace Image2Pdf.Wrappers
     using System.Diagnostics.CodeAnalysis;
     using iText.Layout.Element;
 
-    /// <summary>
-    /// Implementation of <see cref="IImageDataFactory"/>.
-    /// </summary>
+    /// <inheritdoc cref="IImageFactory"/>
     [ExcludeFromCodeCoverage]
     internal class ImageFactory : IImageFactory
     {
         /// <inheritdoc/>
-        public IImage FromImageData(IImageData imageData)
+        public IImage FromImageData(IImageData img)
         {
-            return new ImageWrapper(new Image(imageData.Unwrap()));
+            return new ImageWrapper(new Image(img.Unwrap()));
         }
     }
 }

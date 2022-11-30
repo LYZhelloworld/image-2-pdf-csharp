@@ -18,9 +18,9 @@ namespace Image2Pdf.Models
     public class MainWindowModel : IMainWindowModel
     {
         /// <summary>
-        /// The factory class of PDF generator.
+        /// The PDF generator.
         /// </summary>
-        private readonly IPdfGeneratorFactory pdfGeneratorFactory;
+        private readonly IPdfGenerator pdfGenerator;
 
         /// <summary>
         /// The filenames of images.
@@ -30,18 +30,12 @@ namespace Image2Pdf.Models
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindowModel"/> class.
         /// </summary>
-        public MainWindowModel()
-            : this(new PdfGeneratorFactory())
+        /// <param name="pdfGenerator">The PDF generator.</param>
+        public MainWindowModel(IPdfGenerator pdfGenerator)
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MainWindowModel"/> class.
-        /// </summary>
-        /// <param name="pdfGeneratorFactory">The factory class of PDF generator.</param>
-        public MainWindowModel(IPdfGeneratorFactory pdfGeneratorFactory)
-        {
-            this.pdfGeneratorFactory = pdfGeneratorFactory;
+            this.pdfGenerator = pdfGenerator;
+            this.pdfGenerator.FileProcessedEvent += (sender, e) => this.FileProcessedEvent?.Invoke(sender, e);
+            this.pdfGenerator.PdfGenerationCompletedEvent += (sender, e) => this.PdfGenerationCompletedEvent?.Invoke(sender, e);
         }
 
         /// <inheritdoc/>
@@ -107,12 +101,7 @@ namespace Image2Pdf.Models
         /// <inheritdoc/>
         public Task Generate(string pdfFilename)
         {
-            // create PDF generator
-            IPdfGenerator pdfGenerator = this.pdfGeneratorFactory.AddFiles(this.filenames).Build();
-
-            pdfGenerator.FileProcessedEvent += (sender, e) => this.FileProcessedEvent?.Invoke(sender, e);
-            pdfGenerator.PdfGenerationCompletedEvent += (sender, e) => this.PdfGenerationCompletedEvent?.Invoke(sender, e);
-            return Task.Run(() => pdfGenerator.Generate(pdfFilename));
+            return Task.Run(() => this.pdfGenerator.Generate(this.filenames, pdfFilename));
         }
 
         /// <inheritdoc/>

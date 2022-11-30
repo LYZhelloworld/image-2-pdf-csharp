@@ -12,11 +12,7 @@ namespace Image2Pdf.Wrappers
     /// </summary>
     public interface IPdfDocumentFactory
     {
-        /// <summary>
-        /// The wrapper class of <see cref="PdfDocument(PdfReader)"/>.
-        /// </summary>
-        /// <param name="pdfWriter">The <see cref="IPdfWriter"/> object.</param>
-        /// <returns>The <see cref="IPdfDocument"/> instance.</returns>
-        public IPdfDocument FromPdfWriter(IPdfWriter pdfWriter);
+        /// <inheritdoc cref="PdfDocument(PdfReader)"/>
+        public IPdfDocument FromPdfWriter(IPdfWriter reader);
     }
 }

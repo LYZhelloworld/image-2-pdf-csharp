@@ -10,9 +10,7 @@ namespace Image2Pdf.Wrappers
     /// </summary>
     public interface ISystemDrawingWrapper
     {
-        /// <summary>
-        /// Gets the wrapper object of <see cref="System.Drawing.Image"/>.
-        /// </summary>
+        /// <inheritdoc cref="ISystemDrawingImageFactory"/>
         ISystemDrawingImageFactory Image { get; }
     }
 }

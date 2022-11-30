@@ -13,11 +13,7 @@ namespace Image2Pdf.Wrappers
     /// </summary>
     public interface IImageFactory
     {
-        /// <summary>
-        /// The wrapper method of <see cref="Image(ImageData)"/>.
-        /// </summary>
-        /// <param name="imageData">The <see cref="IImageData"/> object.</param>
-        /// <returns>The <see cref="IImage"/> instance.</returns>
-        IImage FromImageData(IImageData imageData);
+        /// <inheritdoc cref="Image(ImageData)"/>
+        IImage FromImageData(IImageData img);
     }
 }

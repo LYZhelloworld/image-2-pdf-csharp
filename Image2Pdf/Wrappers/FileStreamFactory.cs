@@ -8,9 +8,7 @@ namespace Image2Pdf.Wrappers
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
 
-    /// <summary>
-    /// Implementation of <see cref="IFileStreamFactory"/>.
-    /// </summary>
+    /// <inheritdoc cref="IFileStreamFactory"/>
     [ExcludeFromCodeCoverage]
     internal class FileStreamFactory : IFileStreamFactory
     {

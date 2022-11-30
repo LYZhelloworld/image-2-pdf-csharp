@@ -10,39 +10,25 @@ namespace Image2Pdf.Wrappers
     /// </summary>
     public interface IPdfWrapper
     {
-        /// <summary>
-        /// Gets the wrapper object of <see cref="iText.Kernel.Pdf.PdfWriter"/>.
-        /// </summary>
+        /// <inheritdoc cref="IPdfWriterFactory"/>
         IPdfWriterFactory PdfWriter { get; }
 
-        /// <summary>
-        /// Gets the wrapper object of <see cref="iText.Kernel.Pdf.PdfDocument"/>.
-        /// </summary>
+        /// <inheritdoc cref="IPdfDocumentFactory"/>
         IPdfDocumentFactory PdfDocument { get; }
 
-        /// <summary>
-        /// Gets the wrapper object of <see cref="iText.Layout.Document"/>.
-        /// </summary>
+        /// <inheritdoc cref="IDocumentFactory"/>
         IDocumentFactory Document { get; }
 
-        /// <summary>
-        /// Gets the wrapper object of <see cref="iText.Kernel.Geom.PageSize"/>.
-        /// </summary>
+        /// <inheritdoc cref="IPageSizeFactory"/>
         IPageSizeFactory PageSize { get; }
 
-        /// <summary>
-        /// Gets the wrapper object of <see cref="iText.Layout.Element.AreaBreak"/>.
-        /// </summary>
+        /// <inheritdoc cref="IAreaBreakFactory"/>
         IAreaBreakFactory AreaBreak { get; }
 
-        /// <summary>
-        /// Gets the wrapper object of <see cref="iText.IO.Image.ImageDataFactory"/>.
-        /// </summary>
+        /// <inheritdoc cref="IImageDataFactory"/>
         IImageDataFactory ImageDataFactory { get; }
 
-        /// <summary>
-        /// Gets the wrapper object of <see cref="iText.Layout.Element.Image"/>.
-        /// </summary>
+        /// <inheritdoc cref="IImageFactory"/>
         IImageFactory Image { get; }
     }
 }

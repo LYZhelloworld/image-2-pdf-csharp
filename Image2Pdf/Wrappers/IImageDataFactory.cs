@@ -7,16 +7,10 @@ namespace Image2Pdf.Wrappers
 {
     using iText.IO.Image;
 
-    /// <summary>
-    /// The factory class of <see cref="IImageData"/>.
-    /// </summary>
+    /// <inheritdoc cref="ImageDataFactory"/>
     public interface IImageDataFactory
     {
-        /// <summary>
-        /// The wrapper method of <see cref="ImageDataFactory.Create(string)"/>.
-        /// </summary>
-        /// <param name="imageFilename">The filename of the file containing the image.</param>
-        /// <returns>The <see cref="IImageData"/> instance.</returns>
-        IImageData Create(string imageFilename);
+        /// <inheritdoc cref="ImageDataFactory.Create(string)"/>
+        IImageData Create(string filename);
     }
 }

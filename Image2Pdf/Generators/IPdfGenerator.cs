@@ -6,6 +6,7 @@
 namespace Image2Pdf.Generators
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// The PDF file generator.
@@ -29,8 +30,9 @@ namespace Image2Pdf.Generators
         /// <summary>
         /// Generates PDF file.
         /// </summary>
+        /// <param name="files">The image filenames.</param>
         /// <param name="target">The PDF file location.</param>
-        public void Generate(string target);
+        public void Generate(IEnumerable<string> files, string target);
     }
 
     /// <summary>

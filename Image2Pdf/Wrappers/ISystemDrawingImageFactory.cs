@@ -5,6 +5,7 @@
 
 namespace Image2Pdf.Wrappers
 {
+    using System.Drawing;
     using System.IO;
 
     /// <summary>
@@ -12,13 +13,7 @@ namespace Image2Pdf.Wrappers
     /// </summary>
     public interface ISystemDrawingImageFactory
     {
-        /// <summary>
-        /// The wrapper method of <see cref="System.Drawing.Image.FromStream(Stream, bool, bool)"/>.
-        /// </summary>
-        /// <param name="fileStream">The file stream.</param>
-        /// <param name="useEmbeddedColorManagement">Whether to use embedded color management.</param>
-        /// <param name="validateImageData">Whether to validate image data.</param>
-        /// <returns>The wrapper class of <see cref="System.Drawing.Image"/>.</returns>
-        ISystemDrawingImage FromStream(Stream fileStream, bool useEmbeddedColorManagement, bool validateImageData);
+        /// <inheritdoc cref="Image.FromStream(Stream, bool, bool)"/>
+        ISystemDrawingImage FromStream(Stream stream, bool useEmbeddedColorManagement, bool validateImageData);
     }
 }

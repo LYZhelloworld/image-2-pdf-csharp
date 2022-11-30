@@ -8,19 +8,13 @@ namespace Image2Pdf.Wrappers
     using System;
     using System.Drawing;
 
-    /// <summary>
-    /// The wrapper class of <see cref="Image"/>.
-    /// </summary>
+    /// <inheritdoc cref="Image"/>
     public interface ISystemDrawingImage : IWrapper<Image>, IDisposable
     {
-        /// <summary>
-        /// Gets the wrapped property of <see cref="Image.Width"/>.
-        /// </summary>
+        /// <inheritdoc cref="Image.Width"/>
         int Width { get; }
 
-        /// <summary>
-        /// Gets the wrapped property of <see cref="Image.Height"/>.
-        /// </summary>
+        /// <inheritdoc cref="Image.Height"/>
         int Height { get; }
     }
 }
