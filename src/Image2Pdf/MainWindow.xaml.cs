@@ -15,6 +15,7 @@ namespace Image2Pdf
     using System.Windows.Input;
     using Image2Pdf.Generators;
     using Image2Pdf.Models;
+    using Image2Pdf.Resources;
     using Microsoft.Win32;
 
     /// <summary>
@@ -163,7 +164,7 @@ namespace Image2Pdf
                 saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             }
 
-            saveFileDialog.Filter = Properties.Resources.PdfSaveDialogFilter;
+            saveFileDialog.Filter = Strings.PdfSaveDialogFilter;
             if (!saveFileDialog.ShowDialog(this) ?? false)
             {
                 return;
@@ -183,8 +184,8 @@ namespace Image2Pdf
             {
             // prompt message box to open file
                 if (MessageBox.Show(
-                    string.Format(CultureInfo.CurrentCulture, Properties.Resources.PdfGenerationCompletedPrompt, e.PdfFilename),
-                    Properties.Resources.AppName,
+                    string.Format(CultureInfo.CurrentCulture, Strings.PdfGenerationCompletedPrompt, e.PdfFilename),
+                    Strings.AppName,
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Information,
                     MessageBoxResult.Yes) == MessageBoxResult.Yes)

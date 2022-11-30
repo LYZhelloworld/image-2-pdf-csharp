@@ -4,9 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Image2Pdf"
-        xmlns:p="clr-namespace:Image2Pdf.Properties"
+        xmlns:p="clr-namespace:Image2Pdf.Resources;assembly=Image2Pdf.Resources"
         mc:Ignorable="d"
-        Title="{x:Static p:Resources.AppName}" Height="450" Width="800">
+        Title="{x:Static p:Strings.AppName}" Height="450" Width="800">
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static local:MainWindow.MoveUpCommand}" Executed="MoveUpCommand_Executed" CanExecute="MoveUpCommand_CanExecute"/>
         <CommandBinding Command="{x:Static local:MainWindow.MoveDownCommand}" Executed="MoveDownCommand_Executed" CanExecute="MoveDownCommand_CanExecute"/>
@@ -25,15 +25,15 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.ColumnSpan="2">
-            <TextBlock Text="{x:Static p:Resources.LabelDragFile}"/>
+            <TextBlock Text="{x:Static p:Strings.LabelDragFile}"/>
         </Label>
         <Border Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,10">
             <ListView Grid.Row="1" x:Name="FilenameList" AllowDrop="True" Drop="FilenameList_Drop">
                 <ListView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="{x:Static p:Resources.MenuMoveUp}" Command="{x:Static local:MainWindow.MoveUpCommand}"/>
-                        <MenuItem Header="{x:Static p:Resources.MenuMoveDown}" Command="{x:Static local:MainWindow.MoveDownCommand}"/>
-                        <MenuItem Header="{x:Static p:Resources.MenuRemove}" Command="{x:Static local:MainWindow.RemoveCommand}"/>
+                        <MenuItem Header="{x:Static p:Strings.MenuMoveUp}" Command="{x:Static local:MainWindow.MoveUpCommand}"/>
+                        <MenuItem Header="{x:Static p:Strings.MenuMoveDown}" Command="{x:Static local:MainWindow.MoveDownCommand}"/>
+                        <MenuItem Header="{x:Static p:Strings.MenuRemove}" Command="{x:Static local:MainWindow.RemoveCommand}"/>
                     </ContextMenu>
                 </ListView.ContextMenu>
             </ListView>
@@ -41,7 +41,7 @@
 
         <ProgressBar x:Name="GeneratorProgressBar" Grid.Row="2" Grid.Column="0" Margin="0,0,10,0" IsEnabled="False"/>
         <Button x:Name="GenerateButton" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" Command="{x:Static local:MainWindow.GenerateCommand}">
-            <TextBlock Text="{x:Static p:Resources.ButtonGenerate}"/>
+            <TextBlock Text="{x:Static p:Strings.ButtonGenerate}"/>
         </Button>
     </Grid>
 </Window>
