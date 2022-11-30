@@ -3,8 +3,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
-using System;
-using System.Windows;
+using System.Diagnostics.CodeAnalysis;
 
-[assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
-[assembly: CLSCompliant(true)]
+[assembly: CLSCompliant(false)]
+[assembly: ExcludeFromCodeCoverage(Justification = "Wrapper classes.")]
