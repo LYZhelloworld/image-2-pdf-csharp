@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Resources.resx"/>
-    <EmbeddedResource Update="Resources.zh-CN.resx"/>
+    <EmbeddedResource Update="Strings.resx"/>
+    <EmbeddedResource Update="Strings.zh-CN.resx"/>
   </ItemGroup>
 
   <PropertyGroup>
