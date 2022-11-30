@@ -39,6 +39,7 @@ namespace Image2Pdf.Generators
         /// <param name="pdfWrapper">The wrapper class of <see cref="iText"/> operations.</param>
         /// <param name="systemIOWrapper">The wrapper class of <see cref="System.IO"/> operations.</param>
         /// <param name="systemDrawingWrapper">The wrapper class of <see cref="System.Drawing"/> operations.</param>
+        [CLSCompliant(false)]
         public PdfGenerator(IPdfWrapper pdfWrapper, ISystemIOWrapper systemIOWrapper, ISystemDrawingWrapper systemDrawingWrapper)
         {
             this.pdfWrapper = pdfWrapper;
