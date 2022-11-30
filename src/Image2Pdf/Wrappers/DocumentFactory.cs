@@ -15,9 +15,7 @@ namespace Image2Pdf.Wrappers
         /// <inheritdoc/>
         public IDocument FromPdfDocument(IPdfDocument pdfDoc)
         {
-#pragma warning disable CA2000 // Dispose objects before losing scope
             return new DocumentWrapper(new Document(pdfDoc.Unwrap()));
-#pragma warning restore CA2000 // Dispose objects before losing scope
         }
     }
 }
