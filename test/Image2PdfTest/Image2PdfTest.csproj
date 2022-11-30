@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Image2Pdf\Image2Pdf.csproj" />
+    <ProjectReference Include="$(SolutionDir)src\Image2Pdf\Image2Pdf.csproj" />
   </ItemGroup>
 
 </Project>
