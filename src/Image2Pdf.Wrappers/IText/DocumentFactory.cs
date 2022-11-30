@@ -11,7 +11,7 @@ namespace Image2Pdf.Wrappers.IText
     internal class DocumentFactory : IDocumentFactory
     {
         /// <inheritdoc/>
-        public IDocument FromPdfDocument(IPdfDocument pdfDoc)
+        public IDocument CreateInstance(IPdfDocument pdfDoc)
         {
             return new DocumentWrapper(new Document(pdfDoc.Unwrap()));
         }

@@ -11,7 +11,7 @@ namespace Image2Pdf.Wrappers.IText
     internal class PageSizeFactory : IPageSizeFactory
     {
         /// <inheritdoc/>
-        public IPageSize FromWidthAndHeight(float width, float height)
+        public IPageSize CreateInstance(float width, float height)
         {
             return new PageSizeWrapper(new PageSize(width, height));
         }

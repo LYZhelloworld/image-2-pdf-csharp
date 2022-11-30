@@ -12,7 +12,7 @@ namespace Image2Pdf.Wrappers.IText
     internal class AreaBreakFactory : IAreaBreakFactory
     {
         /// <inheritdoc/>
-        public IAreaBreak FromAreaBreakType(AreaBreakType? areaBreakType)
+        public IAreaBreak CreateInstance(AreaBreakType? areaBreakType)
         {
             return new AreaBreakWrapper(new AreaBreak(areaBreakType));
         }

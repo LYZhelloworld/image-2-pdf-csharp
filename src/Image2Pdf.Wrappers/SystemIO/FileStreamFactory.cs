@@ -11,7 +11,7 @@ namespace Image2Pdf.Wrappers.SystemIO
     internal class FileStreamFactory : IFileStreamFactory
     {
         /// <inheritdoc/>
-        public Stream CreateFileStream(string path, FileMode mode, FileAccess access, FileShare share)
+        public Stream CreateInstance(string path, FileMode mode, FileAccess access, FileShare share)
         {
             return new FileStream(path, mode, access, share);
         }

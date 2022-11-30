@@ -13,6 +13,6 @@ namespace Image2Pdf.Wrappers.IText
     public interface IDocumentFactory
     {
         /// <inheritdoc cref="Document(iText.Kernel.Pdf.PdfDocument)"/>
-        IDocument FromPdfDocument(IPdfDocument pdfDoc);
+        IDocument CreateInstance(IPdfDocument pdfDoc);
     }
 }

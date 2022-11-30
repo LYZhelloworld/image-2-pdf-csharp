@@ -64,9 +64,9 @@ namespace Image2Pdf.Generators
                 throw new ArgumentNullException(nameof(files));
             }
 
-            using var pdfWriter = this.pdfWrapper.PdfWriter.FromFilename(target);
-            using var pdfDocument = this.pdfWrapper.PdfDocument.FromPdfWriter(pdfWriter);
-            using var document = this.pdfWrapper.Document.FromPdfDocument(pdfDocument);
+            using var pdfWriter = this.pdfWrapper.PdfWriter.CreateInstance(target);
+            using var pdfDocument = this.pdfWrapper.PdfDocument.CreateInstance(pdfWriter);
+            using var document = this.pdfWrapper.Document.CreateInstance(pdfDocument);
 
             // Set margins to 0.
             document.SetMargins(0, 0, 0, 0);
@@ -112,14 +112,14 @@ namespace Image2Pdf.Generators
         /// <param name="page">The page number.</param>
         private void AddPageWithImage(IPdfDocument pdfDocument, IDocument document, string imageFilename, int page)
         {
-            IImage img = this.pdfWrapper.Image.FromImageData(this.pdfWrapper.ImageDataFactory.Create(imageFilename));
+            IImage img = this.pdfWrapper.Image.CreateInstance(this.pdfWrapper.ImageDataFactory.Create(imageFilename));
             this.GetImageDimension(imageFilename, out int width, out int height);
 
             // 1px = 0.75pt.
-            pdfDocument.SetDefaultPageSize(this.pdfWrapper.PageSize.FromWidthAndHeight(width * .75f, height * .75f));
+            pdfDocument.SetDefaultPageSize(this.pdfWrapper.PageSize.CreateInstance(width * .75f, height * .75f));
             if (page > 1)
             {
-                document.Add(this.pdfWrapper.AreaBreak.FromAreaBreakType(AreaBreakType.NEXT_PAGE));
+                document.Add(this.pdfWrapper.AreaBreak.CreateInstance(AreaBreakType.NEXT_PAGE));
             }
 
             document.Add(img);
@@ -133,8 +133,8 @@ namespace Image2Pdf.Generators
         /// <param name="height">The height of the image.</param>
         private void GetImageDimension(string filename, out int width, out int height)
         {
-            using var fileStream = this.systemIOWrapper.FileStream.CreateFileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
-            using var img = this.systemDrawingWrapper.Image.FromStream(fileStream, false, false);
+            using var fileStream = this.systemIOWrapper.FileStream.CreateInstance(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
+            using var img = this.systemDrawingWrapper.Image.CreateInstance(fileStream, false, false);
             (width, height) = (img.Width, img.Height);
         }
     }

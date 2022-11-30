@@ -14,6 +14,6 @@ namespace Image2Pdf.Wrappers.SystemDrawing
     public interface ISystemDrawingImageFactory
     {
         /// <inheritdoc cref="Image.FromStream(Stream, bool, bool)"/>
-        ISystemDrawingImage FromStream(Stream stream, bool useEmbeddedColorManagement, bool validateImageData);
+        ISystemDrawingImage CreateInstance(Stream stream, bool useEmbeddedColorManagement, bool validateImageData);
     }
 }

@@ -12,7 +12,7 @@ namespace Image2Pdf.Wrappers.SystemDrawing
     internal class SystemDrawingImageFactory : ISystemDrawingImageFactory
     {
         /// <inheritdoc/>
-        public ISystemDrawingImage FromStream(Stream stream, bool useEmbeddedColorManagement, bool validateImageData)
+        public ISystemDrawingImage CreateInstance(Stream stream, bool useEmbeddedColorManagement, bool validateImageData)
         {
             return new SystemDrawingImageWrapper(Image.FromStream(stream, useEmbeddedColorManagement, validateImageData));
         }

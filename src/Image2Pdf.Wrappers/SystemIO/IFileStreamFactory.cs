@@ -13,6 +13,6 @@ namespace Image2Pdf.Wrappers.SystemIO
     public interface IFileStreamFactory
     {
         /// <inheritdoc cref="FileStream(string, FileMode, FileAccess, FileShare)"/>
-        Stream CreateFileStream(string path, FileMode mode, FileAccess access, FileShare share);
+        Stream CreateInstance(string path, FileMode mode, FileAccess access, FileShare share);
     }
 }

@@ -11,7 +11,7 @@ namespace Image2Pdf.Wrappers.IText
     internal class PdfWriterFactory : IPdfWriterFactory
     {
         /// <inheritdoc/>
-        public IPdfWriter FromFilename(string filename)
+        public IPdfWriter CreateInstance(string filename)
         {
             return new PdfWriterWrapper(new PdfWriter(filename));
         }

@@ -62,20 +62,20 @@ namespace Image2PdfTest.Generators
             var document = new Mock<IDocument>();
             var systemDrawingImage = new Mock<ISystemDrawingImage>();
 
-            this.pdfWrapper.Setup(x => x.PdfWriter.FromFilename("test.pdf")).Returns(Mock.Of<IPdfWriter>());
-            this.pdfWrapper.Setup(x => x.PdfDocument.FromPdfWriter(It.IsAny<IPdfWriter>())).Returns(Mock.Of<IPdfDocument>());
-            this.pdfWrapper.Setup(x => x.Document.FromPdfDocument(It.IsAny<IPdfDocument>())).Returns(document.Object);
+            this.pdfWrapper.Setup(x => x.PdfWriter.CreateInstance("test.pdf")).Returns(Mock.Of<IPdfWriter>());
+            this.pdfWrapper.Setup(x => x.PdfDocument.CreateInstance(It.IsAny<IPdfWriter>())).Returns(Mock.Of<IPdfDocument>());
+            this.pdfWrapper.Setup(x => x.Document.CreateInstance(It.IsAny<IPdfDocument>())).Returns(document.Object);
             this.pdfWrapper.Setup(x => x.ImageDataFactory.Create(It.IsAny<string>())).Returns(Mock.Of<IImageData>());
-            this.pdfWrapper.Setup(x => x.Image.FromImageData(It.IsAny<IImageData>())).Returns(Mock.Of<IImage>());
-            this.pdfWrapper.Setup(x => x.PageSize.FromWidthAndHeight(800 * 0.75f, 600 * 0.75f)).Returns(Mock.Of<IPageSize>());
-            this.pdfWrapper.Setup(x => x.AreaBreak.FromAreaBreakType(AreaBreakType.NEXT_PAGE)).Returns(Mock.Of<IAreaBreak>());
+            this.pdfWrapper.Setup(x => x.Image.CreateInstance(It.IsAny<IImageData>())).Returns(Mock.Of<IImage>());
+            this.pdfWrapper.Setup(x => x.PageSize.CreateInstance(800 * 0.75f, 600 * 0.75f)).Returns(Mock.Of<IPageSize>());
+            this.pdfWrapper.Setup(x => x.AreaBreak.CreateInstance(AreaBreakType.NEXT_PAGE)).Returns(Mock.Of<IAreaBreak>());
 
-            this.systemIOWrapper.Setup(x => x.FileStream.CreateFileStream(It.IsAny<string>(), It.IsAny<FileMode>(), It.IsAny<FileAccess>(), It.IsAny<FileShare>())).Returns(Mock.Of<Stream>());
+            this.systemIOWrapper.Setup(x => x.FileStream.CreateInstance(It.IsAny<string>(), It.IsAny<FileMode>(), It.IsAny<FileAccess>(), It.IsAny<FileShare>())).Returns(Mock.Of<Stream>());
 
             systemDrawingImage.Setup(x => x.Width).Returns(800);
             systemDrawingImage.Setup(x => x.Height).Returns(600);
 
-            this.systemDrawingWrapper.Setup(x => x.Image.FromStream(It.IsAny<Stream>(), It.IsAny<bool>(), It.IsAny<bool>())).Returns(systemDrawingImage.Object);
+            this.systemDrawingWrapper.Setup(x => x.Image.CreateInstance(It.IsAny<Stream>(), It.IsAny<bool>(), It.IsAny<bool>())).Returns(systemDrawingImage.Object);
 
             var generator = new PdfGenerator(this.pdfWrapper.Object, this.systemIOWrapper.Object, this.systemDrawingWrapper.Object);
 

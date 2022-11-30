@@ -13,6 +13,6 @@ namespace Image2Pdf.Wrappers.IText
     public interface IPdfWriterFactory
     {
         /// <inheritdoc cref="PdfWriter(string)"/>
-        IPdfWriter FromFilename(string filename);
+        IPdfWriter CreateInstance(string filename);
     }
 }

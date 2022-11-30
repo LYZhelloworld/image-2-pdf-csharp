@@ -14,6 +14,6 @@ namespace Image2Pdf.Wrappers.IText
     public interface IImageFactory
     {
         /// <inheritdoc cref="Image(ImageData)"/>
-        IImage FromImageData(IImageData img);
+        IImage CreateInstance(IImageData img);
     }
 }

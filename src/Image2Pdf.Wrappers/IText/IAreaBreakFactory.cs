@@ -14,6 +14,6 @@ namespace Image2Pdf.Wrappers.IText
     public interface IAreaBreakFactory
     {
         /// <inheritdoc cref="AreaBreak(AreaBreakType?)"/>
-        IAreaBreak FromAreaBreakType(AreaBreakType? areaBreakType);
+        IAreaBreak CreateInstance(AreaBreakType? areaBreakType);
     }
 }

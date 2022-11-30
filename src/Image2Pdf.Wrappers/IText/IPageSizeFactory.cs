@@ -13,6 +13,6 @@ namespace Image2Pdf.Wrappers.IText
     public interface IPageSizeFactory
     {
         /// <inheritdoc cref="PageSize(float, float)"/>
-        IPageSize FromWidthAndHeight(float width, float height);
+        IPageSize CreateInstance(float width, float height);
     }
 }

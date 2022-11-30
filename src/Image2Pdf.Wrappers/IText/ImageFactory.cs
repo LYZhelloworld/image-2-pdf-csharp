@@ -11,7 +11,7 @@ namespace Image2Pdf.Wrappers.IText
     internal class ImageFactory : IImageFactory
     {
         /// <inheritdoc/>
-        public IImage FromImageData(IImageData img)
+        public IImage CreateInstance(IImageData img)
         {
             return new ImageWrapper(new Image(img.Unwrap()));
         }
