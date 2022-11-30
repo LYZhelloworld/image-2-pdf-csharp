@@ -8,7 +8,9 @@ namespace Image2Pdf.Generators
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using Image2Pdf.Wrappers;
+    using Image2Pdf.Wrappers.IText;
+    using Image2Pdf.Wrappers.SystemDrawing;
+    using Image2Pdf.Wrappers.SystemIO;
     using iText.Layout.Properties;
 
     /// <summary>

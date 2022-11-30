@@ -7,7 +7,9 @@ namespace Image2PdfTest.Generators
 {
     using FluentAssertions;
     using Image2Pdf.Generators;
-    using Image2Pdf.Wrappers;
+    using Image2Pdf.Wrappers.IText;
+    using Image2Pdf.Wrappers.SystemDrawing;
+    using Image2Pdf.Wrappers.SystemIO;
     using iText.Layout.Properties;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;

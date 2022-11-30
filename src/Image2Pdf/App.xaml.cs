@@ -9,7 +9,9 @@ namespace Image2Pdf
     using System.Windows;
     using Image2Pdf.Generators;
     using Image2Pdf.Models;
-    using Image2Pdf.Wrappers;
+    using Image2Pdf.Wrappers.IText;
+    using Image2Pdf.Wrappers.SystemDrawing;
+    using Image2Pdf.Wrappers.SystemIO;
     using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>
