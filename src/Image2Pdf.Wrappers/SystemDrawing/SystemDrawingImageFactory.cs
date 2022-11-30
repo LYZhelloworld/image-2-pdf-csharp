@@ -5,12 +5,10 @@
 
 namespace Image2Pdf.Wrappers.SystemDrawing
 {
-    using System.Diagnostics.CodeAnalysis;
     using System.Drawing;
     using System.IO;
 
     /// <inheritdoc cref="ISystemDrawingImageFactory"/>
-    [ExcludeFromCodeCoverage]
     internal class SystemDrawingImageFactory : ISystemDrawingImageFactory
     {
         /// <inheritdoc/>

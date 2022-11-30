@@ -5,10 +5,7 @@
 
 namespace Image2Pdf.Wrappers.SystemDrawing
 {
-    using System.Diagnostics.CodeAnalysis;
-
     /// <inheritdoc cref="ISystemDrawingWrapper"/>
-    [ExcludeFromCodeCoverage]
     public class SystemDrawingWrapper : ISystemDrawingWrapper
     {
         /// <inheritdoc/>

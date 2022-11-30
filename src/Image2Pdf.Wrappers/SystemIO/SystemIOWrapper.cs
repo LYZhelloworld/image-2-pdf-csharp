@@ -5,10 +5,7 @@
 
 namespace Image2Pdf.Wrappers.SystemIO
 {
-    using System.Diagnostics.CodeAnalysis;
-
     /// <inheritdoc cref="ISystemIOWrapper"/>
-    [ExcludeFromCodeCoverage]
     public class SystemIOWrapper : ISystemIOWrapper
     {
         /// <inheritdoc/>

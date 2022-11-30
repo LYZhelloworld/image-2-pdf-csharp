@@ -5,11 +5,9 @@
 
 namespace Image2Pdf.Wrappers.IText
 {
-    using System.Diagnostics.CodeAnalysis;
     using iText.Layout.Element;
 
     /// <inheritdoc cref="IImageFactory"/>
-    [ExcludeFromCodeCoverage]
     internal class ImageFactory : IImageFactory
     {
         /// <inheritdoc/>

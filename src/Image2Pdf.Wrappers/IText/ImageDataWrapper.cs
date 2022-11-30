@@ -5,12 +5,10 @@
 
 namespace Image2Pdf.Wrappers.IText
 {
-    using System.Diagnostics.CodeAnalysis;
     using Image2Pdf.Wrappers;
     using iText.IO.Image;
 
     /// <inheritdoc cref="IImageData"/>
-    [ExcludeFromCodeCoverage]
     internal class ImageDataWrapper : Wrapper<ImageData>, IImageData
     {
         /// <summary>

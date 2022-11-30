@@ -5,11 +5,9 @@
 
 namespace Image2Pdf.Wrappers.IText
 {
-    using System.Diagnostics.CodeAnalysis;
     using iText.Kernel.Geom;
 
     /// <inheritdoc cref="IPageSizeFactory"/>
-    [ExcludeFromCodeCoverage]
     internal class PageSizeFactory : IPageSizeFactory
     {
         /// <inheritdoc/>

@@ -5,11 +5,9 @@
 
 namespace Image2Pdf.Wrappers.SystemIO
 {
-    using System.Diagnostics.CodeAnalysis;
     using System.IO;
 
     /// <inheritdoc cref="IFileStreamFactory"/>
-    [ExcludeFromCodeCoverage]
     internal class FileStreamFactory : IFileStreamFactory
     {
         /// <inheritdoc/>

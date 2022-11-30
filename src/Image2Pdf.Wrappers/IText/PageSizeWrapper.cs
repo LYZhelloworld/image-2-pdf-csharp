@@ -5,12 +5,10 @@
 
 namespace Image2Pdf.Wrappers.IText
 {
-    using System.Diagnostics.CodeAnalysis;
     using Image2Pdf.Wrappers;
     using iText.Kernel.Geom;
 
     /// <inheritdoc cref="IPageSize"/>
-    [ExcludeFromCodeCoverage]
     internal class PageSizeWrapper : Wrapper<PageSize>, IPageSize
     {
         /// <summary>

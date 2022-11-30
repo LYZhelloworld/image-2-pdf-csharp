@@ -5,10 +5,7 @@
 
 namespace Image2Pdf.Wrappers.IText
 {
-    using System.Diagnostics.CodeAnalysis;
-
     /// <inheritdoc cref="IPdfWrapper"/>
-    [ExcludeFromCodeCoverage]
     public class PdfWrapper : IPdfWrapper
     {
         /// <inheritdoc/>

@@ -5,12 +5,10 @@
 
 namespace Image2Pdf.Wrappers.IText
 {
-    using System.Diagnostics.CodeAnalysis;
     using iText.Layout.Element;
     using iText.Layout.Properties;
 
     /// <inheritdoc cref="IAreaBreakFactory"/>
-    [ExcludeFromCodeCoverage]
     internal class AreaBreakFactory : IAreaBreakFactory
     {
         /// <inheritdoc/>

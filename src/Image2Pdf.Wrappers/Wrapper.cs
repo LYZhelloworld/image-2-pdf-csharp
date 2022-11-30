@@ -5,10 +5,7 @@
 
 namespace Image2Pdf.Wrappers
 {
-    using System.Diagnostics.CodeAnalysis;
-
     /// <inheritdoc cref="IWrapper{T}"/>
-    [ExcludeFromCodeCoverage]
     internal class Wrapper<T> : IWrapper<T>
     {
         /// <summary>
